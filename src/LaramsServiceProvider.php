@@ -40,7 +40,13 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'larams');
 
-        $this->publishes([$viewsPath . '/types' => base_path('resources/views/vendor/larams/types')]);
+        $this->publishes([
+            $viewsPath . '/types' => base_path('resources/views/vendor/larams/types'),
+            __DIR__.'../migrations' => base_path('database/migrations'),
+            __DIR__.'../seeds' => base_path('database/seeds'),
+            __DIR__.'../public' => public_path('vendor/larams'),
+        ]);
+
     }
 
     /**

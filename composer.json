@@ -1,6 +1,6 @@
 {
   "name": "talandis/larams",
-  "description": "Larams",
+  "description": "Larams - Content Management System for Laravel 5.1.*",
   "license": "MIT",
   "authors": [
     {
