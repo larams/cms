@@ -1,0 +1,134 @@
+<?php
+
+namespace Talandis\Larams\Http\Controllers\Admin;
+
+use Talandis\Larams\StructureItem;
+use Talandis\Larams\StructureType;
+
+class GalleryController extends StructureController
+{
+
+    public function getIndex(StructureItem $structureItem, StructureType $structureType, $itemId = null, $select = 0, $target = null )
+    {
+
+        /** @var StructureItem $currentItem */
+        if (!empty($itemId)) {
+            $currentItem = $structureItem->with('type')->find($itemId);
+        } else {
+
+            $mediaGalleryType = $structureType->where('name', 'cms.gallery')->first();
+
+            $currentItem = $structureItem->where('type_id', $mediaGalleryType->id)->with('type')->first();
+        }
+
+        if (empty($currentItem)) {
+            $this->panic('Cms actions : no items!');
+        } else {
+
+            $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->get();;
+
+            $folders = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1)->get();
+            $files = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0)->get();
+
+        }
+
+        $CKEditor = request()->input('CKEditor', null );
+        $CKEditorFuncNum = request()->input('CKEditorFuncNum', null );
+
+        if (!empty( $select )) {
+            \View::share('hideNavigationBar', true );
+        }
+
+        return $this->view('larams::admin.gallery.index', compact('currentItem', 'currentPath', 'folders', 'files', 'target', 'select', 'CKEditor', 'CKEditorFuncNum'));
+
+    }
+
+    public function postSaveFolder(StructureItem $structureItem, StructureType $structureType, $itemId)
+    {
+
+        $folderName = request()->input('folder');
+
+        if (!empty($folderName)) {
+
+            $parentItem = $structureItem->find($itemId);
+
+            $type = $structureType->where('name', 'cms.media_folder')->first();
+
+            $item = [
+                'parent_id' => $itemId,
+                'name' => $folderName,
+                'tree' => 1,
+                'type_id' => $type->id,
+                'left' => $parentItem->right,
+                'right' => $parentItem->right + 1,
+                'level' => $parentItem->level + 1,
+                'active' => 1
+            ];
+
+            $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
+            $structureItem->where('right', '>', $parentItem->right - 1)->increment('right', 2);
+
+            $structureItem->create($item);
+
+        }
+
+
+        return redirect('admin/gallery/index/' . $itemId);
+
+    }
+
+    public function getDelete(StructureItem $structureItem, $itemId, $delItemId)
+    {
+
+        $item = $structureItem->find($delItemId);
+        $item->delete();
+
+        return redirect('admin/gallery/index/' . $itemId);
+
+    }
+
+    public function anyUpload(StructureItem $structureItem, StructureType $structureType, $itemId)
+    {
+
+        $file = request()->file('file');
+        $storedFileName = uniqid('larams_');
+
+        $uploadSuccess = $file->move(storage_path('uploads'), $storedFileName );
+
+        $parentItem = $structureItem->find($itemId);
+
+        $type = $structureType->where('name', 'cms.media_file')->first();
+
+        $item = [
+            'parent_id' => $itemId,
+            'name' => $file->getClientOriginalName(),
+            'tree' => 0,
+            'type_id' => $type->id,
+            'left' => $parentItem->right,
+            'right' => $parentItem->right+1,
+            'level' => $parentItem->level+1,
+            'active' => 1,
+            'data' => [
+                'name' => $storedFileName,
+                'type' => $file->getClientMimeType(),
+                'size' => $file->getClientSize(),
+                'extension' => $file->getClientOriginalExtension()
+            ]
+        ];
+
+        $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
+        $structureItem->where('right', '>', $parentItem->right - 1)->increment('right', 2);
+
+        $item = $structureItem->create($item);
+
+
+        if ($uploadSuccess) {
+            return response( $item );
+        } else {
+            return response('error', 400 );
+        }
+
+
+    }
+
+}

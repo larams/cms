@@ -1,0 +1,18 @@
+{
+  "name": "talandis/larams",
+  "description": "Larams",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tomas Talandis",
+      "email": "tomas@talandis.lt"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": ">=5.5.9",
+    "laravel/framework": "5.1.*",
+    "intervention/image": "~2.3",
+    "intervention/imagecache": "~2.3"
+  }
+}
