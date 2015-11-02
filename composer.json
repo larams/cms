@@ -16,8 +16,8 @@
     "intervention/imagecache": "~2.3"
   },
   "autoload": {
-    "psr-0": {
-      "Larams": "src"
+    "psr-4": {
+        "Talandis\\Larams\\": "src/"
     }
   }
 }
