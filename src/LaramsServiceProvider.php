@@ -42,10 +42,10 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $this->publishes([
             $viewsPath . '/types' => base_path('resources/views/vendor/larams/types'),
-            __DIR__.'../migrations' => base_path('database/migrations'),
-            __DIR__.'../seeds' => base_path('database/seeds'),
             __DIR__.'../public' => public_path('vendor/larams'),
-        ]);
+            __DIR__.'../migrations' => database_path('migrations'),
+            __DIR__.'../seeds' => database_path('seeds'),
+        ], '');
 
     }
 
