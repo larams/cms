@@ -10,7 +10,9 @@ class AuthController extends Controller
 
     protected $layout = 'larams::admin.layouts.login';
 
-    protected $loginPath = 'admin/structure';
+    protected $loginPath = 'admin';
+
+    protected $returnPath = 'admin/structure';
 
     use AuthenticatesUsers, ThrottlesLogins;
 
