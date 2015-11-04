@@ -7,15 +7,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{{url(  )}}">SiteName</a>
+            <a class="navbar-brand" href="{{url('admin/structure')}}">Administration</a>
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
                 <li><a href="{{url('admin/structure')}}">{{__('Content')}}</a></li>
                 <li><a href="{{url('admin/gallery')}}">{{__('Gallery')}}</a></li>
-                <li><a href="{{url('admin/translations')}}">{{__('Translations')}}</a></li>
+{{--                <li><a href="{{url('admin/translations')}}">{{__('Translations')}}</a></li>--}}
                 <li><a href="{{url('admin/administrators')}}">{{__('Administrators')}}</a></li>
                 <li @if (request()->is('admin/types/*')) class="active" @endif><a href="{{url('admin/types')}}">{{__('Content Types')}}</a></li>
             </ul>
