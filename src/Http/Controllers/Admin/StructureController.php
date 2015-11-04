@@ -18,7 +18,7 @@ class StructureController extends Controller
         }
 
         $topLevelItem = $structureItem->whereNull('parent_id')->first();
-        $languages = $structureItem->where('parent_id', $topLevelItem->id)->get();
+        $languages = $structureItem->where('parent_id', $topLevelItem->id)->orderBy('left')->get();
 
         if (empty($currentItem)) {
             return redirect('admin/structure/index/' . $languages->first()->id);
@@ -45,8 +45,8 @@ class StructureController extends Controller
 
         }
 
-        $treeChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1)->get();
-        $extraChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0)->get();
+        $treeChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1)->orderBy('left')->get();
+        $extraChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0)->orderBy('left')->get();
 
         $types = $structureType->orderBy('name_lang')->get();
 
