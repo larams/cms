@@ -12,7 +12,7 @@ class AuthController extends Controller
 
     protected $loginPath = 'admin';
 
-    protected $returnPath = 'admin/structure';
+    protected $redirectTo = 'admin/structure';
 
     use AuthenticatesUsers, ThrottlesLogins;
 
