@@ -34,6 +34,8 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
 
         $viewsPath = __DIR__ . '/../resources/views';
 
+        \URL::forceRootUrl( url(env('BASE_URL', '') ) );
+
         $this->loadViewsFrom($viewsPath, 'larams');
 
         $this->setupRoutes($this->app->router);

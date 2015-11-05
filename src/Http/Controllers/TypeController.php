@@ -11,7 +11,7 @@ class TypeController extends Controller
     public function getIndex( StructureItem $structureItem, $languageUri = null )
     {
 
-        $uri = trim( request()->path(), '/' );
+        $uri = trim( str_replace( env('BASE_URL', ''), '', request()->path() ), '/' );
 
         $currentSite = $structureItem->byTypeName('site')->first();
 
