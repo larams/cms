@@ -52,7 +52,7 @@ class StructureController extends Controller
 
         $commonConfiguration = config('larams.handler');
 
-        $typeConfiguration = array_merge( $commonConfiguration, config('larams.handlers.' . $currentItem->type->handler ) );
+        $typeConfiguration = array_merge( $commonConfiguration, (array)config('larams.handlers.' . $currentItem->type->handler ), (array)config('handlers.'. $currentItem->type->handler ) );
 
 
         $childTypes = $currentItem->type()->first()->types();
