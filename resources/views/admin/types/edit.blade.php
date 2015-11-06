@@ -19,7 +19,7 @@
                 {!! BootstrapForm::input( ['name' => 'name_lang', 'value' => !empty( $item ) ? $item->name_lang : '', 'title' => __('Administrator title') ] ) !!}
             </div>
             <div class="col-xs-4">
-                {!! BootstrapForm::select( ['name' => 'type_id', 'value' => !empty( $item ) ? $item->handler : null, 'title' => __('Handler'), 'values' => $handlers, 'option_key' => 'id', 'option_value' => 'title' ]) !!}
+                {!! BootstrapForm::select( ['name' => 'handler', 'value' => !empty( $item ) ? $item->handler : null, 'title' => __('Handler'), 'values' => $handlers, 'option_key' => 'id', 'option_value' => 'title' ]) !!}
             </div>
         </div>
 
