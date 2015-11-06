@@ -24,8 +24,6 @@
         </div>
 
 
-
-
         <div class="row">
             <div class="col-sm-6">
                 <legend>{{__('Child tree elements types')}}</legend>

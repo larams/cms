@@ -21,12 +21,7 @@ class TypeController extends Controller
 
         $isCreate = true;
 
-        $handlersPath = config_path('handlers');
-        $handlers = \File::files( $handlersPath );
-
-        foreach ( $handlers as &$handler ) {
-            $handler = array('name' => str_replace( array($handlersPath . '/', '.php'), '', $handler ) );
-        }
+        $handlers = $this->readHandlers();
 
         $types = $structureType->orderBy('name')->get();
 
@@ -39,23 +34,7 @@ class TypeController extends Controller
 
         $item = $structureType->find( $id );
 
-        $handlersPath = config_path('handlers');
-        $handlers = \File::files( $handlersPath );
-
-        $preparedHandlersPath = realpath( __DIR__ . '/../../../../config/handlers' );
-        $preparedHandlers = \File::files( $preparedHandlersPath );
-
-        $handlers = array_merge( $preparedHandlers, $handlers );
-
-        foreach ( $handlers as &$handler ) {
-
-            $handlerName = str_replace( array( $handlersPath . '/', '.php', $preparedHandlersPath . '/' ), '', $handler );
-
-            $handler = array(
-                'id' => $handlerName,
-                'title' => str_replace('_', ' ', ucfirst( $handlerName ) )
-            );
-        }
+        $handlers = $this->readHandlers();
 
         $types = $structureType->orderBy('name')->get();
 
@@ -101,6 +80,29 @@ class TypeController extends Controller
 
         return redirect('admin/types');
 
+    }
+
+    protected function readHandlers()
+    {
+        $handlersPath = config_path('handlers');
+        $handlers = \File::files( $handlersPath );
+
+        $preparedHandlersPath = realpath( __DIR__ . '/../../../../config/handlers' );
+        $preparedHandlers = \File::files( $preparedHandlersPath );
+
+        $handlers = array_merge( $preparedHandlers, $handlers );
+
+        foreach ( $handlers as &$handler ) {
+
+            $handlerName = str_replace( array( $handlersPath . '/', '.php', $preparedHandlersPath . '/' ), '', $handler );
+
+            $handler = array(
+                'id' => $handlerName,
+                'title' => str_replace('_', ' ', ucfirst( $handlerName ) )
+            );
+        }
+
+        return $handlers;
     }
 
 }
