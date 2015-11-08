@@ -1,6 +1,6 @@
 <?php
 
-$properties = array(
+$properties = [
 
     [
         'class' => 'Talandis\Larams\Property\Rte',
@@ -8,13 +8,13 @@ $properties = array(
         'title' => 'Text',
     ],
 
-    array(
+    [
         'class' => 'Talandis\Larams\Property\Date',
         'name' => 'date',
         'title' => 'Date'
-    ),
+    ],
 
-    array(
+    [
         'class' => 'Talandis\Larams\Property\DoubleText',
         'name' => 'doubletext',
         'title' => 'Price',
@@ -32,24 +32,24 @@ $properties = array(
                 'class' => 'col-xs-6',
             ]
         ]
-    ),
+    ],
 
 
-    array(
+    [
         'class' => 'Talandis\Larams\Property\Select',
         'name' => 'color',
         'title' => 'Color',
-        'options' => array(
+        'options' => [
             0 => 'No',
             1 => 'Yes',
-        ),
-    ),
+        ],
+    ],
 
-    array(
+    [
         'class' => 'Talandis\Larams\Property\Textarea',
         'name' => 'simple_text',
         'title' => 'Unformatted text',
-    ),
+    ],
 
     [
         'class' => 'Talandis\Larams\Property\Image',
@@ -64,4 +64,4 @@ $properties = array(
         ]
     ],
 
-);
+];

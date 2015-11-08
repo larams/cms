@@ -37,6 +37,8 @@ a {
   padding-left: 0;
   padding-right: 0;
   overflow: hidden;
+  width: 293px;
+  position: fixed;
 }
 .form-control {
   border: 0;
@@ -158,6 +160,9 @@ h2 {
 }
 .mt20 {
   margin-top: 20px;
+}
+.mb20 {
+  margin-bottom: 20px;
 }
 td.actions {
   text-align: right;

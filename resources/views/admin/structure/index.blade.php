@@ -49,9 +49,9 @@
         </div>
 
     </div><!--/span-->
-    <div class="col-xs-9">
+    <div class="col-xs-9 col-xs-offset-3">
 
-        <div class="mt20">
+        <div class="mt20 mb20">
 
             @if ( count( $currentPath )  > 1)
                 <ul class="breadcrumb">

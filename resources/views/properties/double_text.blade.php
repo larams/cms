@@ -13,7 +13,7 @@
                         <span class="input-group-addon">{{$input['prefix']}}</span>
                     @endif
 
-                        <input class="form-control" name="data[{{$name}}][{{$input['name']}}]" value="@if (!empty( $item->data->{$name}[ $input['name'] ] ) ){{$item->data->{$name}[ $input['name'] ]}}@endif" />
+                        <input class="form-control" name="data[{{$name}}][{{$input['name']}}]" value="@if (!empty( $item->data->{$name}->{$input['name']} ) ){{$item->data->{$name}->{$input['name']} }}@endif" />
 
                     @if (!empty( $input['suffix']))
                         <span class="input-group-addon">{{$input['suffix']}}</span>
