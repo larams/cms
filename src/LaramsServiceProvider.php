@@ -59,6 +59,10 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
     public function setupRoutes(Router $router)
     {
 
+        if (in_array( request()->segment(1), \Config::get('larams.locales'))) {
+            app()->setLocale( request()->segment(1) );
+        }
+
         $router->group(['namespace' => 'Talandis\Larams\Http\Controllers'], function ($router) {
             require __DIR__ . '/Http/routes.php';
         });
@@ -75,6 +79,7 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
         $defaultHandlers = array('empty', 'form_field', 'site', 'site_lang', 'sites', 'text');
 
         $this->mergeConfigFrom(__DIR__ . '/../config/handler.php', 'larams.handler');
+        $this->mergeConfigFrom(__DIR__ . '/../config/locales.php', 'larams.locales');
 
         foreach ($defaultHandlers as $defaultHandler) {
             $this->mergeConfigFrom(__DIR__ . '/../config/handlers/' . $defaultHandler . '.php', 'larams.handlers.' . $defaultHandler);

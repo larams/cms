@@ -8,7 +8,7 @@ use Talandis\Larams\StructureType;
 class TypeController extends Controller
 {
 
-    public function getIndex( StructureItem $structureItem, $languageUri = null )
+    public function getIndex( StructureItem $structureItem )
     {
 
         $uri = trim( str_replace( env('BASE_URL', ''), '', request()->path() ), '/' );
@@ -16,27 +16,30 @@ class TypeController extends Controller
         $currentSite = $structureItem->byTypeName('site')->first();
 
         // Collect current language
-        $languageQuery = $structureItem->where('parent_id', $currentSite->id )->where('active', 1 );
+        $languageUri = request()->segment(1);
+        $languageQuery = $structureItem->where('parent_id', $currentSite->id )->where('active', 1 )->orderBy('left');
         if (!empty( $languageUri )) {
             $languageQuery = $languageQuery->where('uri', $languageUri );
         }
         $currentLanguage = $languageQuery->first();
 
-        // Collect current item
         $currentItem = null;
-        if (!empty( $uri )) {
+        // Collect current item
+        if ( empty( $uri ) || $uri == $languageUri ) {
+            $className = 'App\Http\Controllers\IndexController';
+
+            $params =  [ $currentLanguage, $currentSite ];
+        } else {
+
             $currentItem = $structureItem->with('type')->where('uri', $uri )->first();
 
             if (empty( $currentItem)) {
                 return response( 'Page not found', 404 );
             }
-        }
 
-
-        if ( empty( $uri )) {
-            $className = 'App\Http\Controllers\IndexController';
-        } else {
             $className = 'App\Http\Controllers\Type\\' . ucfirst( $currentItem->type->name ) . 'Controller';
+
+            $params = [ $currentItem, $currentLanguage, $currentSite ];
         }
 
 
@@ -44,7 +47,9 @@ class TypeController extends Controller
 
             $controller = app()->make( $className );
 
-            return app()->call( [ $controller, 'getIndex'], [ $currentItem, $currentLanguage, $currentSite ] );
+            app()->call( [ $controller, 'beforeAction'], [ $currentLanguage, $currentSite, $currentItem ] );
+
+            return app()->call( [ $controller, 'getIndex'], $params );
 
         }
 

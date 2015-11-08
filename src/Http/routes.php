@@ -24,7 +24,13 @@ Route::group( ['prefix' => env('BASE_URL', '') ], function () {
     });
 
     Route::get('/', 'TypeController@getIndex');
-    Route::get('{url}/{url2?}/{url3?}/{url4?}/{url5?}/{url6?}/{url7?}', 'TypeController@getIndex');
+
+    Route::group(['prefix' => App::getLocale() ], function() {
+
+        Route::get('/', 'TypeController@getIndex');
+        Route::get('{url}/{url2?}/{url3?}/{url4?}/{url5?}/{url6?}/{url7?}', 'TypeController@getIndex');
+
+    } );
 
 
 } );
