@@ -50,9 +50,7 @@ class StructureController extends Controller
 
         $types = $structureType->orderBy('name_lang')->get();
 
-        $commonConfiguration = config('larams.handler');
-
-        $typeConfiguration = array_merge( $commonConfiguration, (array)config('larams.handlers.' . $currentItem->type->handler ), (array)config('handlers.'. $currentItem->type->handler ) );
+        $typeConfiguration = array_merge( config('larams.handler'), (array)config('larams.handlers.' . $currentItem->type->handler ), (array)config('handlers.'. $currentItem->type->handler ) );
 
 
         $childTypes = $currentItem->type()->first()->types();
@@ -140,9 +138,7 @@ class StructureController extends Controller
 
         $item = $structureItem->find($itemId);
 
-        $typeConfiguration = config('larams.handlers.' . $item->type->handler );
-
-
+        $typeConfiguration = array_merge( config('larams.handler'), (array)config('larams.handlers.' . $item->type->handler ), (array)config('handlers.'. $item->type->handler ) );
 
         $rawFormData = request()->input();
         $additionalFieldsData = [];
