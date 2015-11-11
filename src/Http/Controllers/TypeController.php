@@ -13,41 +13,58 @@ class TypeController extends Controller
 
         $uri = trim( str_replace( env('BASE_URL', ''), '', request()->path() ), '/' );
 
-        $currentSite = $structureItem->byTypeName('site')->first();
+        $currSite = $structureItem->byTypeName('site')->first();
 
         // Collect current language
         $languageUri = request()->segment(1);
-        $languageQuery = $structureItem->where('parent_id', $currentSite->id )->where('active', 1 )->orderBy('left');
+        $languageQuery = $structureItem->where('parent_id', $currSite->id )->where('active', 1 )->orderBy('left');
         if (!empty( $languageUri )) {
             $languageQuery = $languageQuery->where('uri', $languageUri );
         }
-        $currentLanguage = $languageQuery->first();
+        $currLang = $languageQuery->first();
 
-        $currentItem = null;
+        $currItem = null;
+        $currPath = null;
         // Collect current item
         if ( empty( $uri ) || $uri == $languageUri ) {
             $className = 'App\Http\Controllers\IndexController';
 
-            $params =  [ $currentLanguage, $currentSite ];
+//            $params =  [  $currLang, $currSite ];
         } else {
 
-            $currentItem = $structureItem->with('type')->where('uri', $uri )->first();
+            $currItem = $structureItem->with('type')->where('uri', $uri )->first();
 
-            if (empty( $currentItem)) {
+            if (empty( $currItem)) {
                 return response( 'Page not found', 404 );
             }
 
-            $className = 'App\Http\Controllers\Type\\' . ucfirst( $currentItem->type->name ) . 'Controller';
+            $currPath = $structureItem->path( $currItem->left, $currItem->right )->get();
 
-            $params = [ $currentItem, $currentLanguage, $currentSite ];
+            $className = 'App\Http\Controllers\Type\\' . ucfirst( $currItem->type->name ) . 'Controller';
+
+//            $params = [ $currItem, $currPath, $currLang, $currSite ];
         }
 
 
         if ( class_exists( $className ) ) {
 
+            $variables = array('currItem', 'currPath', 'currLang', 'currSite');
+
+            $r = new \ReflectionMethod( $className, 'getIndex');
+            $methodParameters = $r->getParameters();
+
+            $params = [];
+
+            foreach ( $methodParameters as $param ) {
+
+                if ( in_array( $param->getName(), $variables )) {
+                    $params[] = ${$param->getName()};
+                }
+            }
+
             $controller = app()->make( $className );
 
-            app()->call( [ $controller, 'beforeAction'], [ $currentLanguage, $currentSite, $currentItem ] );
+            app()->call( [ $controller, 'beforeAction'], [ $currLang, $currSite, $currPath, $currItem ] );
 
             return app()->call( [ $controller, 'getIndex'], $params );
 

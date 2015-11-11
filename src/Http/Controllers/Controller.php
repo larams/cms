@@ -14,7 +14,7 @@ abstract class Controller extends BaseController
 
     protected $layout = 'layouts.default';
 
-    public function beforeAction( StructureItem $structureItem, $currentLanguage, $currentSite, $currentItem )
+    public function beforeAction( StructureItem $structureItem, $currentLanguage, $currentSite, $currentPath, $currentItem )
     {
 
     }
