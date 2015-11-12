@@ -73,8 +73,7 @@
 
             <h2 class="pull-left">{{$currentItem->name}}</h2>
             @if ( count( $treeChilds ) || count( $extraChilds ) )
-                <a class="btn btn-xs btn-primary pull-right edit-link" href="#edit-item"><i class="fa fa-pencil fa-selected"></i>
-                    redaguoti</a>
+                <a class="btn btn-xs btn-primary pull-right edit-link" href="#edit-item"><i class="fa fa-pencil fa-selected"></i> <?=__("Edit");?></a>
             @endif
             <div class="clearfix"></div>
 
@@ -86,7 +85,7 @@
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                             {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => __('Title') ] ) !!}
-                            {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => __('Link') ] ) !!}
+{{--                            {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => __('Link') ] ) !!}--}}
 
                             @if ( !empty( $isDeveloper ) )
                                 {!! BootstrapForm::select( ['name' => 'type_id', 'value' => $currentItem->type_id, 'title' => __('Type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}

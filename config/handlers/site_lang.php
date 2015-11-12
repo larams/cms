@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'child_tree_items_list_title' => 'Turinio blokai',
-    'child_tree_item_create_title' => 'Sukurti naują bloką',
+    'child_tree_items_list_title' => 'Content blocks',
+    'child_tree_item_create_title' => 'Create new block',
     'properties' => array(
 
         array(
