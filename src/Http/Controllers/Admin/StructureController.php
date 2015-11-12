@@ -91,6 +91,8 @@ class StructureController extends Controller
         $currentItem->active = ($status == 1) ? 0 : 1;
         $currentItem->save();
 
+        $structureItem->updateChildUris( $currentItem );
+
 
         return redirect('admin/structure/index/' . $itemId);
 
@@ -102,9 +104,13 @@ class StructureController extends Controller
 
         $parentItem = $structureItem->find($itemId);
 
+        $uri = $structureItem->path( $parentItem->left, $parentItem->right )->where('active', 1 )->lists('name')->toArray();
+        $uri = array_slice( $uri, 1 );
+
         $item = array(
             'parent_id' => $itemId,
             'name' => request()->input('name'),
+            'uri' => implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) ) . '/' . Utils::toAscii( request()->input('name') ),
             'tree' => request()->input('tree'),
             'type_id' => request()->input('type_id'),
             'left' => $parentItem->right,
@@ -151,7 +157,7 @@ class StructureController extends Controller
                     throw new \ErrorException('Property doesn\'t have name');
                 }
 
-                /** @var \Talandis\Larams\Handler\PropertyCollection\Property $property */
+                /** @var \Talandis\Larams\Property $property */
                 $property = new $propertyConfig['class'];
                 $property->setConfiguration( $propertyConfig );
 
@@ -163,17 +169,22 @@ class StructureController extends Controller
 
         $rawFormData['data'] = $additionalFieldsData;
 
-        if (empty( $rawFormData['uri'])) {
+//        if (empty( $rawFormData['uri']) || $rawFormData['uri'] == $item->uri ) {
 
-            $uri = $structureItem->path( $item->left, $item->right )->where('active', 1 )->lists('name')->toArray();
-
-            $uri = array_slice( $uri, 1 );
-
-            $rawFormData['uri'] = implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) );
-        }
+        $uri = $structureItem->path( $item->left, $item->right )->where('active', 1 )->lists('name')->toArray();
+        $uri = array_slice( $uri, 1 );
+        $rawFormData['uri'] = implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) );
+//        }
 
         $item->data = $additionalFieldsData;
         $item->fill( $rawFormData )->save();
+
+        // Update child links
+        if ( $item->uri != $rawFormData['uri'] ) {
+
+            $structureItem->updateChildUris( $item );
+
+        }
 
         return redirect('admin/structure/index/' . $itemId);
 

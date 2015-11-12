@@ -108,4 +108,20 @@ class StructureItem extends \Eloquent
         return $query->where('parent_id', $parentId );
     }
 
+    public function updateChildUris( $item )
+    {
+
+        $childs = $this->where('left', '>', $item->left )->where('right', '<', $item->right )->get();
+
+        foreach ( $childs as $child ) {
+            $uri = $this->path( $child->left, $child->right )->where('active', 1 )->lists('name')->toArray();
+            $uri = array_slice( $uri, 1 );
+            $uri = implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) );
+
+            $child->uri = $uri;
+            $child->save();
+        }
+
+    }
+
 }
