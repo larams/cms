@@ -463,14 +463,20 @@ a.list-group-item {
 
 .dropzone {
 
-    border: 0;
+    margin-top: 20px;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
     padding: 0;
+    padding-bottom: 20px;
+
+    .dz-message {
+        color: #ccc;
+        font-size: 16px;
+    }
 
     .dz-preview {
 
         min-height:120px;
         margin-bottom: 0;
-        margin-left: 0;
 
         .dz-image {
             -webkit-border-radius: 5px;
