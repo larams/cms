@@ -9,6 +9,22 @@ $properties = [
     ],
 
     [
+        'class' => 'Talandis\Larams\Property\Text',
+        'name' => 'single_line_text',
+        'title' => 'Text single line'
+    ],
+
+    [
+        'class' => 'Talandis\Larams\Property\StructureItems',
+        'name' => 'item_id',
+        'title' => 'Element',
+        'allowEmpty' => true,
+        'multiple' => true,
+        'firstLevel' => false,
+        'typeName' => 'site_lang',
+        'style' => 'SELECT',    // Leave empty for Checkbox/Radio style
+    ],
+    [
         'class' => 'Talandis\Larams\Property\Date',
         'name' => 'date',
         'title' => 'Date'
