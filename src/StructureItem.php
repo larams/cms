@@ -8,9 +8,10 @@ namespace Talandis\Larams;
  * Class StructureItem
  * @package Talandis\Larams
  *
- * @method static StructureItem forSite( $currentLanguage, $isActive = 1, $inTree = 1 )
+ * @method static StructureItem forLang( $currentLanguage, $isActive = 1, $inTree = 1 )
  * @method static StructureItem byTypeName( $typeName )
  * @method static StructureItem byParentId( $itemId )
+ * @method static StructureItem byId( $itemId )
  */
 
 class StructureItem extends \Eloquent
@@ -83,9 +84,9 @@ class StructureItem extends \Eloquent
      * @param int $tree
      * @return mixed
      */
-    public function scopeForSite( $query, $currentLanguage, $tree = 1, $active = 1 )
+    public function scopeForLang( $query, $currLang, $isActive = 1, $inTree = 1 )
     {
-        return $query->where('active', $active )->where('tree', $tree )->where('left','>', $currentLanguage->left )->where('right','<', $currentLanguage->right );
+        return $query->where('active', $isActive )->where('tree', $inTree )->where('left','>', $currLang->left )->where('right','<', $currLang->right );
     }
 
     /**
@@ -106,6 +107,11 @@ class StructureItem extends \Eloquent
     public function scopeByParentId( $query, $parentId )
     {
         return $query->where('parent_id', $parentId );
+    }
+
+    public function scopeById( $query, $id )
+    {
+        return $query->where('id', $id );
     }
 
     public function updateChildUris( $item )

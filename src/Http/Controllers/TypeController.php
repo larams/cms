@@ -24,7 +24,7 @@ class TypeController extends Controller
         $currLang = $languageQuery->first();
 
         $currItem = null;
-        $currPath = null;
+        $currPath = [];
         // Collect current item
         if ( empty( $uri ) || $uri == $languageUri ) {
             $className = 'App\Http\Controllers\IndexController';
@@ -38,13 +38,12 @@ class TypeController extends Controller
                 return response( 'Page not found', 404 );
             }
 
-            $currPath = $structureItem->path( $currItem->left, $currItem->right )->get();
+            $currPath = $structureItem->path( $currItem->left, $currItem->right )->where('active', 1 )->where('left', '>', $currLang->left )->where('right', '<', $currLang->right )->get();
 
             $className = 'App\Http\Controllers\Type\\' . ucfirst( $currItem->type->name ) . 'Controller';
 
 //            $params = [ $currItem, $currPath, $currLang, $currSite ];
         }
-
 
         if ( class_exists( $className ) ) {
 
