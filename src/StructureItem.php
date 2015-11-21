@@ -11,6 +11,7 @@ namespace Talandis\Larams;
  * @method static StructureItem forLang( $currentLanguage, $isActive = 1, $inTree = 1 )
  * @method static StructureItem byTypeName( $typeName )
  * @method static StructureItem byParentId( $itemId )
+ * @method static StructureItem whereData( $key, $value )
  * @method static StructureItem byId( $itemId )
  */
 
@@ -21,6 +22,10 @@ class StructureItem extends \Eloquent
     protected $table = 'structure_items';
 
     protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'sort', 'uri'];
+
+    protected $appends = ['data'];
+
+    protected $hidden = ['content'];
 
     public function type()
     {
@@ -79,7 +84,7 @@ class StructureItem extends \Eloquent
             $this->content = $this->content()->get();
         }
 
-        return $this->content->lists('data', 'name');
+        return (object)$this->content->lists('data', 'name')->toArray();
     }
 
     /**
@@ -100,6 +105,21 @@ class StructureItem extends \Eloquent
     public function scopeByTypeName( $query, $typeName )
     {
         return $query->leftJoin('structure_types', 'structure_items.type_id','=','structure_types.id')->where('structure_types.name', $typeName )->select('structure_items.*', 'structure_types.name AS type_name');
+    }
+
+    /**
+     * @param \Eloquent $query
+     * @param $key
+     * @param null $value
+     * @return mixed
+     */
+    public function scopeWhereData( $query, $key, $value = null )
+    {
+        return $query->leftJoin('structure_data', 'structure_items.id','=','structure_data.item_id')
+                    ->where('structure_data.name', $key )
+                    ->where('structure_data.data', $value )
+                    ->get( ['structure_items.*'])
+                    ;
     }
 
     /**

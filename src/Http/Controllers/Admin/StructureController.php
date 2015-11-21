@@ -73,10 +73,7 @@ class StructureController extends Controller
                 $propertyConfig['html'] = $property->getHtml();
 
             }
-
         }
-
-      //  return $typeConfiguration['properties'][0]['html'];
 
         return $this->view('larams::admin.structure.index', compact('currentItem', 'currentPath', 'currentLanguage', 'isDeveloper', 'treeChilds', 'extraChilds', 'types', 'languages', 'treeTypes', 'extraTypes', 'typeConfiguration'));
 
@@ -177,9 +174,9 @@ class StructureController extends Controller
 
 //        $item->data = $additionalFieldsData;
 
-        $item->data()->delete();
+        $item->content()->delete();
         foreach ( $additionalFieldsData as $fieldName => $fieldValue ) {
-            $item->data()->create( array(
+            $item->content()->create( array(
                 'name' => $fieldName,
                 'data' => $fieldValue
             ) );
