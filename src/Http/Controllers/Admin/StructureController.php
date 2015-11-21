@@ -14,7 +14,7 @@ class StructureController extends Controller
 
         /** @var StructureItem $currentItem */
         if (!empty($itemId)) {
-            $currentItem = $structureItem->with('type')->find($itemId);
+            $currentItem = $structureItem->with('content')->with('type')->find($itemId);
         }
 
         $topLevelItem = $structureItem->whereNull('parent_id')->first();
@@ -27,7 +27,6 @@ class StructureController extends Controller
         if (empty($currentItem)) {
             $this->panic('Cms actions : no items!');
         } else {
-
 
             $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->get();;
 
@@ -66,7 +65,7 @@ class StructureController extends Controller
                     throw new \ErrorException('Property doesn\'t have name');
                 }
 
-                /** @var \Talandis\Larams\Handler\PropertyCollection\Property $property */
+                /** @var \Talandis\Larams\Property $property */
                 $property = new $propertyConfig['class'];
                 $property->setConfiguration( $propertyConfig );
                 $property->setItem( $currentItem );
@@ -176,14 +175,21 @@ class StructureController extends Controller
         $rawFormData['uri'] = implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) );
 //        }
 
-        $item->data = $additionalFieldsData;
+//        $item->data = $additionalFieldsData;
+
+        $item->data()->delete();
+        foreach ( $additionalFieldsData as $fieldName => $fieldValue ) {
+            $item->data()->create( array(
+                'name' => $fieldName,
+                'data' => $fieldValue
+            ) );
+        }
+
         $item->fill( $rawFormData )->save();
 
         // Update child links
         if ( $item->uri != $rawFormData['uri'] ) {
-
             $structureItem->updateChildUris( $item );
-
         }
 
         return redirect('admin/structure/index/' . $itemId);

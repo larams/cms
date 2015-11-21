@@ -26,6 +26,14 @@ class CreateLaramsTables extends Migration
             $table->integer('right');
             $table->tinyInteger('active')->default(0);
             $table->tinyInteger('tree')->default(0);
+            $table->timestamps();
+        });
+
+        Schema::create('structure_data', function (Blueprint $table) {
+
+            $table->increments('id');
+            $table->unsignedInteger('item_id')->nullable();
+            $table->char('name');
             $table->text('data');
             $table->timestamps();
         });

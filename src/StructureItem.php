@@ -20,7 +20,7 @@ class StructureItem extends \Eloquent
 
     protected $table = 'structure_items';
 
-    protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'data', 'sort', 'uri'];
+    protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'sort', 'uri'];
 
     public function type()
     {
@@ -40,6 +40,11 @@ class StructureItem extends \Eloquent
     public function user()
     {
         return $this->belongsTo('Talandis\Larams\User', 'user_id');
+    }
+
+    public function content()
+    {
+        return $this->hasMany('Talandis\Larams\StructureData', 'item_id');
     }
 
     public function childsOf( $itemId )
@@ -67,16 +72,14 @@ class StructureItem extends \Eloquent
         return parent::delete();
     }
 
-    public function setDataAttribute( $data )
+    public function getDataAttribute()
     {
 
-        $this->attributes['data'] = json_encode( $data );
+        if ( !isset( $this->content )) {
+            $this->content = $this->content()->get();
+        }
 
-    }
-
-    public function getDataAttribute( $data )
-    {
-        return json_decode( $data );
+        return $this->content->lists('data', 'name');
     }
 
     /**
