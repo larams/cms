@@ -31,6 +31,10 @@ class Image extends Property
 
         $imageId = $formData[ $this->name ];
 
+        if ( empty( $imageId )) {
+            return [];
+        }
+
         $return = [
             'id' => $imageId,
             'url' => $imageId . '.' . $this->format,
