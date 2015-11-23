@@ -8,7 +8,7 @@ use Talandis\Larams\StructureType;
 class GalleryController extends StructureController
 {
 
-    public function getIndex(StructureItem $structureItem, StructureType $structureType, $itemId = null, $select = 0, $target = null )
+    public function getIndex(StructureItem $structureItem, StructureType $structureType, $itemId = null, $select = 0, $target = null)
     {
 
         /** @var StructureItem $currentItem */
@@ -32,11 +32,11 @@ class GalleryController extends StructureController
 
         }
 
-        $CKEditor = request()->input('CKEditor', null );
-        $CKEditorFuncNum = request()->input('CKEditorFuncNum', null );
+        $CKEditor = request()->input('CKEditor', null);
+        $CKEditorFuncNum = request()->input('CKEditorFuncNum', null);
 
-        if (!empty( $select )) {
-            \View::share('hideNavigationBar', true );
+        if (!empty($select)) {
+            \View::share('hideNavigationBar', true);
         }
 
         return $this->view('larams::admin.gallery.index', compact('currentItem', 'currentPath', 'folders', 'files', 'target', 'select', 'CKEditor', 'CKEditorFuncNum'));
@@ -93,7 +93,7 @@ class GalleryController extends StructureController
         $file = request()->file('file');
         $storedFileName = uniqid('larams_');
 
-        $uploadSuccess = $file->move(storage_path('uploads'), $storedFileName );
+        $uploadSuccess = $file->move(storage_path('uploads'), $storedFileName);
 
         $parentItem = $structureItem->find($itemId);
 
@@ -105,15 +105,9 @@ class GalleryController extends StructureController
             'tree' => 0,
             'type_id' => $type->id,
             'left' => $parentItem->right,
-            'right' => $parentItem->right+1,
-            'level' => $parentItem->level+1,
+            'right' => $parentItem->right + 1,
+            'level' => $parentItem->level + 1,
             'active' => 1,
-            'data' => [
-                'name' => $storedFileName,
-                'type' => $file->getClientMimeType(),
-                'size' => $file->getClientSize(),
-                'extension' => $file->getClientOriginalExtension()
-            ]
         ];
 
         $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
@@ -121,11 +115,25 @@ class GalleryController extends StructureController
 
         $item = $structureItem->create($item);
 
+        $data = [
+            'name' => $storedFileName,
+            'type' => $file->getClientMimeType(),
+            'size' => $file->getClientSize(),
+            'extension' => $file->getClientOriginalExtension()
+        ];
+
+        foreach ($data as $fieldName => $fieldValue) {
+            $item->content()->create(array(
+                'name' => $fieldName,
+                'data' => $fieldValue
+            ));
+        }
+
 
         if ($uploadSuccess) {
-            return response( $item );
+            return response($item);
         } else {
-            return response('error', 400 );
+            return response('error', 400);
         }
 
 
