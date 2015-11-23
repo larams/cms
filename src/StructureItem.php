@@ -118,7 +118,7 @@ class StructureItem extends \Eloquent
         return $query->leftJoin('structure_data', 'structure_items.id','=','structure_data.item_id')
                     ->where('structure_data.name', $key )
                     ->where('structure_data.data', $value )
-                    ->get( ['structure_items.*'])
+                    ->select( ['structure_items.*'])
                     ;
     }
 
