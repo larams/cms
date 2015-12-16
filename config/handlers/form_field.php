@@ -1,34 +1,24 @@
 <?php
 
-$config = array(
-
+return [
 	'class' 		=> 'services.handlers.PropertyCollectionHandler',
 	'cms_action'	=> 'handlers/property_collection',
-
-	'properties'	=> array(
-
-		array(
-
+	'properties'	=> [
+		[
 			'class' => 'services.properties.SelectProperty',
-
 			'name'		=> 'required',
+			'options'	=> [
 
-			'options'	=> array(
-
-				array(
+				[
 					'value' => '1',
 					'title' => 'Taip',
-				),
+				],
 
-				array(
+				[
 					'value' => '0',
 					'title' => 'Ne',
-				),
-			),
-		),
-	),
-);
-
-return( $config );
-
-?>
+				],
+			],
+		],
+	],
+];

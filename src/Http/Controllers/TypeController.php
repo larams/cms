@@ -16,33 +16,27 @@ class TypeController extends Controller
         $currSite = $structureItem->byTypeName('site')->first();
 
         // Collect current language
-        $languageUri = request()->segment(1);
+        list( $languageUri ) = explode('/', $uri );
         $languageQuery = $structureItem->where('parent_id', $currSite->id )->where('active', 1 )->orderBy('left');
         if (!empty( $languageUri )) {
             $languageQuery = $languageQuery->where('uri', $languageUri );
         }
         $currLang = $languageQuery->first();
-
         $currItem = null;
         $currPath = [];
+
         // Collect current item
         if ( empty( $uri ) || $uri == $languageUri ) {
             $className = 'App\Http\Controllers\IndexController';
-
-//            $params =  [  $currLang, $currSite ];
         } else {
 
             $currItem = $structureItem->with('type')->where('uri', $uri )->first();
-
             if (empty( $currItem)) {
                 return response( 'Page not found', 404 );
             }
 
             $currPath = $structureItem->path( $currItem->left, $currItem->right )->where('active', 1 )->where('left', '>', $currLang->left )->where('right', '<', $currLang->right )->get();
-
             $className = 'App\Http\Controllers\Type\\' . ucfirst( $currItem->type->name ) . 'Controller';
-
-//            $params = [ $currItem, $currPath, $currLang, $currSite ];
         }
 
         if ( class_exists( $className ) ) {
