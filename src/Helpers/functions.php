@@ -1,5 +1,9 @@
 <?php
 
+function dim(&$var, $default = NULL)
+{
+    return empty($var) ? $var = $default : $var;
+}
 
 function bower( $path )
 {
