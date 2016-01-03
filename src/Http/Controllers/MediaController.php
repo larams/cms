@@ -11,6 +11,28 @@ class MediaController extends Controller
     public function getView(StructureItem $structureItem, $mediaId, $width = null, $height = null, $cropType = 0, $type = 'png')
     {
 
+        $isRetinaSize = false;
+        if ( strpos( $cropType, '@2x') !== false ) {
+            $cropType = str_replace('@2x', '', $cropType );
+            $isRetinaSize = true;
+        }
+
+        if ( strpos( $height, '@2x') !== false ) {
+            $height = str_replace('@2x', '', $height );
+            $isRetinaSize = true;
+        }
+
+
+        if ( strpos( $mediaId, '@2x') !== false ) {
+            $mediaId = str_replace('@2x', '', $mediaId );
+            $isRetinaSize = true;
+        }
+
+        if (!empty($isRetinaSize)) {
+            $width *= 2;
+            $height *= 2;
+        }
+
         $image = $structureItem->find($mediaId);
 
         if ( in_array( $width, ['jpg', 'png']) ) {

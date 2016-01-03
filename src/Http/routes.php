@@ -5,6 +5,7 @@ Route::group( ['prefix' => env('BASE_URL', '') ], function () {
     Route::get('media/{id}_{width?}_{height?}_{type?}.{format?}', 'MediaController@getView')->where('id', '\d+');
     Route::get('media/{id}_{width?}_{height?}.{format?}', 'MediaController@getView')->where('id', '\d+');
     Route::get('media/{id}.{format?}', 'MediaController@getView')->where('id', '\d+');
+    Route::get('media/{id}.{format?}', 'MediaController@getView');
     Route::get('admin', 'Admin\AuthController@getLogin');
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
