@@ -38,11 +38,16 @@ class BootstrapForm
             $hint = '<span class="help-block" style="color: #888; margin-top: 3px;">' . $hint . '</span>';
         }
 
+        $disabled = '';
+        if (!empty( $params['disabled'])) {
+            $disabled = ' disabled="disabled" ';
+        }
+
         $html = '
              <div class="form-group">
                 <label for="'.$id.'" class="control-label">' . $params['title'] . '</label>
                 <div class="">
-                    <input ' . $max_length . ' type="'. (!empty( $params['type'] ) ? $params['type'] : 'text') .'" name="' . $params['name'] . '" class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" id="' . $id . '" value="' . htmlspecialchars( !empty( $params['value'] ) ? $params['value'] : '', ENT_QUOTES, 'UTF-8' ) . '">
+                    <input ' . $max_length . $disabled . ' type="'. (!empty( $params['type'] ) ? $params['type'] : 'text') .'" name="' . $params['name'] . '" class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" id="' . $id . '" value="' . htmlspecialchars( !empty( $params['value'] ) ? $params['value'] : '', ENT_QUOTES, 'UTF-8' ) . '">
                                         ' . $hint . '
                 </div>
             </div>
