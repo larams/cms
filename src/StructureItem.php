@@ -11,7 +11,7 @@ namespace Talandis\Larams;
  * @method static StructureItem forLang( $currentLanguage, $isActive = 1, $inTree = 1 )
  * @method static StructureItem byTypeName( $typeName )
  * @method static StructureItem byParentId( $itemId )
- * @method static StructureItem whereData( $key, $value )
+ * @method static StructureItem whereData( $key, $operator = '=', $value = null )
  * @method static StructureItem byId( $itemId )
  */
 
@@ -113,11 +113,17 @@ class StructureItem extends \Eloquent
      * @param null $value
      * @return mixed
      */
-    public function scopeWhereData( $query, $key, $value = null )
+    public function scopeWhereData( $query, $key, $operator = '=', $value = null )
     {
+
+        if (is_null($value)) {
+            $value = $operator;
+            $operator = '=';
+        }
+
         return $query->leftJoin('structure_data', 'structure_items.id','=','structure_data.item_id')
                     ->where('structure_data.name', $key )
-                    ->where('structure_data.data', $value )
+                    ->where('structure_data.data', $operator, $value )
                     ->select( ['structure_items.*'])
                     ;
     }
