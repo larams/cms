@@ -2,16 +2,17 @@
 
 namespace Talandis\Larams\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Talandis\Larams\StructureItem;
 use Talandis\Larams\StructureType;
 
 class TypeController extends Controller
 {
 
-    public function getIndex( StructureItem $structureItem )
+    public function anyIndex( StructureItem $structureItem, Request $request )
     {
 
-        $uri = trim( str_replace( env('BASE_URL', ''), '', request()->path() ), '/' );
+        $uri = trim( str_replace( env('BASE_URL', ''), '', $request->path() ), '/' );
 
         $currSite = $structureItem->byTypeName('site')->first();
 
@@ -43,7 +44,10 @@ class TypeController extends Controller
 
             $variables = array('currItem', 'currPath', 'currLang', 'currSite');
 
-            $r = new \ReflectionMethod( $className, 'getIndex');
+            $methodPrefix = $request->method() == 'POST' ? 'post' : 'get';
+            $methodName = $methodPrefix . 'Index';
+
+            $r = new \ReflectionMethod( $className, $methodName );
             $methodParameters = $r->getParameters();
 
             $params = [];
@@ -59,7 +63,7 @@ class TypeController extends Controller
 
             app()->call( [ $controller, 'beforeAction'], [ $currLang, $currSite, $currPath, $currItem ] );
 
-            return app()->call( [ $controller, 'getIndex'], $params );
+            return app()->call( [ $controller, $methodName ], $params );
 
         }
 
