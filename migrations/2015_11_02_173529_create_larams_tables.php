@@ -15,6 +15,7 @@ class CreateLaramsTables extends Migration
         Schema::create('structure_items', function (Blueprint $table) {
 
             $table->increments('id');
+            $table->engine = 'MyISAM';
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('type_id')->nullable();
@@ -26,8 +27,11 @@ class CreateLaramsTables extends Migration
             $table->integer('right');
             $table->tinyInteger('active')->default(0);
             $table->tinyInteger('tree')->default(0);
+            $table->text('search');
             $table->timestamps();
         });
+
+        DB::statement('ALTER TABLE structure_items ADD FULLTEXT FULL( search )');
 
         Schema::create('structure_data', function (Blueprint $table) {
 

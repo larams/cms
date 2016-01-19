@@ -174,8 +174,13 @@ class StructureController extends Controller
 
 //        $item->data = $additionalFieldsData;
 
+        $rawFormData['search'] = $rawFormData['name'];
+
         $item->content()->delete();
         foreach ( $additionalFieldsData as $fieldName => $fieldValue ) {
+
+            $rawFormData['search'] .= ' '.$fieldValue;
+
             $item->content()->create( array(
                 'name' => $fieldName,
                 'data' => $fieldValue

@@ -21,7 +21,7 @@ class StructureItem extends \Eloquent
 
     protected $table = 'structure_items';
 
-    protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'sort', 'uri'];
+    protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'sort', 'uri', 'search'];
 
     protected $appends = ['data'];
 
@@ -141,6 +141,11 @@ class StructureItem extends \Eloquent
     public function scopeById( $query, $id )
     {
         return $query->where('id', $id );
+    }
+
+    public function scopeByKeyword( $query, $keyword )
+    {
+        return $query->whereRaw('MATCH( search ) AGAINST ( ? IN BOOLEAN MODE )', [ $keyword ] );
     }
 
     public function updateChildUris( $item )
