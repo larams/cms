@@ -159,4 +159,28 @@ class StructureItem extends \Eloquent
 
     }
 
+    public function addItem( $data, StructureItem $parent )
+    {
+
+        $this->where('left', '>', $parent->right )->increment('left', 2 );
+        $this->where('right', '>', $parent->right - 1)->increment('right', 2 );
+
+        if (!isset($data['parent_id'])) {
+            $data['parent_id'] = $parent->id;
+        }
+
+        if ( !isset($data['left'])) {
+            $data['left'] = $parent->right;
+        }
+
+        if (!isset($data['right'])) {
+            $data['right'] = $parent->right+1;
+        }
+
+        if (!isset($data['level'])) {
+            $data['level'] = $parent->level+1;
+        }
+
+        return $this->create( $data );
+    }
 }
