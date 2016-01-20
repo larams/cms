@@ -48,7 +48,7 @@
                         @foreach ( $types as $type )
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" name="additionals[]" value="{{$type->id}}" @if ( !empty( $additional ) && in_array( $type->id, $additional ))checked="checked"@endif />
+                                    <input type="checkbox" name="additional[]" value="{{$type->id}}" @if ( !empty( $additional ) && in_array( $type->id, $additional ))checked="checked"@endif />
                                     {{$type->name}} ({{$type->name_lang}})
                                 </label>
                             </div>
