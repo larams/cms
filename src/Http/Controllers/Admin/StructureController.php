@@ -179,7 +179,10 @@ class StructureController extends Controller
         $item->content()->delete();
         foreach ( $additionalFieldsData as $fieldName => $fieldValue ) {
 
-            $rawFormData['search'] .= ' '.$fieldValue;
+            if (!is_array($fieldValue)) {
+                $rawFormData['search'] .= PHP_EOL.' '.strip_tags( $fieldValue );
+            }
+
 
             $item->content()->create( array(
                 'name' => $fieldName,
