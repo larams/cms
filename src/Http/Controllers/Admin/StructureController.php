@@ -49,26 +49,23 @@ class StructureController extends Controller
 
         $types = $structureType->orderBy('name_lang')->get();
 
-        $typeConfiguration = array_merge( config('larams.handler'), (array)config('larams.handlers.' . $currentItem->type->handler ), (array)config('handlers.'. $currentItem->type->handler ) );
+        $typeConfiguration = array_merge(config('larams.handler'), (array)config('larams.handlers.' . $currentItem->type->handler), (array)config('handlers.' . $currentItem->type->handler));
 
+        $treeTypes = $currentItem->type()->first()->types()->where('additional', 0)->get();
+        $extraTypes = $currentItem->type()->first()->types()->where('additional', 1)->get();
 
-        $childTypes = $currentItem->type()->first()->types();
+        if (!empty($typeConfiguration['properties'])) {
 
-        $treeTypes = $childTypes->where('additional', 0)->get();
-        $extraTypes = $childTypes->where('additional', 1)->get();
+            foreach ($typeConfiguration['properties'] as &$propertyConfig) {
 
-        if (!empty( $typeConfiguration['properties'] )) {
-
-            foreach ( $typeConfiguration['properties'] as &$propertyConfig ) {
-
-                if ( !isset( $propertyConfig['name'])) {
+                if (!isset($propertyConfig['name'])) {
                     throw new \ErrorException('Property doesn\'t have name');
                 }
 
                 /** @var \Talandis\Larams\Property $property */
                 $property = new $propertyConfig['class'];
-                $property->setConfiguration( $propertyConfig );
-                $property->setItem( $currentItem );
+                $property->setConfiguration($propertyConfig);
+                $property->setItem($currentItem);
 
                 $propertyConfig['html'] = $property->getHtml();
 
@@ -87,7 +84,7 @@ class StructureController extends Controller
         $currentItem->active = ($status == 1) ? 0 : 1;
         $currentItem->save();
 
-        $structureItem->updateChildUris( $currentItem );
+        $structureItem->updateChildUris($currentItem);
 
 
         return redirect('admin/structure/index/' . $itemId);
@@ -100,13 +97,15 @@ class StructureController extends Controller
 
         $parentItem = $structureItem->find($itemId);
 
-        $uri = $structureItem->path( $parentItem->left, $parentItem->right )->where('active', 1 )->lists('name')->toArray();
-        $uri = array_slice( $uri, 1 );
+        $uri = $structureItem->path($parentItem->left, $parentItem->right)->where('active', 1)->lists('name')->toArray();
+        $uri = array_slice($uri, 1);
 
         $item = array(
             'parent_id' => $itemId,
             'name' => request()->input('name'),
-            'uri' => implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) ) . '/' . Utils::toAscii( request()->input('name') ),
+            'uri' => implode('/', array_map(function ($item) {
+                    return Utils::toAscii($item);
+                }, $uri)) . '/' . Utils::toAscii(request()->input('name')),
             'tree' => request()->input('tree'),
             'type_id' => request()->input('type_id'),
             'left' => $parentItem->right,
@@ -140,24 +139,24 @@ class StructureController extends Controller
 
         $item = $structureItem->find($itemId);
 
-        $typeConfiguration = array_merge( config('larams.handler'), (array)config('larams.handlers.' . $item->type->handler ), (array)config('handlers.'. $item->type->handler ) );
+        $typeConfiguration = array_merge(config('larams.handler'), (array)config('larams.handlers.' . $item->type->handler), (array)config('handlers.' . $item->type->handler));
 
         $rawFormData = request()->input();
         $additionalFieldsData = [];
 
-        if (!empty( $typeConfiguration['properties'] )) {
+        if (!empty($typeConfiguration['properties'])) {
 
-            foreach ( $typeConfiguration['properties'] as &$propertyConfig ) {
+            foreach ($typeConfiguration['properties'] as &$propertyConfig) {
 
-                if ( !isset( $propertyConfig['name'])) {
+                if (!isset($propertyConfig['name'])) {
                     throw new \ErrorException('Property doesn\'t have name');
                 }
 
                 /** @var \Talandis\Larams\Property $property */
                 $property = new $propertyConfig['class'];
-                $property->setConfiguration( $propertyConfig );
+                $property->setConfiguration($propertyConfig);
 
-                $additionalFieldsData[ $propertyConfig['name'] ] = $property->getFormData( $rawFormData['data'] );
+                $additionalFieldsData[$propertyConfig['name']] = $property->getFormData($rawFormData['data']);
 
             }
 
@@ -167,9 +166,11 @@ class StructureController extends Controller
 
 //        if (empty( $rawFormData['uri']) || $rawFormData['uri'] == $item->uri ) {
 
-        $uri = $structureItem->path( $item->left, $item->right )->where('active', 1 )->lists('name')->toArray();
-        $uri = array_slice( $uri, 1 );
-        $rawFormData['uri'] = implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) );
+        $uri = $structureItem->path($item->left, $item->right)->where('active', 1)->lists('name')->toArray();
+        $uri = array_slice($uri, 1);
+        $rawFormData['uri'] = implode('/', array_map(function ($item) {
+            return Utils::toAscii($item);
+        }, $uri));
 //        }
 
 //        $item->data = $additionalFieldsData;
@@ -177,58 +178,58 @@ class StructureController extends Controller
         $rawFormData['search'] = $rawFormData['name'];
 
         $item->content()->delete();
-        foreach ( $additionalFieldsData as $fieldName => $fieldValue ) {
+        foreach ($additionalFieldsData as $fieldName => $fieldValue) {
 
             if (!is_array($fieldValue)) {
-                $rawFormData['search'] .= PHP_EOL.' '.strip_tags( $fieldValue );
+                $rawFormData['search'] .= PHP_EOL . ' ' . strip_tags($fieldValue);
             }
 
 
-            $item->content()->create( array(
+            $item->content()->create(array(
                 'name' => $fieldName,
                 'data' => $fieldValue
-            ) );
+            ));
         }
 
-        $item->fill( $rawFormData )->save();
+        $item->fill($rawFormData)->save();
 
         // Update child links
-        if ( $item->uri != $rawFormData['uri'] ) {
-            $structureItem->updateChildUris( $item );
+        if ($item->uri != $rawFormData['uri']) {
+            $structureItem->updateChildUris($item);
         }
 
         return redirect('admin/structure/index/' . $itemId);
 
     }
 
-    public function postSort( StructureItem $structureItem, $parentId )
+    public function postSort(StructureItem $structureItem, $parentId)
     {
 
         $items = request()->input('item');
 
-        $parentItem = $structureItem->where('id', $parentId )->first();
+        $parentItem = $structureItem->where('id', $parentId)->first();
 
         $itemsWithChilds = [];
-        foreach ( $items as $itemId ) {
-            $itemsWithChilds[ $itemId ] = $structureItem->find( $itemId );
-            $itemsWithChilds[ $itemId ]->childIds = $structureItem->where('left', '>=', $itemsWithChilds[ $itemId ]->left )->where('right', '<=', $itemsWithChilds[ $itemId ]->right )->lists('id');
+        foreach ($items as $itemId) {
+            $itemsWithChilds[$itemId] = $structureItem->find($itemId);
+            $itemsWithChilds[$itemId]->childIds = $structureItem->where('left', '>=', $itemsWithChilds[$itemId]->left)->where('right', '<=', $itemsWithChilds[$itemId]->right)->lists('id');
         }
 
         $left = $parentItem->left + 1;
-        foreach ( $itemsWithChilds as $item ) {
+        foreach ($itemsWithChilds as $item) {
 
             $positionsDelta = $left - $item->left;
-            $positionsDelta = ( $positionsDelta >= 0 ) ? '+'.$positionsDelta : $positionsDelta;
+            $positionsDelta = ($positionsDelta >= 0) ? '+' . $positionsDelta : $positionsDelta;
 
-            $structureItem->whereIn('id', $item->childIds )->update([
-                'left' => \DB::raw('`left` ' . $positionsDelta ),
-                'right' => \DB::raw('`right` '. $positionsDelta )
+            $structureItem->whereIn('id', $item->childIds)->update([
+                'left' => \DB::raw('`left` ' . $positionsDelta),
+                'right' => \DB::raw('`right` ' . $positionsDelta)
             ]);
 
             $left = $item->right + $positionsDelta + 1;
         }
 
-        return response()->json( ['success' => true ] );
+        return response()->json(['success' => true]);
     }
 
     public function getTree(StructureItem $structureItem, $itemId)
