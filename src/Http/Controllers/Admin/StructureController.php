@@ -28,7 +28,7 @@ class StructureController extends Controller
             $this->panic('Cms actions : no items!');
         } else {
 
-            $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->get();;
+            $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->orderBy('left')->get();;
 
             if (count($currentPath) == 1) {
                 $currentLanguage = $structureItem->where('parent_id', $currentItem->id)->first();
