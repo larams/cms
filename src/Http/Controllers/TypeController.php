@@ -61,6 +61,8 @@ class TypeController extends Controller
 
             $controller = app()->make( $className );
 
+            view()->share( compact('currItem', 'currPath', 'currLang', 'currSite') );
+
             app()->call( [ $controller, 'beforeAction'], [ $currLang, $currSite, $currPath, $currItem ] );
 
             return app()->call( [ $controller, $methodName ], $params );
