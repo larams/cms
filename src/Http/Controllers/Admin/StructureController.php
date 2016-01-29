@@ -166,11 +166,11 @@ class StructureController extends Controller
 
 //        if (empty( $rawFormData['uri']) || $rawFormData['uri'] == $item->uri ) {
 
-        $uri = $structureItem->path($item->left, $item->right)->where('active', 1)->lists('name')->toArray();
+        $uri = $structureItem->path($item->left, $item->right, false )->where('active', 1)->lists('name')->toArray();
         $uri = array_slice($uri, 1);
         $rawFormData['uri'] = implode('/', array_map(function ($item) {
             return Utils::toAscii($item);
-        }, $uri));
+        }, $uri)) . '/' . Utils::toAscii(request()->input('name'));
 //        }
 
 //        $item->data = $additionalFieldsData;

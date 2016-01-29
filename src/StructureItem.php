@@ -59,9 +59,14 @@ class StructureItem extends \Eloquent
         return $this->where('left', '>', $item->left )->where('right', '<', $item->right );
     }
 
-    public function path( $left, $right )
+    public function path( $left, $right, $includeSelf = true )
     {
-        return $this->where('left', '<=', $left )->where('right', '>=', $right );
+
+        if ( $includeSelf ) {
+            return $this->where('left', '<=', $left )->where('right', '>=', $right );
+        }
+
+        return $this->where('left', '<', $left )->where('right', '>', $right );
     }
 
     public function delete()
