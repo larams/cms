@@ -46,6 +46,7 @@ class Image extends Property
             foreach ( $this->versions as $versionName => $dimensions ) {
                 $return['versions'][ $versionName ]['uri'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'.png';
                 $return['versions'][ $versionName ]['cropped'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'_1.png';
+                $return['versions'][ $versionName ]['fitted'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'_2.png';
                 $return['versions'][ $versionName ]['width'] = $dimensions['width'];
                 $return['versions'][ $versionName ]['height'] = $dimensions['height'];
             }

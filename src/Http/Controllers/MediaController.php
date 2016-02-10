@@ -55,6 +55,10 @@ class MediaController extends Controller
                     $image->make($imagePath)->fit($width, $height, function( $constraint ) {
                         $constraint->upsize();
                     });
+                } elseif($cropType == 2) {
+                    $image->make($imagePath)->resize($width, $height, function( $constraint ) {
+                        $constraint->aspectRatio();
+                    });
                 }
 
             } else {
