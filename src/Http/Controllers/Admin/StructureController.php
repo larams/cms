@@ -103,9 +103,9 @@ class StructureController extends Controller
         $item = array(
             'parent_id' => $itemId,
             'name' => request()->input('name'),
-            'uri' => implode('/', array_map(function ($item) {
+            'uri' => trim( implode('/', array_map(function ($item) {
                     return Utils::toAscii($item);
-                }, $uri)) . '/' . Utils::toAscii(request()->input('name')),
+                }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/' ),
             'tree' => request()->input('tree'),
             'type_id' => request()->input('type_id'),
             'left' => $parentItem->right,
@@ -168,9 +168,9 @@ class StructureController extends Controller
 
         $uri = $structureItem->path($item->left, $item->right, false )->where('active', 1)->lists('name')->toArray();
         $uri = array_slice($uri, 1);
-        $rawFormData['uri'] = implode('/', array_map(function ($item) {
+        $rawFormData['uri'] = trim( implode('/', array_map(function ($item) {
             return Utils::toAscii($item);
-        }, $uri)) . '/' . Utils::toAscii(request()->input('name'));
+        }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/' );
 //        }
 
 //        $item->data = $additionalFieldsData;
