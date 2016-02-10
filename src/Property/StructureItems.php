@@ -27,23 +27,23 @@ class StructureItems extends Property
 
         $structureItems = new StructureItem();
 
-        $topLevelItem = $structureItems->byTypeName( $this->typeName )->first();
+        $topLevelItem = $structureItems->byTypeName($this->typeName)->first();
 
-        if (!empty( $this->firstLevel )) {
-            $childs = $structureItems->where('parent_id', $topLevelItem->id )->get();
+        if (!empty($this->firstLevel)) {
+            $childs = $structureItems->where('parent_id', $topLevelItem->id)->get();
         } else {
-            $childs = $structureItems->where('left', '>', $topLevelItem->left )->where('right', '<', $topLevelItem->right )->orderBy('left')->get();
+            $childs = $structureItems->where('left', '>', $topLevelItem->left)->where('right', '<', $topLevelItem->right)->orderBy('left')->get();
         }
 
-        $value = $this->item->data->{$this->name};
+        $value = isset($this->item->data->{$this->name}) ? $this->item->data->{$this->name} : null;
 
-        foreach ( $childs as $k => &$child ) {
-            $child->hasChilds = !empty( $childs[$k+1] ) && $childs[$k + 1]->level > $child->level;
+        foreach ($childs as $k => &$child) {
+            $child->hasChilds = !empty($childs[$k + 1]) && $childs[$k + 1]->level > $child->level;
             $child->selected = !empty($value) && (is_array($value) && in_array($child->id, $value) || (!is_array($value) && $child->id == $value));
 
             $whitespaces = '';
             $i = 0;
-            while( $i < ( $child->level - $childs[0]->level )) {
+            while ($i < ($child->level - $childs[0]->level)) {
                 $whitespaces .= '&nbsp;&nbsp;&nbsp;';
                 $i++;
             }
