@@ -124,7 +124,8 @@ class StructureItem extends \Eloquent
         return $query->leftJoin('structure_data AS SD_ORDER', function( $join ) use ( $column ) {
             $join->on('structure_items.id','=','SD_ORDER.item_id');
             $join->on('SD_ORDER.name','=', \DB::raw( "'{$column}'" ) );
-        })->orderBy('SD_ORDER.data', $direction );
+        })->orderBy('SD_ORDER.data', $direction )
+        ->select(['structure_items.*']);
     }
 
     /**
