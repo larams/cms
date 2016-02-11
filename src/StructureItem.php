@@ -13,6 +13,7 @@ namespace Talandis\Larams;
  * @method static StructureItem byParentId( $itemId )
  * @method static StructureItem whereData( $key, $operator = '=', $value = null )
  * @method static StructureItem byId( $itemId )
+ * @method static StructureItem orderByData( $column, $direction = 'asc' )
  */
 
 class StructureItem extends \Eloquent
@@ -110,6 +111,20 @@ class StructureItem extends \Eloquent
     public function scopeByTypeName( $query, $typeName )
     {
         return $query->leftJoin('structure_types', 'structure_items.type_id','=','structure_types.id')->where('structure_types.name', $typeName )->select('structure_items.*', 'structure_types.name AS type_name');
+    }
+
+    /**
+     * @param \Eloquent $query
+     * @param $column
+     * @param string $direction
+     * @return mixed
+     */
+    public function scopeOrderByData( $query, $column, $direction = 'asc')
+    {
+        return $query->leftJoin('structure_data AS SD_ORDER', function( $join ) use ( $column ) {
+            $join->on('structure_items.id','=','SD_ORDER.item_id');
+            $join->on('SD_ORDER.name','=', \DB::raw( "'{$column}'" ) );
+        })->orderBy('SD_ORDER.data', $direction );
     }
 
     /**
