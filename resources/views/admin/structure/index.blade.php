@@ -145,13 +145,13 @@
 
             @if ( count( $treeTypes ) )
 
-                @include('larams::admin.structure.elements.childs_form', [ 'types' => $treeTypes, 'title' => !empty( $typeConfiguration['child_tree_item_create_title'] ) ? __($typeConfiguration['child_tree_item_create_title']) : __("Add new tree item") ] )
+                @include('larams::admin.structure.elements.childs_form', [ 'types' => $treeTypes, 'tree' => 1, 'title' => !empty( $typeConfiguration['child_tree_item_create_title'] ) ? __($typeConfiguration['child_tree_item_create_title']) : __("Add new tree item") ] )
 
             @endif
 
             @if ( count( $extraTypes ) )
 
-                @include('larams::admin.structure.elements.childs_form', [ 'types' => $extraTypes, 'title' => !empty( $typeConfiguration['child_item_create_title'] ) ? __($typeConfiguration['child_item_create_title']) : __("Add new item") ] )
+                @include('larams::admin.structure.elements.childs_form', [ 'types' => $extraTypes, 'tree' => 0, 'title' => !empty( $typeConfiguration['child_item_create_title'] ) ? __($typeConfiguration['child_item_create_title']) : __("Add new item") ] )
 
             @endif
 

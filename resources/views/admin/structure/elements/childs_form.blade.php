@@ -1,10 +1,10 @@
-<a class="toggle-link create_child_item-link btn btn-xs btn-default" href="#create_child_item"><i class="fa fa-plus-circle"></i>
+<a class="toggle-link create_child_item-link btn btn-xs btn-default" href="#create_child_item_<?=$index;?>"><i class="fa fa-plus-circle"></i>
 
     {{$title}}
 
 </a>
 
-<div id="create_child_item" class="hidden">
+<div id="create_child_item_<?=$index?>" class="hidden">
     <h3 class="pull-left">{{$title}}</h3>
 
     <div class="clearfix"></div>
@@ -12,7 +12,7 @@
     <form action="{{url('admin/structure/add/' . $currentItem->id )}}" method="post" name="create_new_element" class="form mt20">
 
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
-        <input type="hidden" name="tree" value="1"/>
+        <input type="hidden" name="tree" value="<?=$index; ?>"/>
 
         {!! BootstrapForm::input( ['name' => 'name', 'title' => __('Title'), 'max_length' => '255' ] ) !!}
 
