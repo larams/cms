@@ -121,10 +121,12 @@ class StructureItem extends \Eloquent
      */
     public function scopeOrderByData( $query, $column, $direction = 'asc')
     {
-        return $query->leftJoin('structure_data AS SD_ORDER', function( $join ) use ( $column ) {
-            $join->on('structure_items.id','=','SD_ORDER.item_id');
-            $join->on('SD_ORDER.name','=', \DB::raw( "'{$column}'" ) );
-        })->orderBy('SD_ORDER.data', $direction )
+        $alias = uniqid();
+
+        return $query->leftJoin('structure_data AS '.$alias, function( $join ) use ( $column, $alias ) {
+            $join->on('structure_items.id','=', $alias.'.item_id');
+            $join->on( $alias.'.name','=', \DB::raw( "'{$column}'" ) );
+        })->orderBy( $alias.'.data', $direction )
         ->select(['structure_items.*']);
     }
 
