@@ -44,9 +44,9 @@ class Image extends Property
         if (!empty( $this->versions )) {
 
             foreach ( $this->versions as $versionName => $dimensions ) {
-                $return['versions'][ $versionName ]['uri'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'.png';
-                $return['versions'][ $versionName ]['cropped'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'_1.png';
-                $return['versions'][ $versionName ]['fitted'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'_2.png';
+                $return['versions'][ $versionName ]['uri'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'.' . $this->format;
+                $return['versions'][ $versionName ]['cropped'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'_1.' . $this->format;
+                $return['versions'][ $versionName ]['fitted'] = $imageId.'_'.$dimensions['width'].'_'.$dimensions['height'].'_2.' . $this->format;
                 $return['versions'][ $versionName ]['width'] = $dimensions['width'];
                 $return['versions'][ $versionName ]['height'] = $dimensions['height'];
             }
