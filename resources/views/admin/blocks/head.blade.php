@@ -2,7 +2,7 @@
 
     <title>{{__('Administravimo aplinka')}}</title>
 
-    <base href="{{url()}}"/>
+    <base href="{{url( env('BASE_URL', '/'))}}"/>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 
