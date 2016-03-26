@@ -1,6 +1,6 @@
 <?php
 
-Route::group( ['prefix' => env('BASE_URL', '') ], function () {
+Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], function () {
 
     Route::get('media/{id}_{width?}_{height?}_{type?}.{format?}', 'MediaController@getView')->where('id', '\d+');
     Route::get('media/{id}_{width?}_{height?}.{format?}', 'MediaController@getView')->where('id', '\d+');
