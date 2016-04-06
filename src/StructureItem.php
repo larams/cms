@@ -8,12 +8,13 @@ namespace Talandis\Larams;
  * Class StructureItem
  * @package Talandis\Larams
  *
- * @method static StructureItem forLang( $currentLanguage, $isActive = 1, $inTree = 1 )
- * @method static StructureItem byTypeName( $typeName )
- * @method static StructureItem byParentId( $itemId )
- * @method static StructureItem whereData( $key, $operator = '=', $value = null )
- * @method static StructureItem byId( $itemId )
- * @method static StructureItem orderByData( $column, $direction = 'asc' )
+ * @method static StructureItem forLang($currentLanguage, $isActive = 1, $inTree = 1)
+ * @method static StructureItem byTypeName($typeName)
+ * @method static StructureItem byParentTypeName($typeName)
+ * @method static StructureItem byParentId($itemId)
+ * @method static StructureItem whereData($key, $operator = '=', $value = null)
+ * @method static StructureItem byId($itemId)
+ * @method static StructureItem orderByData($column, $direction = 'asc')
  */
 
 class StructureItem extends \Eloquent
@@ -53,32 +54,32 @@ class StructureItem extends \Eloquent
         return $this->hasMany('Talandis\Larams\StructureData', 'item_id');
     }
 
-    public function childsOf( $itemId )
+    public function childsOf($itemId)
     {
-        $item = $this->find( $itemId );
+        $item = $this->find($itemId);
 
-        return $this->where('left', '>', $item->left )->where('right', '<', $item->right );
+        return $this->where('left', '>', $item->left)->where('right', '<', $item->right);
     }
 
-    public function path( $left, $right, $includeSelf = true )
+    public function path($left, $right, $includeSelf = true)
     {
 
-        if ( $includeSelf ) {
-            return $this->where('left', '<=', $left )->where('right', '>=', $right );
+        if ($includeSelf) {
+            return $this->where('left', '<=', $left)->where('right', '>=', $right);
         }
 
-        return $this->where('left', '<', $left )->where('right', '>', $right );
+        return $this->where('left', '<', $left)->where('right', '>', $right);
     }
 
     public function delete()
     {
 
-        $this->where('left', '>', $this->left )->where('right','<', $this->right )->delete();
+        $this->where('left', '>', $this->left)->where('right', '<', $this->right)->delete();
 
         $delta = $this->right - $this->left + 1;
 
-        $this->where('left', '>', $this->left )->decrement('left', $delta );
-        $this->where('right', '>', $this->right )->decrement('right', $delta );
+        $this->where('left', '>', $this->left)->decrement('left', $delta);
+        $this->where('right', '>', $this->right)->decrement('right', $delta);
 
         return parent::delete();
     }
@@ -86,7 +87,7 @@ class StructureItem extends \Eloquent
     public function getDataAttribute()
     {
 
-        if ( !isset( $this->content )) {
+        if (!isset($this->content)) {
             $this->content = $this->content()->get();
         }
 
@@ -98,9 +99,18 @@ class StructureItem extends \Eloquent
      * @param int $tree
      * @return mixed
      */
-    public function scopeForLang( $query, $currLang, $isActive = 1, $inTree = 1 )
+    public function scopeForLang($query, $currLang, $isActive = 1, $inTree = 1)
     {
-        return $query->where('active', $isActive )->where('tree', $inTree )->where('left','>', $currLang->left )->where('right','<', $currLang->right );
+        return $query->where('active', $isActive)->where('tree', $inTree)->where('left', '>', $currLang->left)->where('right', '<', $currLang->right);
+    }
+
+    public function scopeByParentTypeName($query, $typeName)
+    {
+        return $query
+            ->leftJoin('structure_items AS SI2', 'structure_items.parent_id', '=', 'SI2.id')
+            ->leftJoin('structure_types', 'SI2.type_id', '=', 'structure_types.id')
+            ->where('structure_types.name', $typeName)
+            ->select('structure_items.*', 'structure_types.name AS parent_type_name');
     }
 
     /**
@@ -108,9 +118,9 @@ class StructureItem extends \Eloquent
      * @param $typeName
      * @return mixed
      */
-    public function scopeByTypeName( $query, $typeName )
+    public function scopeByTypeName($query, $typeName)
     {
-        return $query->leftJoin('structure_types', 'structure_items.type_id','=','structure_types.id')->where('structure_types.name', $typeName )->select('structure_items.*', 'structure_types.name AS type_name');
+        return $query->leftJoin('structure_types', 'structure_items.type_id', '=', 'structure_types.id')->where('structure_types.name', $typeName)->select('structure_items.*', 'structure_types.name AS type_name');
     }
 
     /**
@@ -119,15 +129,15 @@ class StructureItem extends \Eloquent
      * @param string $direction
      * @return mixed
      */
-    public function scopeOrderByData( $query, $column, $direction = 'asc')
+    public function scopeOrderByData($query, $column, $direction = 'asc')
     {
         $alias = uniqid();
 
-        return $query->leftJoin('structure_data AS '.$alias, function( $join ) use ( $column, $alias ) {
-            $join->on('structure_items.id','=', $alias.'.item_id');
-            $join->on( $alias.'.name','=', \DB::raw( "'{$column}'" ) );
-        })->orderBy( $alias.'.data', $direction )
-        ->select(['structure_items.*']);
+        return $query->leftJoin('structure_data AS ' . $alias, function ($join) use ($column, $alias) {
+            $join->on('structure_items.id', '=', $alias . '.item_id');
+            $join->on($alias . '.name', '=', \DB::raw("'{$column}'"));
+        })->orderBy($alias . '.data', $direction)
+            ->select(['structure_items.*']);
     }
 
     /**
@@ -136,7 +146,7 @@ class StructureItem extends \Eloquent
      * @param null $value
      * @return mixed
      */
-    public function scopeWhereData( $query, $key, $operator = '=', $value = null )
+    public function scopeWhereData($query, $key, $operator = '=', $value = null)
     {
 
         if (is_null($value)) {
@@ -144,11 +154,10 @@ class StructureItem extends \Eloquent
             $operator = '=';
         }
 
-        return $query->leftJoin('structure_data', 'structure_items.id','=','structure_data.item_id')
-                    ->where('structure_data.name', $key )
-                    ->where('structure_data.data', $operator, $value )
-                    ->select( ['structure_items.*'])
-                    ;
+        return $query->leftJoin('structure_data', 'structure_items.id', '=', 'structure_data.item_id')
+            ->where('structure_data.name', $key)
+            ->where('structure_data.data', $operator, $value)
+            ->select(['structure_items.*']);
     }
 
     /**
@@ -156,30 +165,32 @@ class StructureItem extends \Eloquent
      * @param $parentId
      * @return mixed
      */
-    public function scopeByParentId( $query, $parentId )
+    public function scopeByParentId($query, $parentId)
     {
-        return $query->where('parent_id', $parentId );
+        return $query->where('parent_id', $parentId);
     }
 
-    public function scopeById( $query, $id )
+    public function scopeById($query, $id)
     {
-        return $query->where('id', $id );
+        return $query->where('id', $id);
     }
 
-    public function scopeByKeyword( $query, $keyword )
+    public function scopeByKeyword($query, $keyword)
     {
-        return $query->whereRaw('MATCH( search ) AGAINST ( ? IN BOOLEAN MODE )', [ $keyword ] );
+        return $query->whereRaw('MATCH( search ) AGAINST ( ? IN BOOLEAN MODE )', [$keyword]);
     }
 
-    public function updateChildUris( $item )
+    public function updateChildUris($item)
     {
 
-        $childs = $this->where('left', '>', $item->left )->where('right', '<', $item->right )->get();
+        $childs = $this->where('left', '>', $item->left)->where('right', '<', $item->right)->get();
 
-        foreach ( $childs as $child ) {
-            $uri = $this->path( $child->left, $child->right )->where('active', 1 )->lists('name')->toArray();
-            $uri = array_slice( $uri, 1 );
-            $uri = implode('/', array_map( function( $item ) { return Utils::toAscii( $item ); }, $uri ) );
+        foreach ($childs as $child) {
+            $uri = $this->path($child->left, $child->right)->where('active', 1)->lists('name')->toArray();
+            $uri = array_slice($uri, 1);
+            $uri = implode('/', array_map(function ($item) {
+                return Utils::toAscii($item);
+            }, $uri));
 
             $child->uri = $uri;
             $child->save();
@@ -187,28 +198,28 @@ class StructureItem extends \Eloquent
 
     }
 
-    public function addItem( $data, StructureItem $parent )
+    public function addItem($data, StructureItem $parent)
     {
 
-        $this->where('left', '>', $parent->right )->increment('left', 2 );
-        $this->where('right', '>', $parent->right - 1)->increment('right', 2 );
+        $this->where('left', '>', $parent->right)->increment('left', 2);
+        $this->where('right', '>', $parent->right - 1)->increment('right', 2);
 
         if (!isset($data['parent_id'])) {
             $data['parent_id'] = $parent->id;
         }
 
-        if ( !isset($data['left'])) {
+        if (!isset($data['left'])) {
             $data['left'] = $parent->right;
         }
 
         if (!isset($data['right'])) {
-            $data['right'] = $parent->right+1;
+            $data['right'] = $parent->right + 1;
         }
 
         if (!isset($data['level'])) {
-            $data['level'] = $parent->level+1;
+            $data['level'] = $parent->level + 1;
         }
 
-        return $this->create( $data );
+        return $this->create($data);
     }
 }
