@@ -8,6 +8,8 @@ use Talandis\Larams\User;
 class AdministratorController extends Controller
 {
 
+    protected $route = 'administrators';
+
     public function getIndex( User $user )
     {
 
@@ -49,7 +51,7 @@ class AdministratorController extends Controller
             $user->create( request()->input() );
         }
 
-        return redirect('admin/administrators');
+        return redirect('admin/' . $this->route );
     }
 
     public function getDelete( User $user, $id )
@@ -58,7 +60,7 @@ class AdministratorController extends Controller
         $item = $user->find( $id );
         $item->delete();
 
-        return redirect('admin/administrators');
+        return redirect('admin/' . $this->route );
 
     }
 

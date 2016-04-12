@@ -8,6 +8,8 @@ use Talandis\Larams\StructureType;
 class GalleryController extends StructureController
 {
 
+    protected $route = 'gallery';
+
     public function getIndex(StructureItem $structureItem, StructureType $structureType, $itemId = null, $select = 0, $target = null)
     {
 
@@ -73,7 +75,7 @@ class GalleryController extends StructureController
         }
 
 
-        return redirect('admin/gallery/index/' . $itemId);
+        return redirect('admin/'.$this->route.'/index/' . $itemId);
 
     }
 
@@ -83,7 +85,7 @@ class GalleryController extends StructureController
         $item = $structureItem->find($delItemId);
         $item->delete();
 
-        return redirect('admin/gallery/index/' . $itemId);
+        return redirect('admin/'.$this->route.'/index/' . $itemId);
 
     }
 

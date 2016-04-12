@@ -7,6 +7,8 @@ use Talandis\Larams\StructureType;
 class TypeController extends Controller
 {
 
+    protected $route = 'types';
+
     public function getIndex( StructureType $structureType )
     {
 
@@ -69,7 +71,7 @@ class TypeController extends Controller
 
         $item->types()->sync( array_merge( (array)$relations, (array)$additional ) );
 
-        return redirect('admin/types');
+        return redirect('admin/' . $this->route );
     }
 
     public function getDelete( StructureType $structureType, $id )
@@ -78,7 +80,7 @@ class TypeController extends Controller
         $item = $structureType->find( $id );
         $item->delete();
 
-        return redirect('admin/types');
+        return redirect('admin/'.$this->route );
 
     }
 

@@ -9,6 +9,8 @@ use Talandis\Larams\Utils;
 class StructureController extends Controller
 {
 
+    protected $route = 'structure';
+
     public function getIndex(StructureItem $structureItem, StructureType $structureType, $itemId = null)
     {
 
@@ -21,7 +23,7 @@ class StructureController extends Controller
         $languages = $structureItem->where('parent_id', $topLevelItem->id)->orderBy('left')->get();
 
         if (empty($currentItem)) {
-            return redirect('admin/structure/index/' . $languages->first()->id);
+            return redirect('admin/'.$this->route.'/index/' . $languages->first()->id);
         }
 
         if (empty($currentItem)) {
@@ -87,7 +89,7 @@ class StructureController extends Controller
         $structureItem->updateChildUris($currentItem);
 
 
-        return redirect('admin/structure/index/' . $itemId);
+        return redirect('admin/'.$this->route.'/index/' . $itemId);
 
     }
 
@@ -119,7 +121,7 @@ class StructureController extends Controller
 
         $structureItem->create($item);
 
-        return redirect('admin/structure/index/' . $itemId);
+        return redirect('admin/'.$this->route.'/index/' . $itemId);
 
 
     }
@@ -130,7 +132,7 @@ class StructureController extends Controller
         $item = $structureItem->find($delItemId);
         $item->delete();
 
-        return redirect('admin/structure/index/' . $itemId);
+        return redirect('admin/'.$this->route.'/index/' . $itemId);
 
     }
 
@@ -198,7 +200,7 @@ class StructureController extends Controller
             $structureItem->updateChildUris($item);
         }
 
-        return redirect('admin/structure/index/' . $itemId);
+        return redirect('admin/'.$this->route.'/index/' . $itemId);
 
     }
 
