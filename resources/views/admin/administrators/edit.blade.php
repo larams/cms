@@ -5,7 +5,7 @@
 @endif
 
 
-<form class="form mt20" action="{{url( 'admin/administrators/save', [ !empty( $item->id ) ? $item->id : '' ] )}}" enctype="multipart/form-data" method="post">
+<form class="form mt20" action="{{url( 'admin/'.$route.'/save', [ !empty( $item->id ) ? $item->id : '' ] )}}" enctype="multipart/form-data" method="post">
 
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

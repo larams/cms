@@ -21,6 +21,11 @@ abstract class Controller extends BaseController
 
     public function view( $view, $variables = array() )
     {
+
+        if ( isset( $this->route ) && !isset( $variables['route'] ) ) {
+            $variables['route'] = $this->route;
+        }
+
         return view( $this->layout, ['content' => view( $view, $variables )]);
     }
 
