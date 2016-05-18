@@ -23,7 +23,7 @@ class StructureController extends Controller
         $languages = $structureItem->where('parent_id', $topLevelItem->id)->orderBy('left')->get();
 
         if (empty($currentItem)) {
-            return redirect('admin/'.$this->route.'/index/' . $languages->first()->id);
+            return redirect('admin/' . $this->route . '/index/' . $languages->first()->id);
         }
 
         if (empty($currentItem)) {
@@ -89,13 +89,12 @@ class StructureController extends Controller
         $structureItem->updateChildUris($currentItem);
 
 
-        return redirect('admin/'.$this->route.'/index/' . $itemId);
+        return redirect('admin/' . $this->route . '/index/' . $itemId);
 
     }
 
-    public function postAdd(StructureItem $structureItem, $itemId)
+    public function postAdd(StructureItem $structureItem, $itemId, $prepend = false )
     {
-
 
         $parentItem = $structureItem->find($itemId);
 
@@ -105,23 +104,29 @@ class StructureController extends Controller
         $item = array(
             'parent_id' => $itemId,
             'name' => request()->input('name'),
-            'uri' => trim( implode('/', array_map(function ($item) {
+            'uri' => trim(implode('/', array_map(function ($item) {
                     return Utils::toAscii($item);
-                }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/' ),
+                }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/'),
             'tree' => request()->input('tree'),
             'type_id' => request()->input('type_id'),
-            'left' => $parentItem->right,
-            'right' => $parentItem->right + 1,
+            'left' => $prepend ? $parentItem->left + 1 : $parentItem->right,
+            'right' => $prepend ? $parentItem->left + 2 : ($parentItem->right + 1),
             'level' => $parentItem->level + 1,
             'active' => 0
         );
 
-        $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
-        $structureItem->where('right', '>', $parentItem->right - 1)->increment('right', 2);
+        if ($prepend) {
+            $structureItem->where('left', '>', $parentItem->left )->increment('left', 2);
+            $structureItem->where('right', '>', $parentItem->left )->increment('right', 2);
+        } else {
+            $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
+            $structureItem->where('right', '>', $parentItem->right - 1)->increment('right', 2);
+        }
+
 
         $structureItem->create($item);
 
-        return redirect('admin/'.$this->route.'/index/' . $itemId);
+        return redirect('admin/' . $this->route . '/index/' . $itemId);
 
 
     }
@@ -132,7 +137,7 @@ class StructureController extends Controller
         $item = $structureItem->find($delItemId);
         $item->delete();
 
-        return redirect('admin/'.$this->route.'/index/' . $itemId);
+        return redirect('admin/' . $this->route . '/index/' . $itemId);
 
     }
 
@@ -168,11 +173,11 @@ class StructureController extends Controller
 
 //        if (empty( $rawFormData['uri']) || $rawFormData['uri'] == $item->uri ) {
 
-        $uri = $structureItem->path($item->left, $item->right, false )->where('active', 1)->lists('name')->toArray();
+        $uri = $structureItem->path($item->left, $item->right, false)->where('active', 1)->lists('name')->toArray();
         $uri = array_slice($uri, 1);
-        $rawFormData['uri'] = trim( implode('/', array_map(function ($item) {
-            return Utils::toAscii($item);
-        }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/' );
+        $rawFormData['uri'] = trim(implode('/', array_map(function ($item) {
+                return Utils::toAscii($item);
+            }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/');
 //        }
 
 //        $item->data = $additionalFieldsData;
@@ -200,7 +205,7 @@ class StructureController extends Controller
             $structureItem->updateChildUris($item);
         }
 
-        return redirect('admin/'.$this->route.'/index/' . $itemId);
+        return redirect('admin/' . $this->route . '/index/' . $itemId);
 
     }
 

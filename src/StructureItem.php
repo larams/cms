@@ -101,7 +101,7 @@ class StructureItem extends \Eloquent
      */
     public function scopeForLang($query, $currLang, $isActive = 1, $inTree = 1)
     {
-        return $query->where('active', $isActive)->where('tree', $inTree)->where('left', '>', $currLang->left)->where('right', '<', $currLang->right);
+        return $query->where('structure_items.active', $isActive)->where('structure_items.tree', $inTree)->where('structure_items.left', '>', $currLang->left)->where('structure_items.right', '<', $currLang->right);
     }
 
     public function scopeByParentTypeName($query, $typeName)
