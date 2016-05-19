@@ -9,7 +9,7 @@ use Talandis\Larams\StructureType;
 class TypeController extends Controller
 {
 
-    public function anyIndex( StructureItem $structureItem, Request $request )
+    public function anyIndex( StructureItem $structureItem, StructureType $structureType, Request $request )
     {
 
         $uri = trim( str_replace( env('BASE_URL', ''), '', $request->path() ), '/' );
@@ -37,7 +37,7 @@ class TypeController extends Controller
             }
 
             $currPath = $structureItem->path( $currItem->left, $currItem->right )->where('active', 1 )->where('left', '>', $currLang->left )->where('right', '<', $currLang->right )->orderBy('left')->get();
-            $className = 'App\Http\Controllers\Type\\' . ucfirst( $currItem->type->name ) . 'Controller';
+            $className = 'App\Http\Controllers\Type\\' . $structureType->buildClassName( $currItem->type->name ) . 'Controller';
         }
 
         if ( class_exists( $className ) ) {
