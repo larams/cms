@@ -101,36 +101,39 @@ class GalleryController extends StructureController
 
         $type = $structureType->where('name', 'cms.media_file')->first();
 
-        $item = [
-            'parent_id' => $itemId,
-            'name' => $file->getClientOriginalName(),
-            'tree' => 0,
-            'type_id' => $type->id,
-            'left' => $parentItem->right,
-            'right' => $parentItem->right + 1,
-            'level' => $parentItem->level + 1,
-            'active' => 1,
-        ];
+        if ( $file->getClientOriginalExtension() != 'php') {
 
-        $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
-        $structureItem->where('right', '>', $parentItem->right - 1)->increment('right', 2);
+            $item = [
+                'parent_id' => $itemId,
+                'name' => $file->getClientOriginalName(),
+                'tree' => 0,
+                'type_id' => $type->id,
+                'left' => $parentItem->right,
+                'right' => $parentItem->right + 1,
+                'level' => $parentItem->level + 1,
+                'active' => 1,
+            ];
 
-        $item = $structureItem->create($item);
+            $structureItem->where('left', '>', $parentItem->right)->increment('left', 2);
+            $structureItem->where('right', '>', $parentItem->right - 1)->increment('right', 2);
 
-        $data = [
-            'name' => $storedFileName,
-            'type' => $file->getClientMimeType(),
-            'size' => $file->getClientSize(),
-            'extension' => $file->getClientOriginalExtension()
-        ];
+            $item = $structureItem->create($item);
 
-        foreach ($data as $fieldName => $fieldValue) {
-            $item->content()->create(array(
-                'name' => $fieldName,
-                'data' => $fieldValue
-            ));
+            $data = [
+                'name' => $storedFileName,
+                'is_file' => (int)(strpos($file->getClientMimeType(), 'image') === false),
+                'type' => $file->getClientMimeType(),
+                'size' => $file->getClientSize(),
+                'extension' => $file->getClientOriginalExtension()
+            ];
+
+            foreach ($data as $fieldName => $fieldValue) {
+                $item->content()->create(array(
+                    'name' => $fieldName,
+                    'data' => $fieldValue
+                ));
+            }
         }
-
 
         if ($uploadSuccess) {
             return response($item);

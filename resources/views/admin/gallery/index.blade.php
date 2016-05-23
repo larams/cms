@@ -24,7 +24,7 @@
 
     }
 
-    function assignFile(item_id, thumb_url, original_url ) {
+    function assignFile(item_id, thumb_url, original_url) {
 
         if (target.length > 0) {
 
@@ -43,7 +43,7 @@
 
             }
         } else {
-            OpenFile( original_url );
+            OpenFile(original_url);
         }
 
         window.top.close();
@@ -86,92 +86,102 @@
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 
-            @if (count( $folders ) > 0 || count( $files ) > 0)
+        @if (count( $folders ) > 0 || count( $files ) > 0)
 
-                @foreach ( $folders as $k => $mediaItem )
-                    <div class="dz-preview dz-folder-preview">
-                        <div class="dz-details">
+            @foreach ( $folders as $k => $mediaItem )
+                <div class="dz-preview dz-folder-preview">
+                    <div class="dz-details">
 
-                            <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
+                        <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
 
-                            <a href="{{url('admin/gallery/index/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}">
-                                <div class="dz-filename"><span data-dz-name>{{$mediaItem->name}}</span></div>
-                                <span class="fa fa-folder-o thumbnail__icon"></span>
-                            </a>
-                        </div>
+                        <a href="{{url('admin/gallery/index/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}">
+                            <div class="dz-filename"><span data-dz-name>{{$mediaItem->name}}</span></div>
+                            <span class="fa fa-folder-o thumbnail__icon"></span>
+                        </a>
                     </div>
-                @endforeach
+                </div>
+            @endforeach
 
-                @foreach ( $files as $k => $mediaItem )
+            @foreach ( $files as $k => $mediaItem )
 
+                @if ( empty($mediaItem->data->is_file) )
                     <div class="dz-preview dz-image-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{url('media/'. $mediaItem->id . '_120_120.png')}}', '{{url('media/'. $mediaItem->id . '.png')}}' );" @endif>
-                        <div class="dz-image"><img src="{{url('media/'. $mediaItem->id . '_120_120_1.png' )}}" /></div>
+                        <div class="dz-image"><img src="{{url('media/'. $mediaItem->id . '_120_120_1.png' )}}"/></div>
                         <div class="dz-details">
                             <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
                             <div class="dz-filename"><span>{{$mediaItem->name}}</span></div>
                         </div>
                     </div>
+                @else
+                    <div class="dz-preview dz-file-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name  )}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name )}}' );" @endif>
+                        <div class="dz-image">&nbsp;</div>
+                        <div class="dz-details">
+                            <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
+                            <div class="dz-filename"><span>{{$mediaItem->name}}</span></div>
+                        </div>
+                    </div>
+                @endif
 
-                        {{--<div class="col-xs-2 @if ($iteration%6==0)newline@endif">--}}
-    {{--<div class="thumbnail">--}}
-    {{--<div class="clearfix">--}}
-    {{--@if ($media_item.item_data.file_original)--}}
-    {{--@if (isset( $media_url_base.select ))--}}
-    {{--<a onclick="javascript: assignFile( '{{$media_item.item_id}}', '{{$media_item.item_data.file_original.url}}', '{{$media_item.item_data.file_original.url}}', '0', '0' );" class="btn btn-xs btn-primary pull-left">Pasirinkti</a>--}}
-    {{--@endif--}}
-    {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
-    {{--{else}--}}
-    {{--@if (isset( $media_url_base.select ))--}}
-    {{----}}
-    {{--@endif--}}
-    {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
-    {{--@endif--}}
+                {{--<div class="col-xs-2 @if ($iteration%6==0)newline@endif">--}}
+                {{--<div class="thumbnail">--}}
+                {{--<div class="clearfix">--}}
+                {{--@if ($media_item.item_data.file_original)--}}
+                {{--@if (isset( $media_url_base.select ))--}}
+                {{--<a onclick="javascript: assignFile( '{{$media_item.item_id}}', '{{$media_item.item_data.file_original.url}}', '{{$media_item.item_data.file_original.url}}', '0', '0' );" class="btn btn-xs btn-primary pull-left">Pasirinkti</a>--}}
+                {{--@endif--}}
+                {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
+                {{--{else}--}}
+                {{--@if (isset( $media_url_base.select ))--}}
+                {{----}}
+                {{--@endif--}}
+                {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
+                {{--@endif--}}
 
-                @endforeach
+            @endforeach
 
-                    {{--<div class="col-xs-2 @if ($k%6==0)newline @endif">--}}
-                    {{--<div class="thumbnail">--}}
-                    {{--<div class="clearfix">--}}
-                    {{--<a class="btn btn-xs btn-default pull-right " href="">{{__("Delete")}}</a>--}}
-                    {{--</div>--}}
+            {{--<div class="col-xs-2 @if ($k%6==0)newline @endif">--}}
+            {{--<div class="thumbnail">--}}
+            {{--<div class="clearfix">--}}
+            {{--<a class="btn btn-xs btn-default pull-right " href="">{{__("Delete")}}</a>--}}
+            {{--</div>--}}
 
-                    {{----}}
-                    {{--<span class="fa fa-folder-open-o thumbnail__icon"></span><br />--}}
+            {{----}}
+            {{--<span class="fa fa-folder-open-o thumbnail__icon"></span><br />--}}
 
-                    {{--{{$media_item->name}}--}}
-                    {{--</a>--}}
+            {{--{{$media_item->name}}--}}
+            {{--</a>--}}
 
-                    {{--</div>--}}
-                    {{--</div>--}}
+            {{--</div>--}}
+            {{--</div>--}}
 
-    {{--@foreach ( $files as $media_item )--}}
-    {{--<div class="col-xs-2 @if ($iteration%6==0)newline@endif">--}}
-    {{--<div class="thumbnail">--}}
-    {{--<div class="clearfix">--}}
-    {{--@if ($media_item.item_data.file_original)--}}
-    {{--@if (isset( $media_url_base.select ))--}}
-    {{--<a onclick="javascript: assignFile( '{{$media_item.item_id}}', '{{$media_item.item_data.file_original.url}}', '{{$media_item.item_data.file_original.url}}', '0', '0' );" class="btn btn-xs btn-primary pull-left">Pasirinkti</a>--}}
-    {{--@endif--}}
-    {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
-    {{--{else}--}}
-    {{--@if (isset( $media_url_base.select ))--}}
-    {{--<a onclick="javascript: assignFile( '{{$media_item.item_id}}', '{{$media_item.item_data.image_thumb.url}}', '{{$media_item.item_data.image_original.url}}', '{{$media_item.item_data.image_original.width}}', '{{$media_item.item_data.image_original.height}}' );" class="btn btn-xs btn-primary pull-left">Pasirinkti</a>--}}
-    {{--@endif--}}
-    {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
-    {{--@endif--}}
-    {{--</div>--}}
+            {{--@foreach ( $files as $media_item )--}}
+            {{--<div class="col-xs-2 @if ($iteration%6==0)newline@endif">--}}
+            {{--<div class="thumbnail">--}}
+            {{--<div class="clearfix">--}}
+            {{--@if ($media_item.item_data.file_original)--}}
+            {{--@if (isset( $media_url_base.select ))--}}
+            {{--<a onclick="javascript: assignFile( '{{$media_item.item_id}}', '{{$media_item.item_data.file_original.url}}', '{{$media_item.item_data.file_original.url}}', '0', '0' );" class="btn btn-xs btn-primary pull-left">Pasirinkti</a>--}}
+            {{--@endif--}}
+            {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
+            {{--{else}--}}
+            {{--@if (isset( $media_url_base.select ))--}}
+            {{--<a onclick="javascript: assignFile( '{{$media_item.item_id}}', '{{$media_item.item_data.image_thumb.url}}', '{{$media_item.item_data.image_original.url}}', '{{$media_item.item_data.image_original.width}}', '{{$media_item.item_data.image_original.height}}' );" class="btn btn-xs btn-primary pull-left">Pasirinkti</a>--}}
+            {{--@endif--}}
+            {{--<a onclick="return( confirmDelete() );" href="{{url(  _base=$media_url_base CKEditor=$CKEditor CKEditorFuncNum=$CKEditorFuncNum item_id=$_item_curr.item_id hact='del' del_item_id=$media_item.item_id )}}" class="btn btn-xs btn-default pull-right">Ištrinti</a>--}}
+            {{--@endif--}}
+            {{--</div>--}}
 
-    {{--@if (!$media_item.item_data.file_original)--}}
-    {{--<img style="margin-top: 5px;" src="{{$media_item.item_data.image_thumb.url}}"/>--}}
-    {{--@endif--}}
-    {{--<div>{{$media_item.item_name|wordwrap:15:" ":true}}</div>--}}
+            {{--@if (!$media_item.item_data.file_original)--}}
+            {{--<img style="margin-top: 5px;" src="{{$media_item.item_data.image_thumb.url}}"/>--}}
+            {{--@endif--}}
+            {{--<div>{{$media_item.item_name|wordwrap:15:" ":true}}</div>--}}
 
 
-    {{--</div>--}}
-    {{--</div>--}}
-    {{--{assign var="iteration" value=$iteration+1}--}}
-    {{--@endforeach--}}
-    @endif
+            {{--</div>--}}
+            {{--</div>--}}
+            {{--{assign var="iteration" value=$iteration+1}--}}
+            {{--@endforeach--}}
+        @endif
 
     </form>
 
