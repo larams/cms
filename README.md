@@ -2,7 +2,7 @@
 
 Installation: 
 
-- `composer create-project larams/larams --stability dev --repository-url 'http://testit.lt/repo/web/' {{project_folder}}`
+- `composer create-project larams/larams --stability dev --repository-url 'http://repo.devhouse.lt/' {{project_folder}}`
 - Enter project folder and run `composer update`
 - Enter DB logins in `.env` file
 - Uncomment providers in `config/app.php` (somewhere around line 150) 
