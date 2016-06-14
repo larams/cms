@@ -222,4 +222,21 @@ class StructureItem extends \Eloquent
 
         return $this->create($data);
     }
+    
+    public function rebuildTree( $parentId = null, $left = 0 )
+    {
+        $left = $left + 1;
+
+        $items = $this->where('parent_id', $parentId )->orderBy('left')->get();
+        foreach ( $items as $item ) {
+            $item->left = $left;
+            $left = $this->rebuildTree( $item->id, $left );
+            $item->right = $left;
+            $item->save();
+
+            $left++;
+        }
+
+        return $left;
+    }
 }

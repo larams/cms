@@ -265,4 +265,9 @@ class StructureController extends Controller
 
     }
 
+    public function getRebuildTree( StructureItem $structureItem )
+    {
+        $structureItem->rebuildTree( );
+    }
+
 }
