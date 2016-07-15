@@ -2,8 +2,6 @@
 
 namespace Larams\Cms;
 
-//use Illuminate\Database\Eloquent\Model;
-
 /**
  * Class StructureItem
  * @package Larams\Cms
@@ -20,6 +18,13 @@ namespace Larams\Cms;
 class StructureItem extends \Eloquent
 {
 
+    public static $currLang;
+
+    public static $currSite;
+
+    public static $currItem;
+
+    public static $currPath;
 
     protected $table = 'structure_items';
 
@@ -223,14 +228,14 @@ class StructureItem extends \Eloquent
         return $this->create($data);
     }
 
-    public function rebuildTree( $parentId = null, $left = 0 )
+    public function rebuildTree($parentId = null, $left = 0)
     {
         $left = $left + 1;
 
-        $items = $this->where('parent_id', $parentId )->orderBy('created_at')->orderBy('left')->get();
-        foreach ( $items as $item ) {
+        $items = $this->where('parent_id', $parentId)->orderBy('created_at')->orderBy('left')->get();
+        foreach ($items as $item) {
             $item->left = $left;
-            $left = $this->rebuildTree( $item->id, $left );
+            $left = $this->rebuildTree($item->id, $left);
             $item->right = $left;
             $item->save();
 
@@ -238,5 +243,50 @@ class StructureItem extends \Eloquent
         }
 
         return $left;
+    }
+
+    public function getOrSet( $property, $value = null )
+    {
+        if (!is_null( $value )) {
+            static::$$property = $value;
+        }
+
+        return static::$$property;
+    }
+
+    /**
+     * @param null $value
+     * @return StructureItem
+     */
+    public function currLang( $value = null)
+    {
+        return $this->getOrSet('currLang', $value );
+    }
+
+    /**
+     * @param null $value
+     * @return StructureItem
+     */
+    public function currSite( $value = null)
+    {
+        return $this->getOrSet('currSite', $value );
+    }
+
+    /**
+     * @param null $value
+     * @return StructureItem
+     */
+    public function currItem( $value = null)
+    {
+        return $this->getOrSet('currItem', $value );
+    }
+
+    /**
+     * @param null $value
+     * @return StructureItem
+     */
+    public function currPath( $value = null)
+    {
+        return $this->getOrSet('currPath', $value );
     }
 }

@@ -14,20 +14,13 @@ class TypeController extends Controller
 
         $uri = trim( str_replace( env('BASE_URL', ''), '', $request->path() ), '/' );
 
-        $currSite = $structureItem->byTypeName('site')->first();
-
-        // Collect current language
-        list( $languageUri ) = explode('/', $uri );
-        $languageQuery = $structureItem->where('parent_id', $currSite->id )->where('active', 1 )->orderBy('left');
-        if (!empty( $languageUri )) {
-            $languageQuery = $languageQuery->where('uri', $languageUri );
-        }
-        $currLang = $languageQuery->first();
         $currItem = null;
         $currPath = [];
+        $currSite = $structureItem->currSite();
+        $currLang = $structureItem->currLang();
 
         // Collect current item
-        if ( empty( $uri ) || $uri == $languageUri ) {
+        if ( empty( $uri ) || $uri == $currLang->uri ) {
             $className = 'App\Http\Controllers\IndexController';
         } else {
 
@@ -37,35 +30,26 @@ class TypeController extends Controller
             }
 
             $currPath = $structureItem->path( $currItem->left, $currItem->right )->where('active', 1 )->where('left', '>', $currLang->left )->where('right', '<', $currLang->right )->orderBy('left')->get();
+
+            $structureItem->currPath( $currPath );
+            $structureItem->currItem( $currItem );
+
             $className = 'App\Http\Controllers\Type\\' . $structureType->buildClassName( $currItem->type->name ) . 'Controller';
         }
 
         if ( class_exists( $className ) ) {
 
-            $variables = array('currItem', 'currPath', 'currLang', 'currSite');
-
             $methodPrefix = $request->method() == 'POST' ? 'post' : 'get';
             $methodName = $methodPrefix . 'Index';
-
-            $r = new \ReflectionMethod( $className, $methodName );
-            $methodParameters = $r->getParameters();
-
-            $params = [];
-
-            foreach ( $methodParameters as $param ) {
-
-                if ( in_array( $param->getName(), $variables )) {
-                    $params[] = ${$param->getName()};
-                }
-            }
-
             $controller = app()->make( $className );
 
             view()->share( compact('currItem', 'currPath', 'currLang', 'currSite') );
 
-            app()->call( [ $controller, 'beforeAction'], [ $currLang, $currSite, $currPath, $currItem ] );
+            if ( method_exists( $controller, 'beforeAction') ) {
+                app()->call( [ $controller, 'beforeAction'] );
+            }
 
-            return app()->call( [ $controller, $methodName ], $params );
+            return app()->call( [ $controller, $methodName ] );
 
         }
 

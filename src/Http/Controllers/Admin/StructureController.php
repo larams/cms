@@ -201,9 +201,7 @@ class StructureController extends Controller
         $item->fill($rawFormData)->save();
 
         // Update child links
-        if ($item->uri != $rawFormData['uri']) {
-            $structureItem->updateChildUris($item);
-        }
+        $structureItem->updateChildUris($item);
 
         return redirect('admin/' . $this->route . '/index/' . $itemId);
 
