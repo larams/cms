@@ -55,19 +55,25 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
     public function loadStructureData( StructureItem $structureItem )
     {
 
-        // Set current site
-        $currSite = $structureItem->byTypeName('site')->first();
-        $structureItem->currSite( $currSite );
+        if ( \Schema::hasTable('structure_items')) {
 
-        $uri = trim( str_replace( env('BASE_URL', ''), '', request()->path() ), '/' );
-        list( $languageUri ) = explode('/', $uri );
+            // Set current site
+            $currSite = $structureItem->byTypeName('site')->first();
+            $structureItem->currSite($currSite);
 
-        $languageQuery = $structureItem->where('parent_id', $currSite->id )->where('active', 1 )->orderBy('left');
-        if (!empty( $languageUri )) {
-            $languageQuery = $languageQuery->where('uri', $languageUri );
+            if (!empty( $currSite )) {
+
+                $uri = trim(str_replace(env('BASE_URL', ''), '', request()->path()), '/');
+                list($languageUri) = explode('/', $uri);
+
+                $languageQuery = $structureItem->where('parent_id', $currSite->id)->where('active', 1)->orderBy('left');
+                if (!empty($languageUri)) {
+                    $languageQuery = $languageQuery->where('uri', $languageUri);
+                }
+                $currLang = $languageQuery->first();
+                $structureItem->currLang($currLang);
+            }
         }
-        $currLang = $languageQuery->first();
-        $structureItem->currLang( $currLang );
 
     }
 
