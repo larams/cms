@@ -8,7 +8,7 @@
  * @link      https://github.com/talandis/larams
  */
 
-namespace Talandis\Larams;
+namespace Larams\Cms;
 
 require( __DIR__ . '/Helpers/functions.php' );
 
@@ -63,7 +63,7 @@ class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
             app()->setLocale( request()->segment(1) );
         }
 
-        $router->group(['namespace' => 'Talandis\Larams\Http\Controllers'], function ($router) {
+        $router->group(['namespace' => 'Larams\Cms\Http\Controllers'], function ($router) {
             require __DIR__ . '/Http/routes.php';
         });
     }

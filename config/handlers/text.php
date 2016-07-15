@@ -3,7 +3,7 @@
 $config = [
     'properties' => [
         [
-            'class' => 'Talandis\Larams\Property\Rte',
+            'class' => 'Larams\Cms\Property\Rte',
             'name' => 'text',
             'title' => 'Text',
         ],

@@ -1,6 +1,6 @@
 <?php
 
-namespace Talandis\Larams;
+namespace Larams\Cms;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;

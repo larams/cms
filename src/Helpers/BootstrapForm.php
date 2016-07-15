@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Talandis\Larams\Helpers;
+namespace Larams\Cms\Helpers;
 
 class BootstrapForm
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Talandis\Larams;
+namespace Larams\Cms;
 
 class StructureType extends \Eloquent {
 
@@ -11,7 +11,7 @@ class StructureType extends \Eloquent {
 
     public function types()
     {
-        return $this->belongsToMany('Talandis\Larams\StructureType', 'structure_types_relations', 'type_id', 'rel_type_id')->withPivot( ['additional'] );
+        return $this->belongsToMany('Larams\Cms\StructureType', 'structure_types_relations', 'type_id', 'rel_type_id')->withPivot( ['additional'] );
     }
 
     public static function buildClassName( $typeName )

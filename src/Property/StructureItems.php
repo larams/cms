@@ -1,9 +1,9 @@
 <?php
 
-namespace Talandis\Larams\Property;
+namespace Larams\Cms\Property;
 
-use Talandis\Larams\Property;
-use Talandis\Larams\StructureItem;
+use Larams\Cms\Property;
+use Larams\Cms\StructureItem;
 
 class StructureItems extends Property
 {

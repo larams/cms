@@ -1,9 +1,9 @@
 <?php
 
-namespace Talandis\Larams\Http\Controllers\Admin;
+namespace Larams\Cms\Http\Controllers\Admin;
 
-use Talandis\Larams\StructureType;
-use Talandis\Larams\User;
+use Larams\Cms\StructureType;
+use Larams\Cms\User;
 
 class AdministratorController extends Controller
 {

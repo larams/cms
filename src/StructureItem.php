@@ -1,12 +1,12 @@
 <?php
 
-namespace Talandis\Larams;
+namespace Larams\Cms;
 
 //use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class StructureItem
- * @package Talandis\Larams
+ * @package Larams\Cms
  *
  * @method static StructureItem forLang($currentLanguage, $isActive = 1, $inTree = 1)
  * @method static StructureItem byTypeName($typeName)
@@ -31,27 +31,27 @@ class StructureItem extends \Eloquent
 
     public function type()
     {
-        return $this->belongsTo('Talandis\Larams\StructureType', 'type_id');
+        return $this->belongsTo('Larams\Cms\StructureType', 'type_id');
     }
 
     public function childs()
     {
-        return $this->hasMany('Talandis\Larams\StructureItem', 'parent_id');
+        return $this->hasMany('Larams\Cms\StructureItem', 'parent_id');
     }
 
     public function parent()
     {
-        return $this->belongsTo('Talandis\Larams\StructureItem', 'parent_id');
+        return $this->belongsTo('Larams\Cms\StructureItem', 'parent_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('Talandis\Larams\User', 'user_id');
+        return $this->belongsTo('Larams\Cms\User', 'user_id');
     }
 
     public function content()
     {
-        return $this->hasMany('Talandis\Larams\StructureData', 'item_id');
+        return $this->hasMany('Larams\Cms\StructureData', 'item_id');
     }
 
     public function childsOf($itemId)

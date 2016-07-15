@@ -1,9 +1,9 @@
 <?php
 
-namespace Talandis\Larams\Http\Controllers;
+namespace Larams\Cms\Http\Controllers;
 
 use Intervention\Image\ImageManagerStatic as Image;
-use Talandis\Larams\StructureItem;
+use Larams\Cms\StructureItem;
 
 class MediaController extends Controller
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Talandis\Larams\Http\Controllers;
+namespace Larams\Cms\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Talandis\Larams\StructureItem;
-use Talandis\Larams\StructureType;
+use Larams\Cms\StructureItem;
+use Larams\Cms\StructureType;
 
 class TypeController extends Controller
 {

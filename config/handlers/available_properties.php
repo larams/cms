@@ -3,19 +3,19 @@
 $properties = [
 
     [
-        'class' => 'Talandis\Larams\Property\Rte',
+        'class' => 'Larams\Cms\Property\Rte',
         'name' => 'text',
         'title' => 'Text',
     ],
 
     [
-        'class' => 'Talandis\Larams\Property\Text',
+        'class' => 'Larams\Cms\Property\Text',
         'name' => 'single_line_text',
         'title' => 'Text single line'
     ],
 
     [
-        'class' => 'Talandis\Larams\Property\StructureItems',
+        'class' => 'Larams\Cms\Property\StructureItems',
         'name' => 'item_id',
         'title' => 'Element',
         'allowEmpty' => true,
@@ -25,13 +25,13 @@ $properties = [
         'style' => 'SELECT',    // Leave empty for Checkbox/Radio style
     ],
     [
-        'class' => 'Talandis\Larams\Property\Date',
+        'class' => 'Larams\Cms\Property\Date',
         'name' => 'date',
         'title' => 'Date'
     ],
 
     [
-        'class' => 'Talandis\Larams\Property\DoubleText',
+        'class' => 'Larams\Cms\Property\DoubleText',
         'name' => 'doubletext',
         'title' => 'Price',
         'inputs' => [
@@ -52,7 +52,7 @@ $properties = [
 
 
     [
-        'class' => 'Talandis\Larams\Property\Select',
+        'class' => 'Larams\Cms\Property\Select',
         'name' => 'color',
         'title' => 'Color',
         'options' => [
@@ -62,13 +62,13 @@ $properties = [
     ],
 
     [
-        'class' => 'Talandis\Larams\Property\Textarea',
+        'class' => 'Larams\Cms\Property\Textarea',
         'name' => 'simple_text',
         'title' => 'Unformatted text',
     ],
 
     [
-        'class' => 'Talandis\Larams\Property\Image',
+        'class' => 'Larams\Cms\Property\Image',
         'name' => 'image',
         'title' => 'Image',
         'format' => 'png',

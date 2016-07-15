@@ -1,6 +1,6 @@
 <?php
 
-namespace Talandis\Larams\Http\Controllers\Admin;
+namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Talandis\Larams\Http\Controllers\Admin;
+namespace Larams\Cms\Http\Controllers\Admin;
 
-use Talandis\Larams\StructureItem;
-use Talandis\Larams\StructureType;
-use Talandis\Larams\Utils;
+use Larams\Cms\StructureItem;
+use Larams\Cms\StructureType;
+use Larams\Cms\Utils;
 
 class StructureController extends Controller
 {
@@ -64,7 +64,7 @@ class StructureController extends Controller
                     throw new \ErrorException('Property doesn\'t have name');
                 }
 
-                /** @var \Talandis\Larams\Property $property */
+                /** @var \Larams\Cms\Property $property */
                 $property = new $propertyConfig['class'];
                 $property->setConfiguration($propertyConfig);
                 $property->setItem($currentItem);
@@ -159,7 +159,7 @@ class StructureController extends Controller
                     throw new \ErrorException('Property doesn\'t have name');
                 }
 
-                /** @var \Talandis\Larams\Property $property */
+                /** @var \Larams\Cms\Property $property */
                 $property = new $propertyConfig['class'];
                 $property->setConfiguration($propertyConfig);
 

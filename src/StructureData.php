@@ -1,10 +1,10 @@
 <?php
 
-namespace Talandis\Larams;
+namespace Larams\Cms;
 
 /**
  * Class StructureData
- * @package Talandis\Larams
+ * @package Larams\Cms
  *
  */
 
@@ -17,7 +17,7 @@ class StructureData extends \Eloquent
 
     public function item()
     {
-        return $this->belongsTo('Talandis\Larams\StructureItem', 'item_id');
+        return $this->belongsTo('Larams\Cms\StructureItem', 'item_id');
     }
 
     public function getDataAttribute()

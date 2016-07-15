@@ -1,8 +1,8 @@
 <?php
 
-namespace Talandis\Larams\Property;
+namespace Larams\Cms\Property;
 
-use Talandis\Larams\Property;
+use Larams\Cms\Property;
 
 class Text extends Property
 {

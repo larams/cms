@@ -1,8 +1,8 @@
 <?php
 
-namespace Talandis\Larams\Http\Controllers\Admin;
+namespace Larams\Cms\Http\Controllers\Admin;
 
-use Talandis\Larams\StructureType;
+use Larams\Cms\StructureType;
 
 class TypeController extends Controller
 {

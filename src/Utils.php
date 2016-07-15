@@ -1,6 +1,6 @@
 <?php
 
-namespace Talandis\Larams;
+namespace Larams\Cms;
 
 class Utils
 {
