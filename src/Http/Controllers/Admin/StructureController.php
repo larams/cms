@@ -65,7 +65,7 @@ class StructureController extends Controller
                 }
 
                 /** @var \Larams\Cms\Property $property */
-                $property = new $propertyConfig['class'];
+                $property = new $propertyConfig['class']( $structureItem );
                 $property->setConfiguration($propertyConfig);
                 $property->setItem($currentItem);
 
@@ -160,7 +160,7 @@ class StructureController extends Controller
                 }
 
                 /** @var \Larams\Cms\Property $property */
-                $property = new $propertyConfig['class'];
+                $property = new $propertyConfig['class']( $structureItem );
                 $property->setConfiguration($propertyConfig);
 
                 $additionalFieldsData[$propertyConfig['name']] = $property->getFormData($rawFormData['data']);

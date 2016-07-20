@@ -1,6 +1,8 @@
 <div class="clearfix">
 
-    <img style="margin-bottom: 10px;" id="property_{{$name}}_thumb" src="@if (!empty( $item->data->$name )){{url('media/'. $item->data->{$name}->id . '_120_120.png')}}@else{{asset('img/admin/folder.gif')}}@endif" />
+    @if (!empty( $item->data->$name ))
+    <img style="margin-bottom: 10px;" id="property_{{$name}}_thumb" src="{{url('media/'. $item->data->{$name}->id . '_120_120.png')}}" />
+    @endif
     <input name="data[{{$name}}]" type="hidden" id="property_{{$name}}_value" value="@if (!empty( $item->data->$name )){{$item->data->{$name}->id}}@endif" />
 
 
@@ -20,7 +22,7 @@
     @endif
 
     <!-- target={{$name}} -->
-    <a class="btn btn-xs btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name )}}', 'image-{{$name}}', 'width=900,height=600' ); return false;">{{__("Choose image")}}</a>
+    <a class="btn btn-xs btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name )}}', 'image-{{$name}}', 'width=900,height=600' ); return false;"> <span class="fa fa-file-o"></span> {{__("Choose image")}}</a>
 </div>
 
 {{--

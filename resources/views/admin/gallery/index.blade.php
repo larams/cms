@@ -113,7 +113,7 @@
                         </div>
                     </div>
                 @else
-                    <div class="dz-preview dz-file-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name  )}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name )}}' );" @endif>
+                    <div class="dz-preview dz-file-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{$mediaItem->name.'.'.$mediaItem->extension}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name.'.'.$mediaItem->extension )}}' );" @endif>
                         <div class="dz-image">&nbsp;</div>
                         <div class="dz-details">
                             <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>

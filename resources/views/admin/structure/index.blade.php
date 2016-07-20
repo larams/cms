@@ -72,12 +72,9 @@
             @endif
 
             <h2 class="pull-left">{{$currentItem->name}}</h2>
-            @if ( count( $treeChilds ) || count( $extraChilds ) )
-                <a class="btn btn-xs btn-primary pull-right edit-link" href="#edit-item"><i class="fa fa-pencil fa-selected"></i> <?=__("Edit");?></a>
-            @endif
             <div class="clearfix"></div>
 
-            <div id="edit-item" @if ( count( $treeChilds ) || count( $extraChilds ) )class="hidden"@endif>
+            <div id="edit-item">
                 @if ($currentItem->level > 3 || $isDeveloper)
                     <form class="mt20 form" action="{{url('admin/structure/save/' . $currentItem->id )}}" enctype="multipart/form-data" method="post" name="doing_stuff_with_content">
                         <fieldset>
