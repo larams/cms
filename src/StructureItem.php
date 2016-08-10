@@ -154,14 +154,16 @@ class StructureItem extends \Eloquent
     public function scopeWhereData($query, $key, $operator = '=', $value = null)
     {
 
+        $alias = uniqid();
+
         if (is_null($value)) {
             $value = $operator;
             $operator = '=';
         }
 
-        return $query->leftJoin('structure_data', 'structure_items.id', '=', 'structure_data.item_id')
-            ->where('structure_data.name', $key)
-            ->where('structure_data.data', $operator, $value)
+        return $query->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=',  $alias . '.item_id')
+            ->where( $alias . '.name', $key)
+            ->where( $alias . '.data', $operator, $value)
             ->select(['structure_items.*']);
     }
 
