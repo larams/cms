@@ -14,6 +14,8 @@ class StructureItems extends Property
 
     protected $typeName = 'site';
 
+    protected $childTypeName = null;
+
     protected $style = null;
 
     protected $firstLevel = false;
@@ -30,10 +32,16 @@ class StructureItems extends Property
         $topLevelItem = $structureItems->byTypeName($this->typeName)->first();
 
         if (!empty($this->firstLevel)) {
-            $childs = $structureItems->where('parent_id', $topLevelItem->id)->get();
+            $childs = $structureItems->where('parent_id', $topLevelItem->id);
         } else {
-            $childs = $structureItems->where('left', '>', $topLevelItem->left)->where('right', '<', $topLevelItem->right)->orderBy('left')->get();
+            $childs = $structureItems->where('left', '>', $topLevelItem->left)->where('right', '<', $topLevelItem->right)->orderBy('left');
         }
+
+        if (!empty($this->childTypeName)) {
+            $childs = $childs->byTypeName( $this->childTypeName );
+        }
+
+        $childs = $childs->get();
 
         $value = isset($this->item->data->{$this->name}) ? $this->item->data->{$this->name} : null;
 
@@ -55,6 +63,7 @@ class StructureItems extends Property
         $configuration = array(
             'cssClass' => $this->cssClass,
             'typeName' => $this->typeName,
+            'childTypeName' => $this->childTypeName,
             'style' => $this->style,
             'firstLevel' => $this->firstLevel,
             'multiple' => $this->multiple,
