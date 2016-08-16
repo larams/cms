@@ -46,12 +46,36 @@ class StructureController extends Controller
 
         }
 
-        $treeChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1)->orderBy('left')->get();
-        $extraChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0)->orderBy('left')->get();
+        $typeConfiguration = array_merge(config('larams.handler'), (array)config('larams.handlers.' . $currentItem->type->handler), (array)config('handlers.' . $currentItem->type->handler));
+
+        $treeChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1);
+        $extraChilds = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0);
+
+        if (!empty( $typeConfiguration['child_tree_sort_column'])) {
+            if (!empty( $typeConfiguration['child_tree_sort_type']) && $typeConfiguration['child_tree_sort_type'] == 'DATA') {
+                $treeChilds = $treeChilds->orderByData($typeConfiguration['child_tree_sort_column'], !empty( $typeConfiguration['child_tree_sort_direction']) ? $typeConfiguration['child_tree_sort_direction'] : 'ASC');
+            } else {
+                $treeChilds = $treeChilds->orderBy($typeConfiguration['child_tree_sort_column'], !empty( $typeConfiguration['child_tree_sort_direction']) ? $typeConfiguration['child_tree_sort_direction'] : 'ASC');
+            }
+        } else {
+            $treeChilds = $treeChilds->orderBy('left');
+        }
+
+        if (!empty( $typeConfiguration['child_sort_column'])) {
+            if (!empty( $typeConfiguration['child_sort_type']) && $typeConfiguration['child_sort_type'] == 'DATA') {
+                $extraChilds = $extraChilds->orderByData($typeConfiguration['child_sort_column'], !empty( $typeConfiguration['child_sort_direction']) ? $typeConfiguration['child_sort_direction'] : 'ASC');
+            } else {
+                $extraChilds = $extraChilds->orderBy($typeConfiguration['child_sort_column'], !empty( $typeConfiguration['child_sort_direction']) ? $typeConfiguration['child_sort_direction'] : 'ASC');
+            }
+        } else {
+            $extraChilds = $extraChilds->orderBy('left');
+        }
+
+
+        $treeChilds = $treeChilds->get();
+        $extraChilds = $extraChilds->get();
 
         $types = $structureType->orderBy('name_lang')->get();
-
-        $typeConfiguration = array_merge(config('larams.handler'), (array)config('larams.handlers.' . $currentItem->type->handler), (array)config('handlers.' . $currentItem->type->handler));
 
         $treeTypes = $currentItem->type()->first()->types()->where('additional', 0)->get();
         $extraTypes = $currentItem->type()->first()->types()->where('additional', 1)->get();

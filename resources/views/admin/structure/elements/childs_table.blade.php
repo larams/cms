@@ -1,7 +1,7 @@
 <table class="table table-striped table-condensed table-sortable" data-url="{{url( 'admin/structure/sort/' . $currentItem->id )}}">
     <thead>
     <tr>
-        @if (!empty($typeConfiguration['child_item_sorting']))
+        @if (!empty( $sorting ))
             <th>&nbsp;</th>
         @endif
         <th>{{__("Title")}}</th>
@@ -12,7 +12,7 @@
     <tbody>
     @foreach ( $childs as $item )
         <tr id="item_{{$item->id}}">
-            @if (!empty($typeConfiguration['child_item_sorting']))
+            @if (!empty( $sorting ))
                 <td class="sort-column">
                     <a href="#">
                         <span class="fa fa-align-justify"></span>

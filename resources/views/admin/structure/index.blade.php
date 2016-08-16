@@ -45,14 +45,10 @@
                     });
                 });
             </script>
-
         </div>
-
     </div><!--/span-->
     <div class="col-xs-9 col-xs-offset-3">
-
         <div class="mt20 mb20">
-
             @if ( count( $currentPath )  > 1)
                 <ul class="breadcrumb">
                     @foreach ( $currentPath as $pathItem )
@@ -75,56 +71,38 @@
             <div class="clearfix"></div>
 
             @if ( count( $treeChilds ) )
-
                 @if ( !empty($typeConfiguration['child_tree_items_list_title']) )
                     <h3>{{__($typeConfiguration['child_tree_items_list_title'])}}</h3>
                 @endif
-
-                @include('larams::admin.structure.elements.childs_table', ['childs' => $treeChilds ] )
-
+                @include('larams::admin.structure.elements.childs_table', ['childs' => $treeChilds, 'sorting' => !empty( $typeConfiguration['child_tree_item_sorting'] ) ] )
             @endif
 
-
-                @if ( count( $treeTypes ) )
-
-                    @include('larams::admin.structure.elements.childs_form', [ 'types' => $treeTypes, 'tree' => 1, 'title' => !empty( $typeConfiguration['child_tree_item_create_title'] ) ? __($typeConfiguration['child_tree_item_create_title']) : __("Add new tree item") ] )
-
-                @endif
+            @if ( count( $treeTypes ) )
+                @include('larams::admin.structure.elements.childs_form', [ 'types' => $treeTypes, 'tree' => 1, 'title' => !empty( $typeConfiguration['child_tree_item_create_title'] ) ? __($typeConfiguration['child_tree_item_create_title']) : __("Add new tree item") ] )
+            @endif
 
             @if ( count( $extraChilds ) )
-
                 @if ( !empty($typeConfiguration['child_items_list_title']) )
                     <h3>{{__($typeConfiguration['child_items_list_title'])}}</h3>
                 @endif
-
-                @include('larams::admin.structure.elements.childs_table', ['childs' => $extraChilds ] )
-
+                @include('larams::admin.structure.elements.childs_table', ['childs' => $extraChilds, 'sorting' => !empty( $typeConfiguration['child_item_sorting'] ) ] )
             @endif
-
 
             @if ( count( $extraTypes ) )
-
                 @include('larams::admin.structure.elements.childs_form', [ 'types' => $extraTypes, 'tree' => 0, 'title' => !empty( $typeConfiguration['child_item_create_title'] ) ? __($typeConfiguration['child_item_create_title']) : __("Add new item") ] )
-
             @endif
-
                 <div id="edit-item">
                     @if ($currentItem->level > 3 || $isDeveloper)
                         <form class="mt20 form" action="{{url('admin/structure/save/' . $currentItem->id )}}" enctype="multipart/form-data" method="post" name="doing_stuff_with_content">
                             <fieldset>
-
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
-
                                 {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => __('Title') ] ) !!}
     {{--                            {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => __('Link') ] ) !!}--}}
-
                                 @if ( !empty( $isDeveloper ) )
                                     {!! BootstrapForm::select( ['name' => 'type_id', 'value' => $currentItem->type_id, 'title' => __('Type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}
                                 @endif
-
                                 @if ( !empty( $typeConfiguration['properties'] ) )
                                     @foreach ( $typeConfiguration['properties'] as $property )
-
                                         <div class="form-group">
                                             <label class="control-label" for="{{$property['name']}}">
                                                 @if (!empty( $property['title'] ) ) {{__( $property['title'] )}}
@@ -138,24 +116,17 @@
                                                 {!! $property['html'] !!}
                                             </div>
                                         </div>
-
                                     @endforeach
                                 @endif
-
                                 <div class="form-group">
-
                                     <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
                                     <a class="btn btn-default edit-cancel-link" href="#edit-item">{{__('Cancel')}}</a>
-
                                 </div>
-
                             </fieldset>
                         </form>
                     @endif
                 </div>
-
         </div>
-
     </div>
 </div>
 
