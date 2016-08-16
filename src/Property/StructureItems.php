@@ -14,6 +14,8 @@ class StructureItems extends Property
 
     protected $typeName = 'site';
 
+    protected $topLevelId = null;
+
     protected $childTypeName = null;
 
     protected $style = null;
@@ -29,7 +31,11 @@ class StructureItems extends Property
 
         $structureItems = new StructureItem();
 
-        $topLevelItem = $structureItems->byTypeName($this->typeName)->first();
+        if (!empty( $this->topLevelId )) {
+            $topLevelItem = $structureItems->find( $this->topLevelId );
+        } else {
+            $topLevelItem = $structureItems->byTypeName($this->typeName)->first();
+        }
 
         if (!empty($this->firstLevel)) {
             $childs = $structureItems->where('parent_id', $topLevelItem->id);
