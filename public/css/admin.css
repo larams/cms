@@ -1,7 +1,7 @@
 html,
 body {
   height: 100%;
-  font-family: "Roboto";
+  font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
 }
 .btn-primary {
   background: #1caf9a;

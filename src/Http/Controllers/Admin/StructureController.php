@@ -148,9 +148,9 @@ class StructureController extends Controller
         }
 
 
-        $structureItem->create($item);
+        $item = $structureItem->create($item);
 
-        return redirect('admin/' . $this->route . '/index/' . $itemId);
+        return redirect('admin/' . $this->route . '/index/' . $item->id );
 
 
     }
