@@ -21,7 +21,7 @@
         <tbody>
         @foreach ( $keywords as $keyword )
             <tr>
-                <td><a href="{{url('admin/translations/edit/', [ $keyword->id ] )}}" title="">{{$keyword->keyword}}</a></td>
+                <td><a href="{{url('admin/translations/edit', [ $keyword->id ] )}}" title="">{{$keyword->keyword}}</a></td>
                 @foreach ( $languages as $language )
                     <td>
                         @if (!empty($keyword->lang_value[ $language->id ]))
@@ -30,7 +30,7 @@
                     </td>
                 @endforeach
                 <td class="actions">
-                    <a href="{{url( 'admin/translations/edit/', [ $keyword->id ] )}}" class="btn btn-xs btn-default">{{__("Edit")}}</a>
+                    <a href="{{url( 'admin/translations/edit', [ $keyword->id ] )}}" class="btn btn-xs btn-default">{{__("Edit")}}</a>
                     &nbsp;<a onclick="return( confirmDelete() );" class="btn btn-xs btn-danger" href="{{url('admin/translations/delete', [ $keyword->id ] )}}" title="Trinti elementą">{{__("Delete")}}</a>
                 </td>
             </tr>
