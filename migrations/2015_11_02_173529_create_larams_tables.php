@@ -74,14 +74,20 @@ class CreateLaramsTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('translations', function( Blueprint $table ) {
+        Schema::create('translation_keywords', function( Blueprint $table ) {
 
             $table->increments('id');
-            $table->unsignedInteger('item_id');
-            $table->char('keyword');
-            $table->text('value');
+            $table->text('keyword');
             $table->timestamps();
 
+        });
+
+        Schema::create('translation_values', function( Blueprint $table ) {
+            $table->increments('id');
+            $table->unsignedInteger('keyword_id');
+            $table->unsignedInteger('language_id');
+            $table->text('value');
+            $table->timestamps();
         });
 
     }
