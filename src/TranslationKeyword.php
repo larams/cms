@@ -34,6 +34,7 @@ class TranslationKeyword extends \Eloquent
         $translations = $this
             ->leftJoin('translation_values', 'translation_keywords.id', '=', 'translation_values.keyword_id')
             ->where('translation_values.language_id', '=', $language->id )
+            ->where('translation_values.value', '!=', '')
             ->lists('value', 'keyword');
 
         return $translations->toArray();
