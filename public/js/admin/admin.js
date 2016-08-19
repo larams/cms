@@ -4,26 +4,37 @@ function confirmDelete() {
 
 }
 
-function deleteRow( event )
-{
-
-    if ( confirmDelete() ) {
-
-        var element = $( event.currentTarget );
-
-        $('#loader').show();
-
-        $.get( element.attr('href'), function() {
-            element.parents('tr').remove();
-            $('#loader').hide();
-        } );
-
-    }
-
-    return false;
-}
-
 $(document).ready(function () {
+
+    $('.delete-row-link').click( function( e ) {
+
+        if ( confirmDelete() ) {
+
+            var element = $( e.currentTarget );
+
+            $('#loader').show();
+
+            $.get( element.attr('href'), function() {
+
+                var table = element.parents('tbody');
+
+                element.parents('tr').remove();
+
+                if ( table.find('tr').length == 0) {
+                    table.parents('table').remove();
+                }
+
+                $('#loader').hide();
+            } );
+
+        }
+
+        return false;
+    });
+
+    $('.edit-row-link').click( function() {
+        $('#loader').show();
+    });
 
     $('.table-sortable tbody').sortable({
         handler: '.fa-align-justify',
