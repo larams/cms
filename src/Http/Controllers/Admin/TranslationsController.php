@@ -4,10 +4,8 @@ namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use Larams\Cms\StructureItem;
-use Larams\Cms\StructureType;
 use Larams\Cms\TranslationKeyword;
 use Larams\Cms\TranslationValue;
-use Larams\Cms\User;
 
 class TranslationsController extends Controller
 {
