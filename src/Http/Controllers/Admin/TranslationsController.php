@@ -75,11 +75,11 @@ class TranslationsController extends Controller
         return redirect('admin/' . $this->route );
     }
 
-    public function getDelete( User $user, $id )
+    public function getDelete( TranslationKeyword $translationKeyword, TranslationValue $translationValue, $id )
     {
 
-        $item = $user->find( $id );
-        $item->delete();
+        $translationKeyword->where('id', $id )->delete();
+        $translationValue->where('keyword_id', $id )->delete();
 
         return redirect('admin/' . $this->route );
 
