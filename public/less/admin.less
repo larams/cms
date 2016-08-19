@@ -1,6 +1,6 @@
 
 @blue: #00A0D1;
-@green: #1caf9a;
+@green: #2CD276;
 
 html, body {
     height: 100%;
@@ -11,9 +11,11 @@ html, body {
     background: @green;
     border: @green;
 
+    &:active,
+    &:focus,
     &:hover {
-        background: #3a9c95;
-        border: #3a9c95;
+        background: #008e39;
+        border: #008e39;
     }
 }
 
@@ -29,6 +31,26 @@ html, body {
 
 a {
     color: @green;
+
+    &:hover {
+        color: #008e39;
+    }
+}
+
+.well {
+
+    background: #F7FAF9;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 0;
+    -webkit-border-radius:0;
+    -moz-border-radius:0;
+    border-radius:0;
+
+    h3 {
+        margin-top: 0;
+    }
 }
 
 .container {
@@ -44,7 +66,7 @@ a {
 
 .sidebar {
     height: 100%;
-    background: #364150;
+    background: #F7FAF9;
     padding-left: 0;
     padding-right: 0;
     overflow: hidden;
@@ -85,6 +107,7 @@ a {
 
 .control-label {
     text-transform: uppercase;
+    color: #626965;
 }
 
 .login-layout {
@@ -140,14 +163,14 @@ a {
 }
 
 .navbar-default {
-    background-color: #2b3643;
-    border-color: transparent;
+    background-color: #F2F5F4;
+    border-bottom: 1px solid #E6EBE9;
 
     .navbar-brand {
-        color: #fff;
+        color: #626965;
 
         &:hover {
-            color: #CCEAF3;
+            color: #626965;
         }
     }
 
@@ -155,16 +178,15 @@ a {
         > li {
 
             &.divider-before {
-                border-left: 1px solid #38414c;
+                border-left: 1px solid #E6EBE9;
             }
 
             > a {
-                color: #BCC2CB;
+                color: #626965;
                 text-shadow: none;
 
                 &:hover {
-                    color: #ffffff;
-                    background: #55616f;
+                    color: @green;
                 }
             }
 
@@ -172,7 +194,7 @@ a {
                   float: none;
                   padding: 15px;
                   line-height: 19px;
-                  color: #BCC2CB;
+                  color: #626965;
                   text-decoration: none;
                   text-shadow: none;
                   display: block;
@@ -235,8 +257,13 @@ h1,h2,h3,h4 {
     font-weight: normal;
 }
 
-.breadcrumb .divider {
-    padding: 9px 5px;
+.breadcrumb {
+    background: #fff;
+    padding: 0;
+
+    .divider {
+        padding: 9px 5px;
+    }
 }
 
 .widgets {}
@@ -345,11 +372,11 @@ select.mini {
         &.active {
             > a {
                 color: #fff;
-                background: #1caf9a;
+                background: @green;
 
                 &:hover {
                     color: #fff;
-                    background: #1caf9a;
+                    background: @green;
                 }
             }
         }

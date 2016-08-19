@@ -1,4 +1,4 @@
-<a class="btn btn-xs btn-default" data-toggle="modal" href="#create_child_item_<?=$tree;?>"><i class="fa fa-plus-circle"></i>
+<a class="btn btn-xs btn-primary" data-toggle="modal" href="#create_child_item_<?=$tree;?>"><i class="fa fa-plus-circle"></i>
     {{$title}}
 </a>
 

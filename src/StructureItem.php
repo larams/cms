@@ -234,7 +234,7 @@ class StructureItem extends \Eloquent
     {
         $left = $left + 1;
 
-        $items = $this->where('parent_id', $parentId)->orderBy('created_at')->orderBy('left')->get();
+        $items = $this->where('parent_id', $parentId)->orderBy('left')->orderBy('created_at')->get();
         foreach ($items as $item) {
             $item->left = $left;
             $left = $this->rebuildTree($item->id, $left);
