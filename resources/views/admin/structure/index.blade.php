@@ -141,7 +141,6 @@
                             @endif
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
-                                <a class="btn btn-default edit-cancel-link" href="#edit-item">{{__('Cancel')}}</a>
                             </div>
                         </fieldset>
                     </form>

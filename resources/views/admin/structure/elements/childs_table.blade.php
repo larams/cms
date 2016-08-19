@@ -27,8 +27,8 @@
                         {{__("Visible")}} @else {{__("Hidden")}} @endif </a>
             </td>
             <td class="actions">
-                <a href="{{url(  '/admin/structure/index/' . $item->id )}}" title="{{$item->name}}" class="btn btn-xs btn-default">{{__("Edit")}}</a>
-                &nbsp;<a onclick="return( confirmDelete() );" href="{{url( '/admin/structure/delete/' . $currentItem->id . '/'. $item->id )}}" class="btn btn-xs btn-default">{{__("Delete")}}</a>
+                <a href="{{url(  '/admin/structure/index/' . $item->id )}}" title="{{$item->name}}" class="btn btn-xs btn-default edit-row-link">{{__("Edit")}}</a>
+                &nbsp;<a href="{{url( '/admin/structure/delete/' . $currentItem->id . '/'. $item->id )}}" class="btn btn-xs btn-default delete-row-link">{{__("Delete")}}</a>
             </td>
         </tr>
     @endforeach

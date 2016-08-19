@@ -162,7 +162,7 @@ class StructureController extends Controller
         $item = $structureItem->find($delItemId);
         $item->delete();
 
-        return redirect('admin/' . $this->route . '/index/' . $itemId);
+        return response('OK');
 
     }
 

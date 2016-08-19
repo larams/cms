@@ -4,6 +4,25 @@ function confirmDelete() {
 
 }
 
+function deleteRow( event )
+{
+
+    if ( confirmDelete() ) {
+
+        var element = $( event.currentTarget );
+
+        $('#loader').show();
+
+        $.get( element.attr('href'), function() {
+            element.parents('tr').remove();
+            $('#loader').hide();
+        } );
+
+    }
+
+    return false;
+}
+
 $(document).ready(function () {
 
     $('.table-sortable tbody').sortable({
