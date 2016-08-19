@@ -306,7 +306,7 @@ class StructureController extends Controller
         $newLeft = $parent->left+1;
         $elementInPosition = $structureItem->byParentId( $parent->id )->offset( $data['position']-1 )->first();
         if (!empty( $elementInPosition )) {
-            $newLeft = $elementInPosition->left;
+            $newLeft = $elementInPosition->right + 1;
         }
 
         $distance = $newLeft - $element->left;
