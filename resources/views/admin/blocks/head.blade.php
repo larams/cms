@@ -10,7 +10,7 @@
     <script type="text/javascript" src="{{bower('bootstrap/dist/js/bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{bower('dropzone/dist/dropzone.js')}}"></script>
     <script type="text/javascript" src="{{bower('jstree/dist/jstree.min.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/admin/admin.js')}}"></script>
+    <script type="text/javascript" src="{{asset('vendor/larams/js/admin/admin.js')}}"></script>
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700" rel="stylesheet" type="text/css">
     <link href="{{bower('bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet"/>
@@ -18,8 +18,8 @@
     <link href="{{bower('jstree/dist/themes/default/style.css')}}" rel="stylesheet" />
     <link href="{{bower('dropzone/dist/basic.css')}}" rel="stylesheet" />
     <link href="{{bower('dropzone/dist/dropzone.css')}}" rel="stylesheet" />
-    <link href="{{asset('css/jstree/style.css')}}" rel="stylesheet" />
-    <link href="{{asset('css/admin.css')}}" rel="stylesheet">
+    <link href="{{asset('vendor/larams/css/jstree/style.css')}}" rel="stylesheet" />
+    <link href="{{asset('vendor/larams/css/admin.css')}}" rel="stylesheet">
 
     <script type="text/javascript">
         $.ajaxSetup({
