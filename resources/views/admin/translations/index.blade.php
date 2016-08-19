@@ -1,54 +1,42 @@
-<h2 class="pull-left">Vertimai</h2>
+<div class="mt20">
+    <h2 class="pull-left">{{__("Translations")}}</h2>
+    <form class="pull-right form-inline" action="{{url( 'admin/translations/add' )}}" method="post">
+        {!! csrf_field() !!}
+        {{__("Keyword")}}: <input type="text" name="title" class="form-control" value=""/>
+        <button type="submit" class="btn btn-primary">{{__("Create")}}</button>
+    </form>
+    <div class="clearfix"></div>
 
-<form class="pull-right form-inline" action="{{url(  act='translations.add' )}}" method="post">
-    Raktažodis: <input type="text" name="title" class="form-control" value="" />
-    <button type="submit" class="btn btn-primary">Sukurti</button>
-</form>
 
-<div class="clearfix"></div>
+    <table class="table table-striped table-condensed mt20">
+        <thead>
+        <tr>
+            <th>{{__("Keyword")}}</th>
+            @foreach ( $languages as $language )
+                <th>{{$language->name}}</th>
+            @endforeach
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach ( $keywords as $keyword )
+            <tr>
+                <td><a href="{{url('admin/translations/edit/', [ $keyword->id ] )}}" title="">{{$keyword->keyword}}</a></td>
+                @foreach ( $languages as $language )
+                    <td>
+                        @if (!empty($keyword->lang_value[ $language->id ]))
+                            {{$keyword->lang_value[ $language->id ]}}
+                        @endif
+                    </td>
+                @endforeach
+                <td class="actions">
+                    <a href="{{url( 'admin/translations/edit/', [ $keyword->id ] )}}" class="btn btn-xs btn-default">{{__("Edit")}}</a>
+                    &nbsp;<a onclick="return( confirmDelete() );" class="btn btn-xs btn-danger" href="{{url('admin/translations/delete', [ $keyword->id ] )}}" title="Trinti elementą">{{__("Delete")}}</a>
+                </td>
+            </tr>
+        @endforeach
+        </tbody>
+    </table>
 
 
-			<table class="table table-striped table-condensed mt20">
-			     <thead>
-				<tr>
-					<th>Raktažodis</th>
-					@foreach (from=$languages item="language")
-					<th>{{$language.item_name}}</th>
-					@endforeach
-					<th>&nbsp;</th>
-				</tr>
-				</thead>
-				<tbody>
-				@foreach (from=$keywords name="keywords" item="item")
-					<tr>
-						<td><a href="{{url(  id=$item.keyword act='translations.edit' )}}" title="">{{$item.keyword}}</a></td>
-						@foreach (from=$languages item="language")
-				        <td>
-				            {assign var="values" value=$item.values}
-				            {assign var="lang_id" value=$language.item_id}
-				            {{$values.$lang_id}}
-				        </td>
-				        @endforeach
-						<td class="actions">
-							<a href="{{url(  id=$item.keyword act='translations.edit' )}}" class="btn btn-xs btn-default">redaguoti</a>
-							&nbsp;<a onclick="return( confirmDelete() );" class="btn btn-xs btn-danger" href="{{url(  id=$item.keyword act='translations.delete' )}}" title="Trinti elementą">ištrinti</a>
-						</td>
-					</tr>
-				@endforeach
-				</tbody>
-
-				{*if $pageCount > 1}
-				<tr>
-					<th colspan="4">
-						<ul class="pages fr">
-							@if ($currPage > 1)<li><a href="{{url(  act='registrations' page=$currPage-1 )}}">Ankstesnis</a></li>@endif
-							{section name="pages" loop=$pageCount step=1}
-							<li><a href="{{url(  act='registrations' page=$smarty.section.pages.iteration )}}">{{$smarty.section.pages.iteration}}</a></li>
-							{/section}
-							@if ($currPage < $pageCount)<li><a href="{{url(  act='registrations' page=$currPage+1 )}}">Kitas</a></li>@endif
-						</ul>
-						<div class="clr"></div>
-					</th>
-				</tr>
-				{/if*}
-			</table>
+</div>

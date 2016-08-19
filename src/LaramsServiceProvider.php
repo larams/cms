@@ -13,8 +13,9 @@ namespace Larams\Cms;
 require( __DIR__ . '/Helpers/functions.php' );
 
 use \Illuminate\Routing\Router;
+use Illuminate\Support\ServiceProvider;
 
-class LaramsServiceProvider extends \Illuminate\Support\ServiceProvider
+class LaramsServiceProvider extends ServiceProvider
 {
 
     /**

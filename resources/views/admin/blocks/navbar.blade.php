@@ -14,9 +14,10 @@
             <ul class="nav navbar-nav">
                 <li><a href="{{url('admin/structure')}}">{{__('Content')}}</a></li>
                 <li><a href="{{url('admin/gallery')}}">{{__('Gallery')}}</a></li>
-{{--                <li><a href="{{url('admin/translations')}}">{{__('Translations')}}</a></li>--}}
+                <li><a href="{{url('admin/translations')}}">{{__('Translations')}}</a></li>
                 <li><a href="{{url('admin/administrators')}}">{{__('Administrators')}}</a></li>
                 <li @if (request()->is('admin/types/*')) class="active" @endif><a href="{{url('admin/types')}}">{{__('Content Types')}}</a></li>
+                @include('larams::admin.blocks.navbar_extra')
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

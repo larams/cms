@@ -25,6 +25,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
             Route::controller('gallery', 'GalleryController');
             Route::controller('types', 'TypeController');
             Route::controller('administrators', 'AdministratorController');
+            Route::controller('translations', 'TranslationsController');
 
         });
 
