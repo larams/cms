@@ -18,7 +18,7 @@
 <div class="loader" style="display: none;" id="loader">
     <div class="loader-backdrop">&nbsp;</div>
     <div class="loader-content">
-        <img src="/img/admin/loading.gif" />
+        <img src="{{asset('vendor/larams/img/admin/loading.gif')}}" />
         <div>{{__("Loading")}}</div>
     </div>
 </div>
