@@ -295,46 +295,11 @@ class StructureController extends Controller
         $element = $structureItem->find( $data['id']);
         $language = $structureItem->path($element->left, $element->right)->offset( 1 )->take( 1 )->first();
 
-        if ( $data['parent'] == '#' || $data['old_parent'] == '#' ) {
+        if ( $data['parent'] == '#' ) {
             $data['parent'] = str_replace('#', $language->id, $data['parent'] );
-            $data['old_parent'] = str_replace('#', $language->id, $data['old_parent'] );
         }
 
-        $parent = $structureItem->find( $data['parent'] );
-        $elementWidth = $element->right - $element->left + 1;
-
-        $newLeft = $parent->left+1;
-        $elementInPosition = $structureItem->byParentId( $parent->id )->offset( $data['position']-1 )->first();
-        if (!empty( $elementInPosition )) {
-            $newLeft = $elementInPosition->right + 1;
-        }
-
-        $distance = $newLeft - $element->left;
-        $tmpLeft = $element->left;
-
-        if ( $distance < 0 ) {
-            $distance -= $elementWidth;
-            $tmpLeft += $elementWidth;
-            $symbol = '';
-        } else {
-            $symbol = '+';
-        }
-
-        // Create new space for subtree
-        $structureItem->where('left', '>=', $newLeft )->update( ['left' => \DB::raw('`left` + ' . $elementWidth )] );
-        $structureItem->where('right', '>=', $newLeft )->update( ['right' => \DB::raw('`right` + ' . $elementWidth )] );
-
-        // Move subtree into new space
-        $structureItem->where('left', '>=', $tmpLeft )->where('right', '<', $tmpLeft+$elementWidth )->update( [ 'left' => \DB::raw('`left` '.$symbol. $distance ),  'right' => \DB::raw('`right` '.$symbol. $distance ) ]);
-
-        // Remove old space vacated by subtree
-        $structureItem->where('left', '>', $element->right )->update( ['left' => \DB::raw('`left` -' . $elementWidth )]);
-        $structureItem->where('right', '>', $element->right )->update( ['right' => \DB::raw('`right` -' . $elementWidth )]);
-
-
-        $element->parent_id = $parent->id;
-        $element->level = $parent->level+1;
-        $element->save();
+        $element->move( $data['parent'], $data['position'] );
 
         return response()->json( [ 'success' => true ] );
 

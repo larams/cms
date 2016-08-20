@@ -1,10 +1,16 @@
-
 @blue: #00A0D1;
 @green: #2CD276;
 
 html, body {
     height: 100%;
     font-family: "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+    .dragging,
+    .dragging * {
+        cursor: move !important;
+    }
 }
 
 .btn-primary {
@@ -44,9 +50,9 @@ a {
     -moz-box-shadow: none;
     box-shadow: none;
     border: 0;
-    -webkit-border-radius:0;
-    -moz-border-radius:0;
-    border-radius:0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 
     h3 {
         margin-top: 0;
@@ -98,7 +104,7 @@ a {
 
 .input-group {
     .input-group-addon {
-        border-radius:0;
+        border-radius: 0;
         border-color: #e1e1e1;
         font-weight: 300;
         text-transform: uppercase;
@@ -190,13 +196,13 @@ a {
             }
 
             > span {
-                  float: none;
-                  padding: 15px;
-                  line-height: 19px;
-                  color: #626965;
-                  text-decoration: none;
-                  text-shadow: none;
-                  display: block;
+                float: none;
+                padding: 15px;
+                line-height: 19px;
+                color: #626965;
+                text-decoration: none;
+                text-shadow: none;
+                display: block;
             }
         }
 
@@ -252,7 +258,7 @@ td.actions {
     font-weight: 200;
 }
 
-h1,h2,h3,h4 {
+h1, h2, h3, h4 {
     font-weight: normal;
 }
 
@@ -265,37 +271,38 @@ h1,h2,h3,h4 {
     }
 }
 
-.widgets {}
+.widgets {
+}
 
-    .widgets li {
-        position: relative;
-        border: 1px solid #fff;
-    }
+.widgets li {
+    position: relative;
+    border: 1px solid #fff;
+}
 
-        .widgets li .widget-header {
-            display: none;
-            position: absolute;
-            margin-top: -30px;
-            padding: 5px 10px;
-            border-radius: 3px;
-            background: #e5e5e5;
-        }
+.widgets li .widget-header {
+    display: none;
+    position: absolute;
+    margin-top: -30px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background: #e5e5e5;
+}
 
-        .widgets li:hover {
-            border: 1px dotted #d5d5d5;
-        }
+.widgets li:hover {
+    border: 1px dotted #d5d5d5;
+}
 
-            .widgets li:hover .widget-header {
-                display: block;
-            }
+.widgets li:hover .widget-header {
+    display: block;
+}
 
-        .widgets li .widget-content {
-            position: relative;
-        }
+.widgets li .widget-content {
+    position: relative;
+}
 
-            .widgets li .widget-content div {
-                position: relative;
-            }
+.widgets li .widget-content div {
+    position: relative;
+}
 
 select.mini {
     line-height: 14px;
@@ -438,7 +445,6 @@ a.list-group-item {
     padding-bottom: 0;
 }
 
-
 .loader {
 
     position: fixed;
@@ -490,15 +496,37 @@ a.list-group-item {
         font-size: 16px;
     }
 
+    .dz-placeholder {
+        border: 1px dashed #ccc;
+        visibility: visible;
+    }
+
+    //.placeholder {
+    //    position: relative;
+    //    float: left;
+    //    width: 120px;
+    //    height: 120px;
+    //    border: 1px dashed #ccc;
+    //    margin: 16px 16px 0;
+    //    border-radius: 5px;
+    //
+    //    &:before {
+    //        position: absolute;
+    //        content: '';
+    //        color: #f00;
+    //    }
+    //}
+
     .dz-preview {
 
-        min-height:120px;
+        min-height: 120px;
         margin-bottom: 0;
+        float: left;
 
         .dz-image {
             -webkit-border-radius: 5px;
-            -moz-border-radius:5px;
-            border-radius:5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
         }
 
         .dz-delete {
@@ -515,8 +543,6 @@ a.list-group-item {
 
         &.dz-folder-preview {
 
-
-
             .dz-filename {
                 margin-top: 20px;
             }
@@ -532,4 +558,18 @@ a.list-group-item {
         }
     }
 
+}
+
+/*! jQuery UI - v1.12.0 - 2016-08-20
+* http://jqueryui.com
+* Includes: draggable.css, sortable.css
+* Copyright jQuery Foundation and other contributors; Licensed MIT */
+
+.ui-draggable-handle {
+	-ms-touch-action: none;
+	touch-action: none;
+}
+.ui-sortable-handle {
+	-ms-touch-action: none;
+	touch-action: none;
 }

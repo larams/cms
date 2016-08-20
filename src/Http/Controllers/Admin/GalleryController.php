@@ -2,6 +2,7 @@
 
 namespace Larams\Cms\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Larams\Cms\StructureItem;
 use Larams\Cms\StructureType;
 
@@ -17,21 +18,16 @@ class GalleryController extends StructureController
         if (!empty($itemId)) {
             $currentItem = $structureItem->with('type')->find($itemId);
         } else {
-
             $mediaGalleryType = $structureType->where('name', 'cms.gallery')->first();
-
             $currentItem = $structureItem->where('type_id', $mediaGalleryType->id)->with('type')->first();
         }
 
         if (empty($currentItem)) {
             $this->panic('Cms actions : no items!');
         } else {
-
             $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->get();;
-
-            $folders = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1)->get();
-            $files = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0)->get();
-
+            $folders = $structureItem->where('parent_id', $currentItem->id)->where('tree', 1)->orderBy('left')->get();
+            $files = $structureItem->where('parent_id', $currentItem->id)->where('tree', 0)->orderBy('left')->get();
         }
 
         $CKEditor = request()->input('CKEditor', null);
@@ -140,7 +136,18 @@ class GalleryController extends StructureController
         } else {
             return response('error', 400);
         }
+    }
 
+
+    public function postMove( StructureItem $structureItem, Request $request )
+    {
+
+        $data = $request->input();
+
+        $element = $structureItem->find( $data['id']);
+        $element->move( $data['parent_id'], $data['position'] );
+
+        return response()->json( [ 'success' => true ] );
 
     }
 

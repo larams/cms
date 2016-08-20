@@ -291,4 +291,45 @@ class StructureItem extends \Eloquent
     {
         return $this->getOrSet('currPath', $value );
     }
+
+    public function move( $newParentId, $newPosition )
+    {
+
+        $parent = $this->find( $newParentId );
+        $elementWidth = $this->right - $this->left + 1;
+
+        $newLeft = $parent->left+1;
+        $elementInPosition = $this->byParentId( $parent->id )->offset( $newPosition-1 )->first();
+        if (!empty( $elementInPosition )) {
+            $newLeft = $elementInPosition->right + 1;
+        }
+
+        $distance = $newLeft - $this->left;
+        $tmpLeft = $this->left;
+
+        if ( $distance < 0 ) {
+            $distance -= $elementWidth;
+            $tmpLeft += $elementWidth;
+            $symbol = '';
+        } else {
+            $symbol = '+';
+        }
+
+        // Create new space for subtree
+        $this->where('left', '>=', $newLeft )->update( ['left' => \DB::raw('`left` + ' . $elementWidth )] );
+        $this->where('right', '>=', $newLeft )->update( ['right' => \DB::raw('`right` + ' . $elementWidth )] );
+
+        // Move subtree into new space
+        $this->where('left', '>=', $tmpLeft )->where('right', '<', $tmpLeft+$elementWidth )->update( [ 'left' => \DB::raw('`left` '.$symbol. $distance ),  'right' => \DB::raw('`right` '.$symbol. $distance ) ]);
+
+        // Remove old space vacated by subtree
+        $this->where('left', '>', $this->right )->update( ['left' => \DB::raw('`left` -' . $elementWidth )]);
+        $this->where('right', '>', $this->right )->update( ['right' => \DB::raw('`right` -' . $elementWidth )]);
+
+
+        $this->parent_id = $parent->id;
+        $this->level = $parent->level+1;
+        $this->save();
+
+    }
 }

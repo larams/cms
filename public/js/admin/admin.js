@@ -1,29 +1,29 @@
 function confirmDelete() {
 
-    return( window.confirm('Ar tikrai norite ištrinti?') );
+    return ( window.confirm('Ar tikrai norite ištrinti?') );
 
 }
 
 $(document).ready(function () {
 
-    $('.delete-row-link').click( function( e ) {
-        if ( confirmDelete() ) {
-            var element = $( e.currentTarget );
+    $('.delete-row-link').click(function (e) {
+        if (confirmDelete()) {
+            var element = $(e.currentTarget);
             $('#loader').show();
-            $.get( element.attr('href'), function() {
+            $.get(element.attr('href'), function () {
                 var table = element.parents('tbody');
                 element.parents('tr').remove();
-                if ( table.find('tr').length == 0) {
+                if (table.find('tr').length == 0) {
                     table.parents('table').remove();
                 }
 
                 $('#loader').hide();
-            } );
+            });
         }
         return false;
     });
 
-    $('.edit-row-link').click( function() {
+    $('.edit-row-link').click(function () {
         $('#loader').show();
     });
 
@@ -42,11 +42,11 @@ $(document).ready(function () {
 
             var update_url = $(this).parents('table').data('url');
 
-            $.post( update_url, $( this).sortable('serialize'), function( response ) {
+            $.post(update_url, $(this).sortable('serialize'), function (response) {
 //
 //                console.log( response );
 
-            } );
+            });
 
         }
     });
@@ -104,11 +104,54 @@ $(document).ready(function () {
 
     });
 
+    var dropped = false;
+
+    $('#gallerySortable').sortable({
+        placeholder: "dz-preview dz-image-preview dz-placeholder",
+        connectWith: '.dz-folder-preview',
+        stop: function( event, ui ) {
+
+            if ( !dropped ) {
+
+                var update_url = $(this).data('url');
+
+                $.post(update_url, $(this).sortable('serialize'), function (response) {
+                });
+
+            }
+
+            dropped = false;
+
+        }
+    });
+
+    $('#gallerySortable .dz-folder-preview').droppable({
+        accept: '#gallerySortable li',
+        drop: function (ev, ui) {
+
+            dropped = true;
+
+            var move_url = $( this).parent().data('move-url');
+
+            $('#loader').show();
+
+            $.post( move_url, {
+                position: 1,
+                parent_id: $( this ).data('id'),
+                id: ui.draggable.data('id')
+            }, function() {
+                ui.draggable.remove();
+                $('#loader').hide();
+            } );
+
+        }
+    });
+
 });
 
 Dropzone.options.galleryDropzone = {
 
-    queuecomplete: function() {
+    queuecomplete: function () {
         $('#loader').show();
         document.location.reload();
     }

@@ -87,9 +87,9 @@
 
 
         @if (count( $folders ) > 0 || count( $files ) > 0)
-
+        <ul class="list-unstyled clearfix" id="gallerySortable"  data-url="{{url( 'admin/structure/sort/' . $currentItem->id )}}" data-move-url="{{url('admin/gallery/move')}}">
             @foreach ( $folders as $k => $mediaItem )
-                <div class="dz-preview dz-folder-preview">
+                <li id="item-{{$mediaItem->id}}" data-id="{{$mediaItem->id}}" class="dz-preview dz-folder-preview">
                     <div class="dz-details">
                         <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
                         <a href="{{url('admin/gallery/index/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}">
@@ -97,28 +97,29 @@
                             <span class="fa fa-folder-o thumbnail__icon"></span>
                         </a>
                     </div>
-                </div>
+                </li>
             @endforeach
 
             @foreach ( $files as $k => $mediaItem )
                 @if ( empty($mediaItem->data->is_file) )
-                    <div class="dz-preview dz-image-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{url('media/'. $mediaItem->id . '_120_120.png')}}', '{{url('media/'. $mediaItem->id . '.png')}}' );" @endif>
+                    <li id="item-{{$mediaItem->id}}" data-id="{{$mediaItem->id}}" class="dz-preview dz-image-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{url('media/'. $mediaItem->id . '_120_120.png')}}', '{{url('media/'. $mediaItem->id . '.png')}}' );" @endif>
                         <div class="dz-image"><img src="{{url('media/'. $mediaItem->id . '_120_120_1.png' )}}"/></div>
                         <div class="dz-details">
                             <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
                             <div class="dz-filename"><span>{{$mediaItem->name}}</span></div>
                         </div>
-                    </div>
+                    </li>
                 @else
-                    <div class="dz-preview dz-file-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{$mediaItem->name.'.'.$mediaItem->extension}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name.'.'.$mediaItem->extension )}}' );" @endif>
+                    <li id="item-{{$mediaItem->id}}" data-id="{{$mediaItem->id}}" class="dz-preview dz-file-preview" @if (!empty( $select ) || !empty( $CKEditor )) onclick="assignFile( '{{$mediaItem->id}}', '{{$mediaItem->name.'.'.$mediaItem->extension}}', '{{url('file/'. $mediaItem->id . '_' . $mediaItem->name.'.'.$mediaItem->extension )}}' );" @endif>
                         <div class="dz-image">&nbsp;</div>
                         <div class="dz-details">
                             <a onclick="return( confirmDelete() );" href="{{url('admin/gallery/delete/' . $currentItem->id . '/' . $mediaItem->id . '/'.  $select . '/' . $target )}}?CKEditor={{$CKEditor}}&amp;CKEditorFuncNum={{$CKEditorFuncNum}}" class="fa fa-times-circle-o dz-delete"></a>
                             <div class="dz-filename"><span>{{$mediaItem->name}}</span></div>
                         </div>
-                    </div>
+                    </li>
                 @endif
             @endforeach
+        </ul>
         @endif
 
     </form>
