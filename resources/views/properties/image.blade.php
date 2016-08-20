@@ -15,7 +15,7 @@
             <br />Paveiksliuko dydžiai:<br />
 
             @foreach ( $versions as $versionName => $version )
-                {{$versionName}}: <strong>{{$version['width']}}x{{$version['height']}}</strong><br />
+                @if (!empty( $version['title'] )) {{$version['title']}}: @else {{$versionName}} @endif <strong>{{$version['width']}}x{{$version['height']}}</strong><br />
             @endforeach
         @endif
 

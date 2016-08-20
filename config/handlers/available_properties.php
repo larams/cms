@@ -7,7 +7,11 @@ $properties = [
         'name' => 'text',
         'title' => 'Text',
     ],
-
+    [
+        'class' => 'Larams\Cms\Property\File',
+        'name' => 'file',
+        'title' => 'Attached file',
+    ],
     [
         'class' => 'Larams\Cms\Property\Text',
         'name' => 'single_line_text',
