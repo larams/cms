@@ -10,27 +10,18 @@ class MediaController extends Controller
 
     public function getFileView( StructureItem $structureItem, $id, $filename, $type )
     {
-
         $file = $structureItem->find($id);
-
         $path = storage_path('uploads/'. $file->data->name );
-
-        return response()->file(storage_path($path), [
+        return response()->file( $path , [
             'Content-Disposition' => str_replace('%name', $filename.'.'.$type, "inline; filename=\"%name\"; filename*=utf-8''%name"),
-            'Content-Type'        => \Storage::getMimeType($path), // e.g. 'application/pdf', 'text/plain' etc.
         ]);
-
     }
 
     public function getFile( StructureItem $structureItem, $id, $filename, $type )
     {
-
         $file = $structureItem->find($id);
-
         $path = storage_path('uploads/'. $file->data->name );
-
         return response()->download( $path, $filename.'.'.$type );
-
     }
 
     public function getViewByFile($filename, $width = null, $height = null, $cropType = 0, $type = 'png', $filePrefix = '')
