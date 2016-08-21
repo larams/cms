@@ -5,7 +5,7 @@
 <script type="text/javascript">
 
     CKEDITOR.replace( '{{$name}}', {
-       customConfig: '{{asset('larams/vendor/js/admin/ckeditor_config.js')}}'
+       customConfig: '{{asset('vendor/larams/js/admin/ckeditor_config.js')}}'
     });
 
 </script>
