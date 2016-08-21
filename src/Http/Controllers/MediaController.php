@@ -8,7 +8,7 @@ use Larams\Cms\StructureItem;
 class MediaController extends Controller
 {
 
-    public function getView( StructureItem $structureItem, $id, $filename, $type )
+    public function getFileView( StructureItem $structureItem, $id, $filename, $type )
     {
 
         $file = $structureItem->find($id);

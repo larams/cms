@@ -8,7 +8,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
     Route::get('image/{id}.{format?}', 'MediaController@getViewByFile');
 
     Route::get('file/{id}_{filename}.{format?}', 'MediaController@getFile')->where('id', '\d+');
-    Route::get('view/{id}_{filename}.{format?}', 'MediaController@getView')->where('id', '\d+');
+    Route::get('view/{id}_{filename}.{format?}', 'MediaController@getFileView')->where('id', '\d+');
 
     Route::get('media/{id}_{width?}_{height?}_{type?}.{format?}', 'MediaController@getView')->where('id', '\d+');
     Route::get('media/{id}_{width?}_{height?}.{format?}', 'MediaController@getView')->where('id', '\d+');
