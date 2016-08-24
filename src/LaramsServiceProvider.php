@@ -74,7 +74,9 @@ class LaramsServiceProvider extends ServiceProvider
                 $currLang = $languageQuery->first();
                 $structureItem->currLang($currLang);
 
-                app()->setLocale( $languageUri );
+                if (!empty( $currLang )) {
+                    app()->setLocale( $languageUri );
+                }
 
             }
         }
