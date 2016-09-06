@@ -13,5 +13,6 @@ return [
     'child_sort_type' => '',
     'child_sort_direction' => '',
     'child_item_sorting' => true,
+    'redirect_to_parent' => true,
     'properties' => [],
 ];
