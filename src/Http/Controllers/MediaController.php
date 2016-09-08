@@ -8,15 +8,6 @@ use Larams\Cms\StructureItem;
 class MediaController extends Controller
 {
 
-    public function getFileView( StructureItem $structureItem, $id, $filename, $type )
-    {
-        $file = $structureItem->find($id);
-        $path = storage_path('uploads/'. $file->data->name );
-        return response()->file( $path , [
-            'Content-Disposition' => str_replace('%name', $filename.'.'.$type, "inline; filename=\"%name\"; filename*=utf-8''%name"),
-        ]);
-    }
-
     public function getFile( StructureItem $structureItem, $id, $filename, $type )
     {
         $file = $structureItem->find($id);
@@ -50,7 +41,7 @@ class MediaController extends Controller
             $height *= 2;
         }
 
-        if (in_array($width, ['jpg', 'png'])) {
+        if (in_array($width, ['jpg', 'png', 'gif'])) {
             $type = $width;
             $width = null;
         }
@@ -92,13 +83,17 @@ class MediaController extends Controller
             $outputFileName .= '_' . intval($cropType);
         }
 
-        if (!empty($type) && in_array($type, ['jpg', 'png'])) {
+        if (!empty($type) && in_array($type, ['jpg', 'png', 'gif'])) {
             $outputFileName .= '.' . $type;
         }
 
-        $img->save(public_path('media/' . $outputFileName));
-
-        return $img->response($type);
+        if ( empty( $width ) && empty( $height ) && $img->mime() == 'image/gif') {
+            copy( $imagePath, public_path('media/' . $outputFileName) );
+            return response( file_get_contents( $imagePath ), 200, [ 'Content-Type' => 'image/gif'] );
+        } else {
+            $img->save(public_path('media/' . $outputFileName));
+            return $img->response($type);
+        }
 
     }
 
