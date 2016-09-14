@@ -87,7 +87,7 @@
                         @if ( !empty($typeConfiguration['child_tree_items_list_title']) )
                             <h3>{{__($typeConfiguration['child_tree_items_list_title'])}}</h3>
                         @endif
-                        @include('larams::admin.structure.elements.childs_table', ['childs' => $treeChilds, 'sorting' => !empty( $typeConfiguration['child_tree_item_sorting'] ) ] )
+                        @include('larams::admin.structure.elements.childs_table', ['childs' => $treeChilds, 'sorting' => !empty( $typeConfiguration['child_tree_item_sorting'] ), 'extra_columns' => $typeConfiguration['child_tree_extra_columns'] ] )
 
                     @endif
 
@@ -103,7 +103,7 @@
                         @if ( !empty($typeConfiguration['child_items_list_title']) )
                             <h3>{{__($typeConfiguration['child_items_list_title'])}}</h3>
                         @endif
-                        @include('larams::admin.structure.elements.childs_table', ['childs' => $extraChilds, 'sorting' => !empty( $typeConfiguration['child_item_sorting'] ) ] )
+                        @include('larams::admin.structure.elements.childs_table', ['childs' => $extraChilds, 'sorting' => !empty( $typeConfiguration['child_item_sorting'] ), 'extra_columns' => $typeConfiguration['child_tree_extra_columns'] ] )
                     @endif
 
                     @if ( count( $extraTypes ) )
