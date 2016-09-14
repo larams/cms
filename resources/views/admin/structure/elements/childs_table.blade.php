@@ -5,6 +5,9 @@
             <th>&nbsp;</th>
         @endif
         <th>{{__("Title")}}</th>
+        @foreach ( $extra_columns as $column => $columnTitle )
+            <th>{{$columnTitle}}</th>
+        @endforeach
         <th class="col-xs-1">{{__("Status")}}</th>
         <th class="col-xs-2">&nbsp;</th>
     </tr>
@@ -22,6 +25,15 @@
             <td>
                 <a href="{{url( '/admin/structure/index/' . $item->id )}}" title="{{$item->name}}">{{$item->name}}</a>
             </td>
+            @foreach ( $extra_columns as $column => $columnTitle )
+                <td>
+                    @if (strpos( $column, 'data.') !== false)
+                        {{ $item->data->{substr( $column, 5 )} }}
+                    @else
+                        {{$item->$column}}
+                    @endif
+                </td>
+            @endforeach
             <td>
                 <a class="label @if ($item->active == 1)label-success @else label-danger @endif " href="{{url( '/admin/structure/active/'. $currentItem->id .'/'. $item->id . '/' . $item->active )}}" title="@if ($item->active == 1) {{__('Hide element')}} @else {{__('Make visible')}} @endif">@if ($item->active == 1)
                         {{__("Visible")}} @else {{__("Hidden")}} @endif </a>
