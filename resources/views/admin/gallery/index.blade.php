@@ -29,18 +29,20 @@
         if (target.length > 0) {
 
             try {
-
                 window.opener.document.getElementById('property_' + target + '_value').value = item_id;
 
                 if (window.opener.document.getElementById('property_' + target + '_thumb')) {
-                    window.opener.document.getElementById('property_' + target + '_thumb').src = thumb_url;
+
+                    var elem = window.opener.document.getElementById('property_' + target + '_thumb');
+
+                    elem.style.display = 'block';
+                    elem.src = thumb_url;
                 } else {
                     window.opener.document.getElementById('property_' + target + '_name').innerHTML = thumb_url;
                 }
 
             } catch (e) {
-
-
+                window.opener.console.log( e );
             }
         } else {
             OpenFile(original_url);
