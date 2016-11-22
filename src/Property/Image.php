@@ -30,8 +30,9 @@ class Image extends Property
     {
 
         $imageId = $formData[ $this->name ];
+        $shouldDelete = !empty( $formData[ $this->name . '_delete'] );
 
-        if ( empty( $imageId )) {
+        if ( empty( $imageId ) || !empty( $shouldDelete ) ) {
             return [];
         }
 
