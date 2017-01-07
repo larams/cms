@@ -9,6 +9,11 @@ use Larams\Cms\StructureType;
 class TypeController extends Controller
 {
 
+    protected function getIndexController( $currLang )
+    {
+        return 'App\Http\Controllers\IndexController';
+    }
+
     public function anyIndex( StructureItem $structureItem, StructureType $structureType, Request $request )
     {
 
@@ -21,7 +26,7 @@ class TypeController extends Controller
 
         // Collect current item
         if ( empty( $uri ) || $uri == $currLang->uri ) {
-            $className = 'App\Http\Controllers\IndexController';
+            $className = $this->getIndexController( $currLang );
         } else {
 
             $currItem = $structureItem->with('type')->where('uri', $uri )->first();
