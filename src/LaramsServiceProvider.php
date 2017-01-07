@@ -10,7 +10,7 @@
 
 namespace Larams\Cms;
 
-require( __DIR__ . '/Helpers/functions.php' );
+require(__DIR__ . '/Helpers/functions.php');
 
 use \Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
@@ -30,14 +30,14 @@ class LaramsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot( StructureItem $structureItem )
+    public function boot(StructureItem $structureItem)
     {
 
-        $this->loadStructureData( $structureItem );
+        $this->loadStructureData($structureItem);
 
         $viewsPath = __DIR__ . '/../resources/views';
 
-        \URL::forceRootUrl( url(env('BASE_URL', '') ) );
+        \URL::forceRootUrl(url(env('BASE_URL', '')));
 
         $this->loadViewsFrom($viewsPath, 'larams');
 
@@ -46,23 +46,23 @@ class LaramsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'larams');
 
         $this->publishes([
-            __DIR__.'/../public' => public_path('vendor/larams'),
-            __DIR__.'/../migrations' => database_path('migrations'),
-            __DIR__.'/../seeds' => database_path('seeds'),
+            __DIR__ . '/../public' => public_path('vendor/larams'),
+            __DIR__ . '/../migrations' => database_path('migrations'),
+            __DIR__ . '/../seeds' => database_path('seeds'),
         ], '');
 
     }
 
-    public function loadStructureData( StructureItem $structureItem )
+    public function loadStructureData(StructureItem $structureItem)
     {
 
-        if ( \Schema::hasTable('structure_items')) {
+        if (\Schema::hasTable('structure_items')) {
 
             // Set current site
             $currSite = $structureItem->byTypeName('site')->first();
             $structureItem->currSite($currSite);
 
-            if (!empty( $currSite )) {
+            if (!empty($currSite)) {
 
                 $uri = trim(str_replace(env('BASE_URL', ''), '', request()->path()), '/');
                 list($languageUri) = explode('/', $uri);
@@ -74,8 +74,8 @@ class LaramsServiceProvider extends ServiceProvider
                 $currLang = $languageQuery->first();
                 $structureItem->currLang($currLang);
 
-                if (!empty( $currLang )) {
-                    app()->setLocale( $currLang->data->short_code );
+                if (!empty($currLang) && !empty($currLang->data->short_code)) {
+                    app()->setLocale($currLang->data->short_code);
                 }
 
             }
@@ -92,8 +92,8 @@ class LaramsServiceProvider extends ServiceProvider
     public function setupRoutes(Router $router)
     {
 
-        if (in_array( request()->segment(1), \Config::get('larams.locales'))) {
-            app()->setLocale( request()->segment(1) );
+        if (in_array(request()->segment(1), \Config::get('larams.locales'))) {
+            app()->setLocale(request()->segment(1));
         }
 
         $router->group(['namespace' => 'Larams\Cms\Http\Controllers'], function ($router) {
