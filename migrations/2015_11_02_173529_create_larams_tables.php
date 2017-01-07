@@ -21,6 +21,7 @@ class CreateLaramsTables extends Migration
             $table->unsignedInteger('type_id')->nullable();
             $table->char('name');
             $table->char('uri');
+            $table->unsignedTinyInteger('custom_uri')->default(0);
             $table->timestamp('date');
             $table->unsignedInteger('level');
             $table->integer('left');

@@ -16,5 +16,6 @@ return [
     'child_item_sorting' => true,
     'child_extra_columns' => [],
     'redirect_to_parent' => true,
+    'allow_custom_uri' => false,
     'properties' => [],
 ];

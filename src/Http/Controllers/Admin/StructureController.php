@@ -123,15 +123,10 @@ class StructureController extends Controller
 
         $parentItem = $structureItem->find($itemId);
 
-        $uri = $structureItem->path($parentItem->left, $parentItem->right)->where('active', 1)->lists('name')->toArray();
-        $uri = array_slice($uri, 1);
-
         $item = array(
             'parent_id' => $itemId,
             'name' => request()->input('name'),
-            'uri' => trim(implode('/', array_map(function ($item) {
-                    return Utils::toAscii($item);
-                }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/'),
+            'uri' => trim($parentItem->full_uri . '/' . Utils::toAscii(request()->input('name')), '/'),
             'tree' => request()->input('tree'),
             'type_id' => request()->input('type_id'),
             'left' => $prepend ? $parentItem->left + 1 : $parentItem->right,
@@ -196,16 +191,12 @@ class StructureController extends Controller
 
         $rawFormData['data'] = $additionalFieldsData;
 
-//        if (empty( $rawFormData['uri']) || $rawFormData['uri'] == $item->uri ) {
-
-        $uri = $structureItem->path($item->left, $item->right, false)->where('active', 1)->lists('name')->toArray();
-        $uri = array_slice($uri, 1);
-        $rawFormData['uri'] = trim(implode('/', array_map(function ($item) {
-                return Utils::toAscii($item);
-            }, $uri)) . '/' . Utils::toAscii(request()->input('name')), '/');
-//        }
-
-//        $item->data = $additionalFieldsData;
+        if (empty( $rawFormData['uri'])) {
+            $rawFormData['uri'] = trim($item->parent->full_uri . '/' . Utils::toAscii(request()->input('name')), '/');
+            $rawFormData['custom_uri'] = 0;
+        } else {
+            $rawFormData['custom_uri'] = 1;
+        }
 
         $rawFormData['search'] = $rawFormData['name'];
 

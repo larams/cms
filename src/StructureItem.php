@@ -28,7 +28,7 @@ class StructureItem extends \Eloquent
 
     protected $table = 'structure_items';
 
-    protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'sort', 'uri', 'search'];
+    protected $fillable = ['id', 'parent_id', 'user_id', 'name', 'date', 'level', 'type_id', 'left', 'right', 'active', 'tree', 'sort', 'uri', 'custom_uri', 'search'];
 
     protected $appends = ['data'];
 
@@ -74,6 +74,21 @@ class StructureItem extends \Eloquent
         }
 
         return $this->where('left', '<', $left)->where('right', '>', $right);
+    }
+
+    public function getPathElements( $left, $right )
+    {
+        return $this->path( $left, $right )->where('active', 1)->take( PHP_INT_MAX )->orderBy('left')->offset( 1 )->get()->toArray();
+    }
+
+    public function getFullUriAttribute()
+    {
+        $uri = $this->getPathElements( $this->left, $this->right );
+
+        return trim(implode('/', array_map(function ($item) {
+            return !empty($item['custom_uri']) ? $item['uri'] : Utils::toAscii($item['name']);
+        }, $uri)), '/');
+
     }
 
     public function delete()
@@ -161,9 +176,9 @@ class StructureItem extends \Eloquent
             $operator = '=';
         }
 
-        return $query->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=',  $alias . '.item_id')
-            ->where( $alias . '.name', $key)
-            ->where( $alias . '.data', $operator, $value)
+        return $query->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=', $alias . '.item_id')
+            ->where($alias . '.name', $key)
+            ->where($alias . '.data', $operator, $value)
             ->select(['structure_items.*']);
     }
 
@@ -193,13 +208,11 @@ class StructureItem extends \Eloquent
         $childs = $this->where('left', '>', $item->left)->where('right', '<', $item->right)->get();
 
         foreach ($childs as $child) {
-            $uri = $this->path($child->left, $child->right)->where('active', 1)->lists('name')->toArray();
-            $uri = array_slice($uri, 1);
-            $uri = implode('/', array_map(function ($item) {
-                return Utils::toAscii($item);
-            }, $uri));
+            if (!empty( $child->custom_uri )) {
+                continue;
+            }
 
-            $child->uri = $uri;
+            $child->uri = $child->full_uri;
             $child->save();
         }
 
@@ -247,9 +260,9 @@ class StructureItem extends \Eloquent
         return $left;
     }
 
-    public function getOrSet( $property, $value = null )
+    public function getOrSet($property, $value = null)
     {
-        if (!is_null( $value )) {
+        if (!is_null($value)) {
             static::$$property = $value;
         }
 
@@ -260,54 +273,54 @@ class StructureItem extends \Eloquent
      * @param null $value
      * @return StructureItem
      */
-    public function currLang( $value = null)
+    public function currLang($value = null)
     {
-        return $this->getOrSet('currLang', $value );
+        return $this->getOrSet('currLang', $value);
     }
 
     /**
      * @param null $value
      * @return StructureItem
      */
-    public function currSite( $value = null)
+    public function currSite($value = null)
     {
-        return $this->getOrSet('currSite', $value );
+        return $this->getOrSet('currSite', $value);
     }
 
     /**
      * @param null $value
      * @return StructureItem
      */
-    public function currItem( $value = null)
+    public function currItem($value = null)
     {
-        return $this->getOrSet('currItem', $value );
+        return $this->getOrSet('currItem', $value);
     }
 
     /**
      * @param null $value
      * @return StructureItem
      */
-    public function currPath( $value = null)
+    public function currPath($value = null)
     {
-        return $this->getOrSet('currPath', $value );
+        return $this->getOrSet('currPath', $value);
     }
 
-    public function move( $newParentId, $newPosition )
+    public function move($newParentId, $newPosition)
     {
 
-        $parent = $this->find( $newParentId );
+        $parent = $this->find($newParentId);
         $elementWidth = $this->right - $this->left + 1;
 
-        $newLeft = $parent->left+1;
-        $elementInPosition = $this->byParentId( $parent->id )->offset( $newPosition-1 )->first();
-        if (!empty( $elementInPosition )) {
+        $newLeft = $parent->left + 1;
+        $elementInPosition = $this->byParentId($parent->id)->offset($newPosition - 1)->first();
+        if (!empty($elementInPosition)) {
             $newLeft = $elementInPosition->right + 1;
         }
 
         $distance = $newLeft - $this->left;
         $tmpLeft = $this->left;
 
-        if ( $distance < 0 ) {
+        if ($distance < 0) {
             $distance -= $elementWidth;
             $tmpLeft += $elementWidth;
             $symbol = '';
@@ -316,19 +329,19 @@ class StructureItem extends \Eloquent
         }
 
         // Create new space for subtree
-        $this->where('left', '>=', $newLeft )->update( ['left' => \DB::raw('`left` + ' . $elementWidth )] );
-        $this->where('right', '>=', $newLeft )->update( ['right' => \DB::raw('`right` + ' . $elementWidth )] );
+        $this->where('left', '>=', $newLeft)->update(['left' => \DB::raw('`left` + ' . $elementWidth)]);
+        $this->where('right', '>=', $newLeft)->update(['right' => \DB::raw('`right` + ' . $elementWidth)]);
 
         // Move subtree into new space
-        $this->where('left', '>=', $tmpLeft )->where('right', '<', $tmpLeft+$elementWidth )->update( [ 'left' => \DB::raw('`left` '.$symbol. $distance ),  'right' => \DB::raw('`right` '.$symbol. $distance ) ]);
+        $this->where('left', '>=', $tmpLeft)->where('right', '<', $tmpLeft + $elementWidth)->update(['left' => \DB::raw('`left` ' . $symbol . $distance), 'right' => \DB::raw('`right` ' . $symbol . $distance)]);
 
         // Remove old space vacated by subtree
-        $this->where('left', '>', $this->right )->update( ['left' => \DB::raw('`left` -' . $elementWidth )]);
-        $this->where('right', '>', $this->right )->update( ['right' => \DB::raw('`right` -' . $elementWidth )]);
+        $this->where('left', '>', $this->right)->update(['left' => \DB::raw('`left` -' . $elementWidth)]);
+        $this->where('right', '>', $this->right)->update(['right' => \DB::raw('`right` -' . $elementWidth)]);
 
 
         $this->parent_id = $parent->id;
-        $this->level = $parent->level+1;
+        $this->level = $parent->level + 1;
         $this->save();
 
     }

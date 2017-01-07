@@ -118,7 +118,11 @@
                         <fieldset>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => __('Title') ] ) !!}
-                            {{--                            {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => __('Link') ] ) !!}--}}
+
+                            @if (!empty( $typeConfiguration['allow_custom_uri'] ))
+                                {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => __('Link') ] ) !!}
+                            @endif
+
                             @if ( !empty( $isDeveloper ) )
                                 {!! BootstrapForm::select( ['name' => 'type_id', 'value' => $currentItem->type_id, 'title' => __('Type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}
                             @endif
