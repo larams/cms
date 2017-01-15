@@ -76,6 +76,7 @@ $properties = [
         'name' => 'image',
         'title' => 'Image',
         'format' => 'png',
+        'sizes' => ['lg', 'xs'],
         'versions' => [
             'default' => [
                 'width' => 200,
