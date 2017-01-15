@@ -12,7 +12,7 @@ class Image extends Property
 
     protected $format = 'png';
 
-    protected $sizes = ['lg', 'xs'];
+    protected $sizes = ['lg'];
 
     public function getHtml()
     {
