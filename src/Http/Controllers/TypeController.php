@@ -14,6 +14,11 @@ class TypeController extends Controller
         return 'App\Http\Controllers\IndexController';
     }
 
+    protected function getTypeController( $structureType, $currLang, $typeName )
+    {
+        return 'App\Http\Controllers\Type\\' . $structureType->buildClassName( $typeName ) . 'Controller';
+    }
+
     public function anyIndex( StructureItem $structureItem, StructureType $structureType, Request $request )
     {
 
@@ -39,7 +44,7 @@ class TypeController extends Controller
             $structureItem->currPath( $currPath );
             $structureItem->currItem( $currItem );
 
-            $className = 'App\Http\Controllers\Type\\' . $structureType->buildClassName( $currItem->type->name ) . 'Controller';
+            $className = $this->getTypeController( $structureType, $currLang, $currItem->type->name );
         }
 
         if ( class_exists( $className ) ) {
