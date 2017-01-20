@@ -12,7 +12,7 @@ class Image extends Property
 
     protected $format = 'png';
 
-    protected $sizes = ['lg'];
+    protected $automatic = false;
 
     public function getHtml()
     {
@@ -20,50 +20,60 @@ class Image extends Property
         $configuration = [
             'name' => $this->name,
             'item' => $this->item,
-            'sizes' => $this->sizes,
+            'automatic' => $this->automatic,
             'versions' => $this->versions,
         ];
 
-        return view('larams::properties.image', $configuration );
+        return view('larams::properties.image', $configuration);
 
     }
 
 
-    public function getFormData( $formData )
+    public function getFormData($formData)
     {
 
         $return = [];
 
-        foreach ( $this->sizes as $size ) {
+        if (!empty( $this->automatic )) {
+            $imageId = $formData[$this->name];
+            $shouldDelete = !empty($formData[$this->name . '_delete']);
 
-            $imageId = $formData[$this->name.'_'.$size];
-            $shouldDelete = !empty($formData[$this->name .'_'.$size.'_delete']);
 
             if (empty($imageId) || !empty($shouldDelete)) {
-                return [];
+                return $return;
             }
 
-            $sizeData = [
+            $return = [
                 'id' => $imageId,
                 'url' => $imageId . '.' . $this->format,
-                'versions' => []
             ];
 
             if (!empty($this->versions)) {
                 foreach ($this->versions as $versionName => $dimensions) {
-                    $sizeData['versions'][$versionName]['uri'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '.' . $this->format;
-                    $sizeData['versions'][$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $this->format;
-                    $sizeData['versions'][$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $this->format;
-                    $sizeData['versions'][$versionName]['width'] = $dimensions['width'];
-                    $sizeData['versions'][$versionName]['height'] = $dimensions['height'];
+                    $return[$versionName]['uri'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '.' . $this->format;
+                    $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $this->format;
+                    $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $this->format;
+                    $return[$versionName]['width'] = $dimensions['width'];
+                    $return[$versionName]['height'] = $dimensions['height'];
                 }
             }
+        } else {
+            foreach ($this->versions as $versionName => $dimensions) {
 
-            $return[ $size ] = $sizeData;
-        }
+                $imageId = $formData[$this->name.'_'.$versionName];
+                $shouldDelete = !empty($formData[$this->name .'_'.$versionName. '_delete']);
 
-        if ( count( $this->sizes ) == 1 ) {
-            return reset( $return );
+                if (empty($imageId) || !empty($shouldDelete)) {
+                    return $return;
+                }
+
+                $return[$versionName]['id'] = $imageId;
+                $return[$versionName]['uri'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '.' . $this->format;
+                $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $this->format;
+                $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $this->format;
+                $return[$versionName]['width'] = $dimensions['width'];
+                $return[$versionName]['height'] = $dimensions['height'];
+            }
         }
 
         return $return;
