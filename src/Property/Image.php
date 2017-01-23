@@ -50,7 +50,7 @@ class Image extends Property
 
             if (!empty($this->versions)) {
                 foreach ($this->versions as $versionName => $dimensions) {
-                    $return[$versionName]['url'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '.' . $this->format;
+                    $return[$versionName]['url'] = $imageId . '.' . $this->format;
                     $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $this->format;
                     $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $this->format;
                     $return[$versionName]['width'] = $dimensions['width'];
@@ -68,7 +68,7 @@ class Image extends Property
                 }
 
                 $return[$versionName]['id'] = $imageId;
-                $return[$versionName]['url'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '.' . $this->format;
+                $return[$versionName]['url'] = $imageId . '.' . $this->format;
                 $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $this->format;
                 $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $this->format;
                 $return[$versionName]['width'] = $dimensions['width'];
