@@ -59,21 +59,21 @@ class StructureItem extends \Eloquent
         return $this->hasMany('Larams\Cms\StructureData', 'item_id');
     }
 
-    public function childsOf($itemId)
+    public function scopeChildsOf($query, $itemId)
     {
         $item = $this->find($itemId);
 
-        return $this->where('left', '>', $item->left)->where('right', '<', $item->right);
+        return $query->where('left', '>', $item->left)->where('right', '<', $item->right);
     }
 
-    public function path($left, $right, $includeSelf = true)
+    public function scopePath($query, $left, $right, $includeSelf = true)
     {
 
         if ($includeSelf) {
-            return $this->where('left', '<=', $left)->where('right', '>=', $right);
+            return $query->where('left', '<=', $left)->where('right', '>=', $right);
         }
 
-        return $this->where('left', '<', $left)->where('right', '>', $right);
+        return $query->where('left', '<', $left)->where('right', '>', $right);
     }
 
     public function getPathElements( $left, $right )

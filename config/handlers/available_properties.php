@@ -70,7 +70,14 @@ $properties = [
         'name' => 'simple_text',
         'title' => 'Unformatted text',
     ],
-
+    [
+        'class' => 'Larams\Cms\Property\StructureText',
+        'name' => 'multi_items',
+        'sameLanding' => true,
+        'typeName' => 'site_lang',
+        'inputWidthClass' => 'col-xs-3',
+        'title' => 'Text for every language'
+    ],
     [
         'class' => 'Larams\Cms\Property\Image',
         'name' => 'image',
