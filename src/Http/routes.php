@@ -42,5 +42,6 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
 
     } );
 
+    Route::any('{url}/{url2?}/{url3?}/{url4?}/{url5?}/{url6?}/{url7?}', 'TypeController@anyIndex');
 
 } );
