@@ -72,6 +72,14 @@ class LaramsServiceProvider extends ServiceProvider
                     $languageQuery = $languageQuery->where('uri', $languageUri);
                 }
                 $currLang = $languageQuery->first();
+
+                if (empty($currLang) && !empty($uri)) {
+                    $currItem = $structureItem->where('active', 1)->where('uri', $uri)->first();
+                    if (!empty($currItem)) {
+                        $currLang = $structureItem->leftJoin('structure_types', 'structure_types.id', '=', 'structure_items.type_id')->where('left', '<', $currItem->left)->where('right', '>', $currItem->right)->where('structure_types.name', 'site_lang')->select('structure_items.*')->first();
+                    }
+                }
+
                 $structureItem->currLang($currLang);
 
                 if (!empty($currLang) && !empty($currLang->data->short_code)) {

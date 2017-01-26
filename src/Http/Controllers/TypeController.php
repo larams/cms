@@ -30,12 +30,12 @@ class TypeController extends Controller
         $currLang = $structureItem->currLang();
 
         // Collect current item
-        if ( empty( $uri ) || $uri == $currLang->uri ) {
+        if ( empty( $uri ) || (!empty( $currLang ) && $uri == $currLang->uri) ) {
             $className = $this->getIndexController( $currLang );
         } else {
 
             $currItem = $structureItem->with('type')->where('uri', $uri )->first();
-            if (empty( $currItem)) {
+            if (empty( $currItem) || empty($currLang)) {
                 return response( 'Page not found', 404 );
             }
 
@@ -66,5 +66,4 @@ class TypeController extends Controller
         return response('"'. $className .'" type controller not found');
 
     }
-
 }
