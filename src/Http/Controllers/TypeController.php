@@ -36,7 +36,7 @@ class TypeController extends Controller
 
             $currItem = $structureItem->with('type')->where('uri', $uri )->first();
             if (empty( $currItem) || empty($currLang)) {
-                return response( 'Page not found', 404 );
+                return abort( 404, 'Page not found');
             }
 
             $currPath = $structureItem->path( $currItem->left, $currItem->right )->where('active', 1 )->where('left', '>', $currLang->left )->where('right', '<', $currLang->right )->orderBy('left')->get();
@@ -63,7 +63,7 @@ class TypeController extends Controller
 
         }
 
-        return response('"'. $className .'" type controller not found');
+        return abort( 404,'"'. $className .'" type controller not found');
 
     }
 }
