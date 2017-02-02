@@ -35,7 +35,9 @@ class File extends Property
 
         $fileId = $formData[ $this->name ];
 
-        if ( empty( $fileId )) {
+        $shouldDelete = !empty($formData[$this->name . '_delete']);
+
+        if ( empty( $fileId ) || !empty($shouldDelete)) {
             return [];
         }
 
