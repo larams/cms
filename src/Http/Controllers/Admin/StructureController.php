@@ -192,7 +192,7 @@ class StructureController extends Controller
         $rawFormData['data'] = $additionalFieldsData;
 
         if (empty( $rawFormData['uri'])) {
-            $rawFormData['uri'] = trim($item->parent->full_uri . '/' . Utils::toAscii(request()->input('name')), '/');
+            $rawFormData['uri'] = trim((!empty( $item->parent ) ? $item->parent->full_uri . '/' : '') . Utils::toAscii(request()->input('name')), '/');
             $rawFormData['custom_uri'] = 0;
         } else {
             $rawFormData['custom_uri'] = 1;
@@ -220,7 +220,7 @@ class StructureController extends Controller
         $structureItem->updateChildUris($item);
 
         if (!empty( $typeConfiguration['redirect_to_parent'])) {
-            return redirect('admin/' . $this->route . '/index/' . $item->parent_id );
+            return redirect('admin/' . $this->route . '/index/' . !empty( $item->parent_id ) ? $item->parent_id : $item->id );
         }
 
         return redirect('admin/' . $this->route . '/index/' . $itemId);
