@@ -26,7 +26,6 @@ class TypeController extends Controller
 
         $currItem = null;
         $currPath = [];
-        $currSite = $structureItem->currSite();
         $currLang = $structureItem->currLang();
 
         // Collect current item
@@ -53,7 +52,7 @@ class TypeController extends Controller
             $methodName = $methodPrefix . 'Index';
             $controller = app()->make( $className );
 
-            view()->share( compact('currItem', 'currPath', 'currLang', 'currSite') );
+            view()->share( compact('currItem', 'currPath') );
 
             if ( method_exists( $controller, 'beforeAction') ) {
                 app()->call( [ $controller, 'beforeAction'] );
