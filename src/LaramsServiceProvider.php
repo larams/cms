@@ -30,10 +30,8 @@ class LaramsServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(StructureItem $structureItem)
+    public function boot()
     {
-
-        $this->loadStructureData($structureItem);
 
         $viewsPath = __DIR__ . '/../resources/views';
 
@@ -50,44 +48,6 @@ class LaramsServiceProvider extends ServiceProvider
             __DIR__ . '/../migrations' => database_path('migrations'),
             __DIR__ . '/../seeds' => database_path('seeds'),
         ], '');
-
-    }
-
-    public function loadStructureData(StructureItem $structureItem)
-    {
-
-        if (\Schema::hasTable('structure_items')) {
-
-            // Set current site
-            $currSite = $structureItem->byTypeName('site')->first();
-            $structureItem->currSite($currSite);
-
-            if (!empty($currSite)) {
-
-                $uri = trim(str_replace(env('BASE_URL', ''), '', request()->path()), '/');
-                list($languageUri) = explode('/', $uri);
-
-                $languageQuery = $structureItem->where('parent_id', $currSite->id)->where('active', 1)->orderBy('left');
-                if (!empty($languageUri)) {
-                    $languageQuery = $languageQuery->where('uri', $languageUri);
-                }
-                $currLang = $languageQuery->first();
-
-                if (empty($currLang) && !empty($uri)) {
-                    $currItem = $structureItem->where('active', 1)->where('uri', $uri)->first();
-                    if (!empty($currItem)) {
-                        $currLang = $structureItem->leftJoin('structure_types', 'structure_types.id', '=', 'structure_items.type_id')->where('left', '<', $currItem->left)->where('right', '>', $currItem->right)->where('structure_types.name', 'site_lang')->select('structure_items.*')->first();
-                    }
-                }
-
-                $structureItem->currLang($currLang);
-
-                if (!empty($currLang) && !empty($currLang->data->short_code)) {
-                    app()->setLocale($currLang->data->short_code);
-                }
-
-            }
-        }
 
     }
 
