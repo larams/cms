@@ -35,7 +35,10 @@ class LocaleDetection
             $languageQuery = $this->structureItem->where('parent_id', $currSite->id)->where('active', 1)->orderBy('left');
             if (!empty($languageUri)) {
                 $languageQuery = $languageQuery->where('uri', $languageUri);
+            } elseif ( $request->getLocale() ) {
+                $languageQuery = $languageQuery->where('uri', $request->getLocale() );
             }
+
             $currLang = $languageQuery->first();
 
             if (empty($currLang) && !empty($uri)) {
@@ -43,6 +46,10 @@ class LocaleDetection
                 if (!empty($currItem)) {
                     $currLang = $this->structureItem->leftJoin('structure_types', 'structure_types.id', '=', 'structure_items.type_id')->where('left', '<', $currItem->left)->where('right', '>', $currItem->right)->where('structure_types.name', 'site_lang')->select('structure_items.*')->first();
                 }
+            }
+
+            if (empty( $currLang) && $request->getLocale()) {
+                $currLang = $this->structureItem->where('uri', $request->getLocale())->where('active', 1)->orderBy('left')->first();
             }
 
             $this->structureItem->currLang($currLang);
