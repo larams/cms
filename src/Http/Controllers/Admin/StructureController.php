@@ -220,7 +220,7 @@ class StructureController extends Controller
         $structureItem->updateChildUris($item);
 
         if (!empty( $typeConfiguration['redirect_to_parent'])) {
-            return redirect('admin/' . $this->route . '/index/' . !empty( $item->parent_id ) ? $item->parent_id : $item->id );
+            return redirect('admin/' . $this->route . '/index/' . (!empty( $item->parent_id ) ? $item->parent_id : $item->id) );
         }
 
         return redirect('admin/' . $this->route . '/index/' . $itemId);
