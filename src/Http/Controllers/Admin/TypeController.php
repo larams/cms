@@ -104,6 +104,10 @@ class TypeController extends Controller
             );
         }
 
+        usort( $handlers, function($a,$b) {
+            return $a['title'] >= $b['title'];
+        });
+
         return $handlers;
     }
 
