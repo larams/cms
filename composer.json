@@ -1,6 +1,6 @@
 {
   "name": "larams/cms",
-  "description": "Larams - Content Management System for Laravel 5.2.*",
+  "description": "Larams - Content Management System for Laravel 5.*",
   "license": "MIT",
   "authors": [
     {
@@ -11,7 +11,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.5.9",
-    "laravel/framework": "5.2.*",
+    "laravel/framework": "5.*",
     "intervention/image": "~2.3",
     "intervention/imagecache": "~2.3"
   },
