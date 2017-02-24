@@ -35,7 +35,7 @@ class LocaleDetection
             $languageQuery = $this->structureItem->where('parent_id', $currSite->id)->where('active', 1)->orderBy('left');
             if (!empty($languageUri)) {
                 $languageQuery = $languageQuery->where('uri', $languageUri);
-            } elseif ( $request->getLocale() ) {
+            } elseif ( $request->getLocale() != $request->getDefaultLocale() ) {
                 $languageQuery = $languageQuery->where('uri', $request->getLocale() );
             }
 
