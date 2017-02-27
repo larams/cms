@@ -30,4 +30,8 @@ class DatabaseLoader implements LoaderInterface
 //        $this->hints[$namespace] = $hint;
     }
 
+    public function namespaces()
+    {
+        return [];
+    }
 }
