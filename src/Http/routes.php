@@ -23,6 +23,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
 
         Route::group(['middleware' => 'auth'], function () {
 
+            Route::get('structure', 'StructureController@getIndex');
             Route::get('structure/index/{itemId?}', 'StructureController@getIndex');
             Route::get('structure/active/{itemId}/{activeItemId}/{status}', 'StructureController@getActive');
             Route::get('structure/delete/{parentId}/{itemId}', 'StructureController@getDelete');
@@ -33,25 +34,28 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
             Route::post('structure/sort/{parentId}', 'StructureController@postSort');
             Route::post('structure/move', 'StructureController@postMove');
 
+            Route::get('gallery', 'GalleryController@getIndex');
             Route::get('gallery/index/{itemId?}/{select?}/{target?}', 'GalleryController@getIndex');
             Route::post('gallery/save-folder/{itemId?}', 'GalleryController@postSaveFolder');
             Route::get('gallery/delete/{parentId}/{itemId}', 'GalleryController@getDelete');
             Route::any('gallery/upload/{itemId}', 'GalleryController@anyUpload');
             Route::post('gallery/move', 'GalleryController@postMove');
 
-
+            Route::get('types', 'TypeController@getIndex');
             Route::get('types/index', 'TypeController@getIndex');
             Route::get('types/add', 'TypeController@getAdd');
             Route::get('types/edit/{id}', 'TypeController@getEdit');
             Route::post('types/save/{id?}', 'TypeController@postSave');
             Route::get('types/delete/{id}', 'TypeController@getDelete');
 
+            Route::get('administrators', 'AdministratorController@getIndex');
             Route::get('administrators/index', 'AdministratorController@getIndex');
             Route::get('administrators/add', 'AdministratorController@getAdd');
             Route::get('administrators/edit/{id}', 'AdministratorController@getEdit');
             Route::post('administrators/save/{id?}', 'AdministratorController@postSave');
             Route::get('administrators/delete/{id}', 'AdministratorController@getDelete');
 
+            Route::get('translations', 'TranslationsController@getIndex');
             Route::get('translations/index', 'TranslationsController@getIndex');
             Route::get('translations/add', 'TranslationsController@getAdd');
             Route::get('translations/edit/{id}', 'TranslationsController@getEdit');
