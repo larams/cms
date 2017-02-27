@@ -57,7 +57,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
 
             Route::get('translations', 'TranslationsController@getIndex');
             Route::get('translations/index', 'TranslationsController@getIndex');
-            Route::get('translations/add', 'TranslationsController@getAdd');
+            Route::post('translations/add', 'TranslationsController@postAdd');
             Route::get('translations/edit/{id}', 'TranslationsController@getEdit');
             Route::post('translations/save/{id?}', 'TranslationsController@postSave');
             Route::get('translations/delete/{id}', 'TranslationsController@getDelete');
