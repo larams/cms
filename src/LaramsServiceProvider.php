@@ -60,6 +60,8 @@ class LaramsServiceProvider extends ServiceProvider
     public function setupRoutes(Router $router)
     {
 
+        $router->middleware('ipCheck', \Larams\Http\Middleware\ValidateAdminIp::class );
+
         if (in_array(request()->segment(1), \Config::get('larams.locales'))) {
             app()->setLocale(request()->segment(1));
         }
