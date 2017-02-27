@@ -1,6 +1,6 @@
 <?php
 
-namespace Larams\Http\Middleware;
+namespace Larams\Cms\Http\Middleware;
 
 use Closure;
 
