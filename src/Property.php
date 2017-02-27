@@ -34,7 +34,7 @@ abstract class Property
 
     public function getFormData( $formData )
     {
-        return $formData[ $this->name ];
+        return isset( $formData[ $this->name ] ) ? $formData[ $this->name ] : null;
     }
 
     public abstract function getHtml();

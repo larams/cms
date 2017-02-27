@@ -11,6 +11,8 @@ class Select extends Property
 
 	protected $cssClass = 'col-xs-6';
 
+    protected $multiple = false;
+
     public function getHtml()
     {
 
@@ -18,7 +20,8 @@ class Select extends Property
             'options' => $this->options,
 			'cssClass' => $this->cssClass,
             'item' => $this->item,
-            'name' => $this->name
+            'name' => $this->name,
+            'multiple' => $this->multiple
         );
 
         return view('larams::properties.select', $configuration);
