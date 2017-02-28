@@ -10,54 +10,59 @@ class AdministratorController extends Controller
 
     protected $route = 'administrators';
 
-    public function getIndex( User $user )
+    public function __construct()
+    {
+        $this->model = app()->make( config('larams.administrators_model', Larams\Cms\User::class ) );
+    }
+
+    public function getIndex()
     {
 
-        $users = $user->orderBy('email')->get();
+        $users = $this->model->orderBy('email')->get();
 
         return $this->view('larams::admin.administrators.index', compact('users'));
 
     }
 
-    public function getAdd( User $user)
+    public function getAdd()
     {
 
         $isCreate = true;
-        $types = $user->types();
+        $types = $this->model->types();
 
         return $this->view('larams::admin.administrators.edit', compact('isCreate', 'types'));
 
     }
 
-    public function getEdit( User $user, $id )
+    public function getEdit( $id )
     {
 
-        $item = $user->find( $id );
+        $item = $this->model->find( $id );
 
-        $types = $user->types();
+        $types = $this->model->types();
 
         return $this->view('larams::admin.administrators.edit', compact('item', 'types') );
 
     }
 
-    public function postSave( User $user, $id = null )
+    public function postSave( $id = null )
     {
 
         /** @var StructureType $item */
         if (!empty( $id )) {
-            $item = $user->find( $id );
+            $item = $this->model->find( $id );
             $item->fill( request()->input() )->save();
         } else {
-            $user->create( request()->input() );
+            $this->model->create( request()->input() );
         }
 
         return redirect('admin/' . $this->route );
     }
 
-    public function getDelete( User $user, $id )
+    public function getDelete( $id )
     {
 
-        $item = $user->find( $id );
+        $item = $this->model->find( $id );
         $item->delete();
 
         return redirect('admin/' . $this->route );
