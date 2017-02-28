@@ -3,7 +3,6 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Larams\Cms\StructureType;
-use Larams\Cms\User;
 
 class AdministratorController extends Controller
 {
@@ -12,7 +11,7 @@ class AdministratorController extends Controller
 
     public function __construct()
     {
-        $this->model = app()->make( config('larams.administrators_model', Larams\Cms\User::class ) );
+        $this->model = app()->make( config('larams.administrators_model', \Larams\Cms\User::class ) );
     }
 
     public function getIndex()
