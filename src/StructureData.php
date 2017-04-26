@@ -23,8 +23,7 @@ class StructureData extends \Eloquent
     public function getDataAttribute()
     {
         $result = json_decode( $this->attributes['data'] );
-
-        if ( json_last_error() == JSON_ERROR_NONE ) {
+        if ( $result != $this->attributes['data'] && json_last_error() == JSON_ERROR_NONE ) {
             return $result;
         }
 

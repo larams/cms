@@ -15,8 +15,12 @@ class MediaController extends Controller
         return response()->download( $path, $filename.'.'.$type );
     }
 
-    public function getViewByFile($filename, $width = null, $height = null, $cropType = 0, $type = 'png', $filePrefix = '')
+    public function getViewByFile($filename, $width = null, $height = null, $cropType = 0, $type = 'png', $filePrefix = '', $routeFolder = 'image')
     {
+
+        if (empty( $filePrefix )) {
+            $filePrefix = $filename;
+        }
 
         $imagePath = storage_path('uploads/' . $filename );
 
@@ -88,10 +92,10 @@ class MediaController extends Controller
         }
 
         if ( empty( $width ) && empty( $height ) && $img->mime() == 'image/gif') {
-            copy( $imagePath, public_path('media/' . $outputFileName) );
+            copy( $imagePath, public_path($routeFolder .'/' . $outputFileName) );
             return response( file_get_contents( $imagePath ), 200, [ 'Content-Type' => 'image/gif'] );
         } else {
-            $img->save(public_path('media/' . $outputFileName));
+            $img->save(public_path($routeFolder .'/' . $outputFileName));
             return $img->response($type);
         }
 
@@ -102,8 +106,6 @@ class MediaController extends Controller
 
         $image = $structureItem->find($mediaId);
 
-        return $this->getViewByFile($image->data->name, $width, $height, $cropType, $type, intval($mediaId) );
+        return $this->getViewByFile($image->data->name, $width, $height, $cropType, $type, intval($mediaId), 'media' );
     }
-
-
 }

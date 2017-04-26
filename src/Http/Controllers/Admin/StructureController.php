@@ -261,6 +261,7 @@ class StructureController extends Controller
     {
 
         $items = $structureItem->childsOf($itemId)->where('tree', 1)->orderBy('left')->get();
+        $childsCounts = $structureItem->select( [ \DB::raw('COUNT( id ) as childs'), 'parent_id'] )->groupBy('parent_id')->pluck('childs', 'parent_id');
 
         $response = [];
 
@@ -271,7 +272,7 @@ class StructureController extends Controller
                 'id' => $item->id,
                 'parent' => !empty($item->parent_id) && $item->parent_id != $itemId ? $item->parent_id : '#',
                 'text' => $item->name,
-                'type' => $item->childs()->count() > 0 ? 'folder' : 'file',
+                'type' => !empty($childsCounts[ $item->id ]) ? 'folder' : 'file',
                 'state' => [
                     'opened' => ($item->level == 1)
                 ]
