@@ -23,6 +23,8 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
 
         Route::group(['middleware' => 'auth'], function () {
 
+            Route::get('auth/logout', 'AuthController@getLogout');
+
             Route::get('structure', 'StructureController@getIndex');
             Route::get('structure/index/{itemId?}', 'StructureController@getIndex');
             Route::get('structure/active/{itemId}/{activeItemId}/{status}', 'StructureController@getActive');
