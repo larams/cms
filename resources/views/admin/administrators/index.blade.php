@@ -9,8 +9,6 @@
         <tr>
             <th>{{__('Email')}}</th>
             <th>{{__('Name')}}</th>
-            <th>{{__('Last login time')}}</th>
-            <th>{{__('Last login IP')}}</th>
             <th>&nbsp;</th>
         </tr>
         </thead>
@@ -21,8 +19,6 @@
                     <a href="{{url('admin/'.$route.'/edit/' . $user->id )}}" title="{{$user->email}}">{{$user->email}}</a>
                 </td>
                 <td>{{$user->name}}</td>
-                <td>{{$user->logged_at}}</td>
-                <td>{{$user->last_ip}}</td>
                 <td class="actions">
                     <a href="{{url('admin/'.$route.'/edit/'. $user->id )}}" class="btn btn-xs btn-default">{{__('Edit')}}</a>
                     &nbsp;<a onclick="return( confirmDelete() );" class="btn btn-xs btn-danger" href="{{url('admin/'.$route.'/delete/' . $user->id )}}">{{__('Delete')}}</a>
