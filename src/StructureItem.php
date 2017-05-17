@@ -111,7 +111,7 @@ class StructureItem extends \Eloquent
             $this->content = $this->content()->get();
         }
 
-        return (object)$this->content->lists('data', 'name')->toArray();
+        return (object)$this->content->pluck('data', 'name')->toArray();
     }
 
     /**
@@ -121,7 +121,11 @@ class StructureItem extends \Eloquent
      */
     public function scopeForLang($query, $currLang, $isActive = 1, $inTree = 1)
     {
-        return $query->where('structure_items.active', $isActive)->where('structure_items.tree', $inTree)->where('structure_items.left', '>', $currLang->left)->where('structure_items.right', '<', $currLang->right);
+        return $query
+            ->where('structure_items.active', $isActive)
+            ->where('structure_items.tree', $inTree)
+            ->where('structure_items.left', '>', $currLang->left)
+            ->where('structure_items.right', '<', $currLang->right);
     }
 
     public function scopeByParentTypeName($query, $typeName)
@@ -140,7 +144,10 @@ class StructureItem extends \Eloquent
      */
     public function scopeByTypeName($query, $typeName)
     {
-        return $query->leftJoin('structure_types', 'structure_items.type_id', '=', 'structure_types.id')->where('structure_types.name', $typeName)->select('structure_items.*', 'structure_types.name AS type_name');
+        return $query
+            ->leftJoin('structure_types', 'structure_items.type_id', '=', 'structure_types.id')
+            ->where('structure_types.name', $typeName)
+            ->select('structure_items.*', 'structure_types.name AS type_name');
     }
 
     /**
@@ -153,10 +160,12 @@ class StructureItem extends \Eloquent
     {
         $alias = uniqid();
 
-        return $query->leftJoin('structure_data AS ' . $alias, function ($join) use ($column, $alias) {
-            $join->on('structure_items.id', '=', $alias . '.item_id');
-            $join->on($alias . '.name', '=', \DB::raw("'{$column}'"));
-        })->orderBy($alias . '.data', $direction)
+        return $query
+            ->leftJoin('structure_data AS ' . $alias, function ($join) use ($column, $alias) {
+                $join->on('structure_items.id', '=', $alias . '.item_id');
+                $join->on($alias . '.name', '=', \DB::raw("'{$column}'"));
+            })
+            ->orderBy($alias . '.data', $direction)
             ->select(['structure_items.*']);
     }
 
@@ -176,7 +185,8 @@ class StructureItem extends \Eloquent
             $operator = '=';
         }
 
-        return $query->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=', $alias . '.item_id')
+        return $query
+            ->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=', $alias . '.item_id')
             ->where($alias . '.name', $key)
             ->where($alias . '.data', $operator, $value)
             ->select(['structure_items.*']);

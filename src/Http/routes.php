@@ -19,11 +19,11 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'ipCheck'], function () {
 
         Route::get('auth/login', 'AuthController@getLogin');
-        Route::post('auth/login', 'AuthController@postLogin');
+        Route::post('auth/login', 'AuthController@login');
 
         Route::group(['middleware' => 'auth'], function () {
 
-            Route::get('auth/logout', 'AuthController@getLogout');
+            Route::get('auth/logout', 'AuthController@logout');
 
             Route::get('structure', 'StructureController@getIndex');
             Route::get('structure/index/{itemId?}', 'StructureController@getIndex');
@@ -64,20 +64,21 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
             Route::post('translations/save/{id?}', 'TranslationsController@postSave');
             Route::get('translations/delete/{id}', 'TranslationsController@getDelete');
 
+            Route::get('password', 'PasswordController@getIndex');
+            Route::post('password', 'PasswordController@postIndex');
+
         });
 
 
     });
 
-    Route::any('/', 'TypeController@anyIndex');
-
-    Route::group(['prefix' => App::getLocale() ], function() {
-
+    if ( config('larams.register_frontend_routes')) {
         Route::any('/', 'TypeController@anyIndex');
+        Route::group(['prefix' => App::getLocale()], function () {
+            Route::any('/', 'TypeController@anyIndex');
+            Route::any('{url}/{url2?}/{url3?}/{url4?}/{url5?}/{url6?}/{url7?}', 'TypeController@anyIndex');
+        });
         Route::any('{url}/{url2?}/{url3?}/{url4?}/{url5?}/{url6?}/{url7?}', 'TypeController@anyIndex');
-
-    } );
-
-    Route::any('{url}/{url2?}/{url3?}/{url4?}/{url5?}/{url6?}/{url7?}', 'TypeController@anyIndex');
+    }
 
 } );

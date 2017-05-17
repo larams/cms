@@ -27,7 +27,7 @@ class User extends \Eloquent implements AuthenticatableContract,
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'logged_at', 'last_ip', 'type'];
+    protected $fillable = ['name', 'email', 'password', 'logged_at', 'last_ip', 'type', 'require_change'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -47,7 +47,9 @@ class User extends \Eloquent implements AuthenticatableContract,
     public function setPasswordAttribute( $password )
     {
 
-        $this->attributes['password'] = \Hash::make( $password );
+        if (!empty( $password )) {
+            $this->attributes['password'] = \Hash::make( $password );
+        }
 
     }
 }

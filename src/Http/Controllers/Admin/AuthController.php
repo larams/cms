@@ -4,6 +4,8 @@ namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\Request;
+use Larams\Cms\UserLogin;
 
 class AuthController extends Controller
 {
@@ -14,11 +16,49 @@ class AuthController extends Controller
 
     protected $redirectTo = 'admin/structure';
 
-    use AuthenticatesUsers, ThrottlesLogins;
+    use AuthenticatesUsers;
 
-    public function __construct()
+    protected $userLogin;
+
+    public function __construct( UserLogin $userLogin )
     {
-//        $this->middleware('guest', ['except' => 'getLogout']);
+        $this->userLogin = $userLogin;
+        //        $this->middleware('guest', ['except' => 'getLogout']);
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+
+        $userIp = !empty( $_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER["REMOTE_ADDR"];
+
+        $this->userLogin->create( [
+            'username' => $user->email,
+            'has_logged' => 1,
+            'ip' => $userIp
+        ]);
+
+        $user->logged_at = date('Y-m-d H:i:s');
+        $user->last_ip = $userIp;
+        $user->save();
+
+        if ((config('larams.require_password_change') && !empty( $user->require_change )) ||
+            (config('larams.password_expires_in') && strtotime($user->password_changed_at) <= strtotime(config('larams.password_expires_in')))) {
+            return redirect('admin/password');
+        }
+
+        return redirect()->intended($this->redirectPath());
+    }
+
+    protected function incrementLoginAttempts(Request $request)
+    {
+
+        $this->userLogin->create( [
+            'username' => $request->input('email'),
+            'has_logged' => 1,
+            'ip' => !empty( $_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER["REMOTE_ADDR"]
+        ]);
+
+        $this->limiter()->hit($this->throttleKey($request));
     }
 
     public function getLogin()

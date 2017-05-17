@@ -17,7 +17,7 @@ class TranslationKeyword extends \Eloquent
     public function getLangValueAttribute()
     {
 
-        $items = $this->values()->lists('value', 'language_id');
+        $items = $this->values()->pluck('value', 'language_id');
 
         return $items;
 
@@ -35,7 +35,7 @@ class TranslationKeyword extends \Eloquent
             ->leftJoin('translation_values', 'translation_keywords.id', '=', 'translation_values.keyword_id')
             ->where('translation_values.language_id', '=', $language->id )
             ->where('translation_values.value', '!=', '')
-            ->lists('value', 'keyword');
+            ->pluck('value', 'keyword');
 
         return $translations->toArray();
     }

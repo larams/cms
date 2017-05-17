@@ -70,9 +70,20 @@ class CreateLaramsTables extends Migration
             $table->char('name');
             $table->timestamp('logged_at');
             $table->char('last_ip');
-            $table->enum('type', ['DEV', 'ADMIN'])->default('ADMIN');
+            $table->char('type')->default('ADMIN');
             $table->char('remember_token');
+            $table->timestamp('password_changed_at')->nullable();
             $table->timestamps();
+        });
+
+        Schema::create('users_logins', function( Blueprint $table) {
+
+            $table->increments('id');
+            $table->char('username');
+            $table->char('ip');
+            $table->unsignedInteger('has_logged');
+            $table->timestamps();
+
         });
 
         Schema::create('translation_keywords', function( Blueprint $table ) {

@@ -46,13 +46,18 @@ class AdministratorController extends Controller
 
     public function postSave( $id = null )
     {
+        $input = request()->input();
+
+        if (config('larams.require_password_change') && !empty( $input['password']) ) {
+            $input['require_change'] = 1;
+        }
 
         /** @var StructureType $item */
         if (!empty( $id )) {
             $item = $this->model->find( $id );
-            $item->fill( request()->input() )->save();
+            $item->fill( $input )->save();
         } else {
-            $this->model->create( request()->input() );
+            $this->model->create( $input );
         }
 
         return redirect('admin/' . $this->route );
