@@ -57,7 +57,18 @@ class AdministratorController extends Controller
             $item = $this->model->find( $id );
             $item->fill( $input )->save();
         } else {
-            $this->model->create( $input );
+            $item = $this->model->create( $input );
+        }
+
+        if ( isset($input['send'])) {
+
+            \Mail::send('larams::admin.emails.password', compact('input', 'item'), function( $message ) use ( $input, $item ) {
+
+                $message->to( $input['email']);
+                $message->subject('Your administrator credentials');
+
+            });
+
         }
 
         return redirect('admin/' . $this->route );

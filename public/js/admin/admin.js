@@ -1,10 +1,32 @@
 function confirmDelete() {
-
     return ( window.confirm('Ar tikrai norite ištrinti?') );
+}
 
+function generatePassword() {
+    var length = 15,
+        charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",
+        retVal = "";
+    for (var i = 0, n = charset.length; i < length; ++i) {
+        retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    return retVal;
 }
 
 $(document).ready(function () {
+
+    $('.js-generate-password').click( function() {
+
+        var pass = generatePassword();
+
+        $('.js-password').val( pass ).attr('type', 'text');
+        $('.js-password-confirm').val( pass ).attr('type', 'text');
+        return false;
+
+    });
+
+    $('.js-password, .js-password-confirm').focus( function() {
+        $('.js-password, .js-password-confirm').attr('type', 'password');
+    });
 
     $('.delete-row-link').click(function (e) {
         if (confirmDelete()) {
@@ -109,9 +131,9 @@ $(document).ready(function () {
     $('#gallerySortable').sortable({
         placeholder: "dz-preview dz-image-preview dz-placeholder",
         connectWith: '.dz-folder-preview',
-        stop: function( event, ui ) {
+        stop: function (event, ui) {
 
-            if ( !dropped ) {
+            if (!dropped) {
 
                 var update_url = $(this).data('url');
 
@@ -131,18 +153,18 @@ $(document).ready(function () {
 
             dropped = true;
 
-            var move_url = $( this).parent().data('move-url');
+            var move_url = $(this).parent().data('move-url');
 
             $('#loader').show();
 
-            $.post( move_url, {
+            $.post(move_url, {
                 position: 1,
-                parent_id: $( this ).data('id'),
+                parent_id: $(this).data('id'),
                 id: ui.draggable.data('id')
-            }, function() {
+            }, function () {
                 ui.draggable.remove();
                 $('#loader').hide();
-            } );
+            });
 
         }
     });

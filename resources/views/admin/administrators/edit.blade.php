@@ -23,14 +23,15 @@
         </div>
 
         <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                {!! BootstrapForm::input( ['name' => 'password', 'type' => 'password', 'title' => !empty( $isCreate ) ? __('Password') : __('New password')] ) !!}
+            <div class="col-xs-12 col-sm-3">
+                {!! BootstrapForm::input( ['name' => 'password', 'class' => 'js-password', 'type' => 'password', 'title' => !empty( $isCreate ) ? __('Password') : __('New password')] ) !!}
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                {!! BootstrapForm::input( ['name' => 'password2', 'type' => 'password', 'title' => __('Repeat password') ] ) !!}
+            <div class="col-xs-12 col-sm-3">
+                {!! BootstrapForm::input( ['name' => 'password2', 'class' => 'js-password-confirm', 'type' => 'password', 'title' => __('Repeat password') ] ) !!}
+            </div>
+            <div class="col-xs-12 col-sm-1">
+                <label class="control-label">&nbsp;</label>
+                <a class="btn btn-default js-generate-password">Generate random password</a>
             </div>
         </div>
 
@@ -42,7 +43,8 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                <button type="submit" name="save" class="btn btn-primary">{{__('Save')}}</button>
+                <button type="submit" name="send" class="btn btn-secondary">{{__('Save & Send')}}</button>
                 <button class="btn btn-default" onclick="history.back();return false;">{{__('Cancel')}}</button>
             </div>
         </div>
