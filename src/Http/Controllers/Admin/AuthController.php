@@ -23,6 +23,8 @@ class AuthController extends Controller
     public function __construct( UserLogin $userLogin )
     {
         $this->userLogin = $userLogin;
+        $this->redirectTo = config('larams.admin_redirect_location', 'admin/structure');
+
         //        $this->middleware('guest', ['except' => 'getLogout']);
     }
 
