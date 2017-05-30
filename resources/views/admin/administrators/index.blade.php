@@ -9,6 +9,7 @@
         <tr>
             <th>{{__('Email')}}</th>
             <th>{{__('Name')}}</th>
+            <th>{{__("Type")}}</th>
             <th>{{__('Last login time')}}</th>
             <th>{{__('Last login IP')}}</th>
             <th>&nbsp;</th>
@@ -21,6 +22,7 @@
                     <a href="{{url('admin/'.$route.'/edit/' . $user->id )}}" title="{{$user->email}}">{{$user->email}}</a>
                 </td>
                 <td>{{$user->name}}</td>
+                <td>{{$user->type_title}}</td>
                 <td>{{$user->logged_at}}</td>
                 <td>{{$user->last_ip}}</td>
                 <td class="actions">

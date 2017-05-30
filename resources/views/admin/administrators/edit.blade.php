@@ -19,18 +19,16 @@
     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
     <fieldset>
-
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                {!! BootstrapForm::input( ['name' => 'email', 'value' => !empty( $item ) ? $item->email : '', 'title' => __('Email')] ) !!}
-            </div>
-        </div>
         <div class="row">
             <div class="col-xs-12 col-sm-6">
                 {!! BootstrapForm::input( ['name' => 'name', 'value' => !empty( $item ) ? $item->name : '', 'title' => __('Name')] ) !!}
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-xs-12 col-sm-6">
+                {!! BootstrapForm::input( ['name' => 'email', 'value' => !empty( $item ) ? $item->email : '', 'title' => __('Email')] ) !!}
+            </div>
+        </div>
         <div class="row">
             <div class="col-xs-12 col-sm-3">
                 {!! BootstrapForm::input( ['name' => 'password', 'class' => 'js-password', 'type' => 'password', 'title' => !empty( $isCreate ) ? __('Password') : __('New password')] ) !!}
@@ -40,7 +38,7 @@
             </div>
             <div class="col-xs-12 col-sm-1">
                 <label class="control-label">&nbsp;</label>
-                <a class="btn btn-default js-generate-password">Generate random password</a>
+                <a class="btn btn-default js-generate-password">{{__("Generate random password")}}</a>
             </div>
         </div>
 

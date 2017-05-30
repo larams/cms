@@ -44,6 +44,13 @@ class User extends \Eloquent implements AuthenticatableContract,
         ];
     }
 
+    public function getTypeTitleAttribute()
+    {
+        $types = $this->types();
+
+        return $types[ $this->attributes['type'] ];
+    }
+
     public function setPasswordAttribute( $password )
     {
 
