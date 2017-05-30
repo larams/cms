@@ -2,6 +2,7 @@
 
 namespace Larams\Cms\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
 use Larams\Cms\StructureType;
 
 class AdministratorController extends Controller
@@ -44,9 +45,11 @@ class AdministratorController extends Controller
 
     }
 
-    public function postSave( $id = null )
+    public function postSave( Request $request, $id = null )
     {
         $input = request()->input();
+
+        $this->validate( $request, [ 'email' => 'required|email' ] );
 
         if (config('larams.require_password_change') && !empty( $input['password']) ) {
             $input['require_change'] = 1;

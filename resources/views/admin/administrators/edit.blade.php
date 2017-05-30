@@ -4,6 +4,15 @@
     <h2 class="mt20">{{__('Edit administrator')}}</h2>
 @endif
 
+@if (count($errors) > 0)
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
 <form class="form mt20" action="{{url( 'admin/'.$route.'/save', [ !empty( $item->id ) ? $item->id : '' ] )}}" enctype="multipart/form-data" method="post">
 
