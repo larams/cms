@@ -77,8 +77,9 @@ class GalleryController extends StructureController
 
     public function getDelete(StructureItem $structureItem, $itemId, $delItemId)
     {
-
+        /** @var StructureItem $item */
         $item = $structureItem->find($delItemId);
+        $item->removeFile( $item->data->name );
         $item->delete();
 
         return redirect('admin/'.$this->route.'/index/' . $itemId);

@@ -104,6 +104,26 @@ class StructureItem extends \Eloquent
         return parent::delete();
     }
 
+    public function removeFile( $filename )
+    {
+        if (empty( $filename )) {
+            return false;
+        }
+
+        $path = storage_path('uploads/' . $filename );
+        if (file_exists( $path )) {
+            unlink( $path );
+            return true;
+        }
+
+        $cachedFiles = glob(public_path('image/' . $this->id.'*' ));
+        foreach ( $cachedFiles as $cachedFile ) {
+            unlink( $cachedFile );
+        }
+
+        return false;
+    }
+
     public function getDataAttribute()
     {
 

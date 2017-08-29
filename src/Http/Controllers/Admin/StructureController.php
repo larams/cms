@@ -192,7 +192,20 @@ class StructureController extends Controller
         $rawFormData['data'] = $additionalFieldsData;
 
         if (empty( $rawFormData['uri'])) {
-            $rawFormData['uri'] = trim((!empty( $item->parent ) ? $item->parent->full_uri . '/' : '') . Utils::toAscii(request()->input('name')), '/');
+
+            $iteration = 1;
+            do {
+                $uri = trim((!empty($item->parent) ? $item->parent->full_uri . '/' : '') . Utils::toAscii(request()->input('name')), '/');
+
+                if ($iteration > 1 ){
+                    $uri .= '-'.$iteration;
+                }
+
+                $elementWithUri = $structureItem->where('uri', $uri)->where('id', '!=', $item->id )->first();
+                $iteration++;
+            } while( !empty( $elementWithUri ));
+
+            $rawFormData['uri'] = $uri;
             $rawFormData['custom_uri'] = 0;
         } else {
             $rawFormData['custom_uri'] = 1;
