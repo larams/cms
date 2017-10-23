@@ -85,14 +85,14 @@
                 <div class="well">
                     @if ( count( $treeChilds ) )
                         @if ( !empty($typeConfiguration['child_tree_items_list_title']) )
-                            <h3>{{__($typeConfiguration['child_tree_items_list_title'])}}</h3>
+                            <h3>{{$typeConfiguration['child_tree_items_list_title']}}</h3>
                         @endif
                         @include('larams::admin.structure.elements.childs_table', ['childs' => $treeChilds, 'sorting' => !empty( $typeConfiguration['child_tree_item_sorting'] ), 'extra_columns' => $typeConfiguration['child_tree_extra_columns'] ] )
 
                     @endif
 
                     @if ( count( $treeTypes ) )
-                        @include('larams::admin.structure.elements.childs_form', [ 'types' => $treeTypes, 'tree' => 1, 'title' => !empty( $typeConfiguration['child_tree_item_create_title'] ) ? __($typeConfiguration['child_tree_item_create_title']) : __("Add new tree item") ] )
+                        @include('larams::admin.structure.elements.childs_form', [ 'types' => $treeTypes, 'tree' => 1, 'title' => !empty( $typeConfiguration['child_tree_item_create_title'] ) ? $typeConfiguration['child_tree_item_create_title'] : trans('admin.button.add_new_tree_item') ] )
                     @endif
                 </div>
             @endif
@@ -101,13 +101,13 @@
                 <div class="well">
                     @if ( count( $extraChilds ) )
                         @if ( !empty($typeConfiguration['child_items_list_title']) )
-                            <h3>{{__($typeConfiguration['child_items_list_title'])}}</h3>
+                            <h3>{{ $typeConfiguration['child_items_list_title']}}</h3>
                         @endif
                         @include('larams::admin.structure.elements.childs_table', ['childs' => $extraChilds, 'sorting' => !empty( $typeConfiguration['child_item_sorting'] ), 'extra_columns' => $typeConfiguration['child_extra_columns'] ] )
                     @endif
 
                     @if ( count( $extraTypes ) )
-                        @include('larams::admin.structure.elements.childs_form', [ 'types' => $extraTypes, 'tree' => 0, 'title' => !empty( $typeConfiguration['child_item_create_title'] ) ? __($typeConfiguration['child_item_create_title']) : __("Add new item") ] )
+                        @include('larams::admin.structure.elements.childs_form', [ 'types' => $extraTypes, 'tree' => 0, 'title' => !empty( $typeConfiguration['child_item_create_title'] ) ? $typeConfiguration['child_item_create_title'] : trans('admin.button.add_new_item') ] )
                     @endif
                 </div>
             @endif
@@ -117,24 +117,24 @@
                     <form class="form" action="{{url('admin/structure/save/' . $currentItem->id )}}" enctype="multipart/form-data" method="post" name="doing_stuff_with_content">
                         <fieldset>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                            {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => __('Title') ] ) !!}
+                            {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => trans('admin.field.title') ] ) !!}
 
                             @if (!empty( $typeConfiguration['allow_custom_uri'] ))
-                                {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => __('Link') ] ) !!}
+                                {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => trans('admin.field.link') ] ) !!}
                             @endif
 
                             @if ( !empty( $isDeveloper ) )
-                                {!! BootstrapForm::select( ['name' => 'type_id', 'value' => $currentItem->type_id, 'title' => __('Type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}
+                                {!! BootstrapForm::select( ['name' => 'type_id', 'value' => $currentItem->type_id, 'title' => trans('admin.field.type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}
                             @endif
                             @if ( !empty( $typeConfiguration['properties'] ) )
                                 @foreach ( $typeConfiguration['properties'] as $property )
                                     <div class="form-group">
                                         <label class="control-label" for="{{$property['name']}}">
-                                            @if (!empty( $property['title'] ) ) {{__( $property['title'] )}}
-                                            @elseif ( $property['name'] == 'date') {{__('Date')}}
-                                            @elseif ( $property['name'] == 'text') {{__('Text')}}
-                                            @elseif ( $property['name'] == 'image') {{__('Image')}}
-                                            @else {{__( $property['name'] )}}
+                                            @if (!empty( $property['title'] ) ) {{ $property['title'] }}
+                                            @elseif ( $property['name'] == 'date') {{trans('admin.field.date')}}
+                                            @elseif ( $property['name'] == 'text') {{trans('admin.field.text')}}
+                                            @elseif ( $property['name'] == 'image') {{trans('admin.field.image')}}
+                                            @else {{trans('admin.field.'. $property['name'] )}}
                                             @endif
                                         </label>
                                         <div class="">
@@ -144,7 +144,7 @@
                                 @endforeach
                             @endif
                             <div class="form-group">
-                                <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
+                                <button type="submit" class="btn btn-primary">{{trans('admin.button.save')}}</button>
                             </div>
                         </fieldset>
                     </form>

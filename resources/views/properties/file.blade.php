@@ -5,9 +5,9 @@
 
     @if (!empty( $item->data->$name ))
         <label>
-            <input type="checkbox" name="data[{{$name}}_delete]" value="1"/> {{__("Delete uploaded file")}}
+            <input type="checkbox" name="data[{{$name}}_delete]" value="1"/> {{trans('admin.button.delete_uploaded_file')}}
         </label>
     @endif
 
-    <a class="btn btn-sm btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name )}}', 'image-{{$name}}', 'width=900,height=600' ); return false;"><span class="fa fa-folder-o"></span> {{__("Choose file")}}</a>
+    <a class="btn btn-sm btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name )}}', 'image-{{$name}}', 'width=900,height=600' ); return false;"><span class="fa fa-folder-o"></span> {{trans('admin.button.choose_file')}}</a>
 </div>

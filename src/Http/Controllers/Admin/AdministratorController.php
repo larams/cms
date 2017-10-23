@@ -12,7 +12,7 @@ class AdministratorController extends Controller
 
     public function __construct()
     {
-        $this->model = app()->make( config('larams.administrators_model', \Larams\Cms\User::class ) );
+        $this->model = app()->make( config('larams.admin.database_model') );
     }
 
     public function getIndex()

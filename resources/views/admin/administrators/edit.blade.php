@@ -1,7 +1,7 @@
 @if ( !empty( $isCreate ) )
-    <h2 class="mt20">{{__('Create New administrator')}}</h2>
+    <h2 class="mt20">{{trans('admin.title.administrator.create_new')}}</h2>
 @else
-    <h2 class="mt20">{{__('Edit administrator')}}</h2>
+    <h2 class="mt20">{{trans('admin.title.administrator.edit')}}</h2>
 @endif
 
 @if (count($errors) > 0)
@@ -21,38 +21,40 @@
     <fieldset>
         <div class="row">
             <div class="col-xs-12 col-sm-6">
-                {!! BootstrapForm::input( ['name' => 'name', 'value' => !empty( $item ) ? $item->name : '', 'title' => __('Name')] ) !!}
+                {!! BootstrapForm::input( ['name' => 'name', 'value' => !empty( $item ) ? $item->name : '', 'title' => trans('admin.field.name')] ) !!}
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-6">
-                {!! BootstrapForm::input( ['name' => 'email', 'value' => !empty( $item ) ? $item->email : '', 'title' => __('Email')] ) !!}
+                {!! BootstrapForm::input( ['name' => 'email', 'value' => !empty( $item ) ? $item->email : '', 'title' => trans('admin.field.email')] ) !!}
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-3">
-                {!! BootstrapForm::input( ['name' => 'password', 'class' => 'js-password', 'type' => 'password', 'title' => !empty( $isCreate ) ? __('Password') : __('New password')] ) !!}
+                {!! BootstrapForm::input( ['name' => 'password', 'class' => 'js-password', 'type' => 'password', 'title' => !empty( $isCreate ) ? trans('admin.field.password') : trans('admin.field.new_password')] ) !!}
             </div>
             <div class="col-xs-12 col-sm-3">
-                {!! BootstrapForm::input( ['name' => 'password2', 'class' => 'js-password-confirm', 'type' => 'password', 'title' => __('Repeat password') ] ) !!}
+                {!! BootstrapForm::input( ['name' => 'password2', 'class' => 'js-password-confirm', 'type' => 'password', 'title' => trans('admin.field.repeat_password') ] ) !!}
             </div>
             <div class="col-xs-12 col-sm-1">
                 <label class="control-label">&nbsp;</label>
-                <a class="btn btn-default js-generate-password">{{__("Generate random password")}}</a>
+                <a class="btn btn-default js-generate-password">{{trans('admin.button.generate_random_password')}}</a>
             </div>
         </div>
 
+        @if ( !auth()->user()->isCustomer() )
         <div class="row">
             <div class="col-xs-12 col-sm-6">
-                {!! BootstrapForm::select( ['name' => 'type', 'title' => __('Type'), 'values' => $types, 'value' => !empty( $item ) ? $item->type : null ] ) !!}
+                {!! BootstrapForm::select( ['name' => 'type', 'title' => trans('admin.field.type'), 'values' => $types, 'value' => !empty( $item ) ? $item->type : null ] ) !!}
             </div>
         </div>
+        @endif
 
         <div class="row">
             <div class="col-xs-12">
-                <button type="submit" name="save" class="btn btn-primary">{{__('Save')}}</button>
-                <button type="submit" name="send" class="btn btn-secondary">{{__('Save & Send')}}</button>
-                <button class="btn btn-default" onclick="history.back();return false;">{{__('Cancel')}}</button>
+                <button type="submit" name="save" class="btn btn-primary">{{trans('admin.button.save')}}</button>
+                <button type="submit" name="send" class="btn btn-secondary">{{trans('admin.button.save_send')}}</button>
+                <button class="btn btn-default" onclick="history.back();return false;">{{trans('admin.button.cancel')}}</button>
             </div>
         </div>
 

@@ -6,11 +6,11 @@
 
             @if ( !empty( $allowEmpty ) && empty( $multiple ) )
                 @if ( $style == 'SELECT')
-                    <option value=""><?=__("Not selected");?></option>
+                    <option value=""><?=trans('admin.text.not_selected');?></option>
                 @else
                     <div class="checkbox">
                         <label>
-                            <input type="radio" name="data[{{$name}}]" value=""/> {{__("Not selected")}}
+                            <input type="radio" name="data[{{$name}}]" value=""/> {{trans('admin.text.not_selected')}}
                         </label>
                     </div>
                 @endif

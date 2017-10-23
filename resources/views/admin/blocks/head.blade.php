@@ -1,6 +1,6 @@
 <head>
 
-    <title>{{__('Administravimo aplinka')}}</title>
+    <title>{{trans('admin.title.cms')}}</title>
     <base href="{{url( env('BASE_URL', '/'))}}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="csrf-token" content="{{ csrf_token() }}" />

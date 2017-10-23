@@ -23,7 +23,7 @@ class AuthController extends Controller
     public function __construct( UserLogin $userLogin )
     {
         $this->userLogin = $userLogin;
-        $this->redirectTo = config('larams.admin_redirect_location', 'admin/structure');
+        $this->redirectTo = config('larams.admin.redirect_location', 'admin/structure');
 
         //        $this->middleware('guest', ['except' => 'getLogout']);
     }
@@ -43,8 +43,8 @@ class AuthController extends Controller
         $user->last_ip = $userIp;
         $user->save();
 
-        if ((config('larams.require_password_change') && !empty( $user->require_change )) ||
-            (config('larams.password_expires_in') && strtotime($user->password_changed_at) <= strtotime(config('larams.password_expires_in')))) {
+        if ((config('larams.admin.require_password_change') && !empty( $user->require_change )) ||
+            (config('larams.admin.password_expires_in') && strtotime($user->password_changed_at) <= strtotime(config('larams.admin.password_expires_in')))) {
             return redirect('admin/password');
         }
 

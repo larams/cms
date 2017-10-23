@@ -14,7 +14,7 @@ class BootstrapForm
         $max_length = '';
         if (!empty($params['max_length'])) {
 
-            $hint = __("Characters left") . ': <strong id="len_' . $id . '">' . $params['max_length'] . '</strong>';
+            $hint = trans('admin.text.characters_left') . ': <strong id="len_' . $id . '">' . $params['max_length'] . '</strong>';
             $max_length = 'maxlength="' . $params['max_length'] . '"';
 
             $hint .= '

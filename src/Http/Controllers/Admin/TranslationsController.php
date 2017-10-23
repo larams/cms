@@ -19,7 +19,15 @@ class TranslationsController extends Controller
 
         $languages = $structureItem->byTypeName( $this->languageTypeName )->orderBy('left')->get();
 
-        $keywords = $keyword->get();
+        $keywords = $keyword;
+
+        $user = app()->make( config('larams.admin.database_model') )->find( auth(config('larams.admin.guard'))->user()->id );
+
+        if ( !$user->isDeveloper() ) {
+            $keywords = $keywords->where('keyword', 'NOT LIKE', 'admin%');
+        }
+
+        $keywords = $keywords->get();
 
         return $this->view('larams::admin.translations.index', compact('keywords', 'languages'));
 

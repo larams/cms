@@ -16,7 +16,7 @@ class ValidateAdminIp
     public function handle($request, Closure $next)
     {
 
-        $adminIps = config('larams.administrator_ips');
+        $adminIps = config('larams.admin.allowed_ips');
 
         if (!empty($adminIps) && !in_array($request->ip(), $adminIps)) {
             app()->abort(404);

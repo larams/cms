@@ -10,8 +10,8 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 
 class User extends \Eloquent implements AuthenticatableContract,
-                                    AuthorizableContract,
-                                    CanResetPasswordContract
+    AuthorizableContract,
+    CanResetPasswordContract
 {
     use Authenticatable, Authorizable, CanResetPassword;
 
@@ -39,23 +39,39 @@ class User extends \Eloquent implements AuthenticatableContract,
     public static function types()
     {
         return [
-            'DEV' => __('Developer'),
-            'ADMIN' => __('Administrator')
+            'DEV' => trans('admin.role.developer'),
+            'ADMIN' => trans('admin.role.administrator'),
+            'CUSTOMER' => trans('admin.role.customer'),
         ];
+    }
+
+    public function isAdministrator()
+    {
+        return $this->type == 'ADMIN';
+    }
+
+    public function isCustomer()
+    {
+        return $this->type == 'CUSTOMER';
+    }
+
+    public function isDeveloper()
+    {
+        return $this->type == 'DEV';
     }
 
     public function getTypeTitleAttribute()
     {
         $types = $this->types();
 
-        return $types[ $this->attributes['type'] ];
+        return $types[$this->attributes['type']];
     }
 
-    public function setPasswordAttribute( $password )
+    public function setPasswordAttribute($password)
     {
 
-        if (!empty( $password )) {
-            $this->attributes['password'] = \Hash::make( $password );
+        if (!empty($password)) {
+            $this->attributes['password'] = \Hash::make($password);
         }
 
     }

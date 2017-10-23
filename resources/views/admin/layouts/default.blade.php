@@ -19,7 +19,7 @@
     <div class="loader-backdrop">&nbsp;</div>
     <div class="loader-content">
         <img src="{{asset('vendor/larams/img/admin/loading.gif')}}" />
-        <div>{{__("Loading")}}</div>
+        <div>{{trans('admin.text.loading')}}</div>
     </div>
 </div>
 

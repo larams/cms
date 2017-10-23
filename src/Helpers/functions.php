@@ -13,15 +13,3 @@ if (!function_exists('bower')) {
         return asset('bower_components/' . $path);
     }
 }
-
-if (!function_exists('__')) {
-    function __($keyword, $params = array(), $domain = 'messages', $locale = null)
-    {
-
-        $result = trans('app.' . $keyword, $params, $domain, $locale);
-
-        //echo "    '".$keyword."' => '',<br />";
-
-        return str_replace('app.', '', $result);
-    }
-}

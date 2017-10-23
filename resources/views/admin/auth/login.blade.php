@@ -4,23 +4,23 @@
 
             @if (!empty($error))
                 <div class="alert alert-danger login-alert">
-                    {{__('Neteisingas vartotojo vardas arba slaptažodis')}}
+                    {{trans('admin.error.invalid_credentials')}}
                 </div>
             @endif
 
             <form class="form login-container" action="{{url( 'admin/auth/login' )}}" method="post">
                 <fieldset>
 
-                    <h1>{{__('Prisijunkite')}}</h1>
+                    <h1>{{trans('admin.title.please_signin')}}</h1>
 
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                    <input class="form-control" placeholder="{{__('Vartotojo vardas')}}" name="email" type="text" id="username"/>
+                    <input class="form-control" placeholder="{{trans('admin.field.email')}}" name="email" type="text" id="username"/>
 
-                    <input class="form-control" placeholder="{{__('Slaptažodis')}}" type="password" name="password" id="password"/>
+                    <input class="form-control" placeholder="{{trans('admin.field.password')}}" type="password" name="password" id="password"/>
 
 
-                    <button type="submit" class="btn btn-primary">{{__('Prisijungti')}}</button>
+                    <button type="submit" class="btn btn-primary">{{trans('admin.button.signin')}}</button>
 
                 </fieldset>
             </form>

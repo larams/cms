@@ -12,19 +12,19 @@
 
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                <li><a href="{{url('admin/structure')}}">{{__('Content')}}</a></li>
+                <li><a href="{{url('admin/structure')}}">{{trans('admin.menu.content')}}</a></li>
                 @if (config('larams.gallery'))
-                    <li><a href="{{url('admin/gallery')}}">{{__('Gallery')}}</a></li>
+                    <li><a href="{{url('admin/gallery')}}">{{trans('admin.menu.gallery')}}</a></li>
                 @endif
-                <li><a href="{{url('admin/translations')}}">{{__('Translations')}}</a></li>
-                <li><a href="{{url('admin/administrators')}}">{{__('Administrators')}}</a></li>
-                <li @if (request()->is('admin/types/*')) class="active" @endif><a href="{{url('admin/types')}}">{{__('Content Types')}}</a></li>
+                <li><a href="{{url('admin/translations')}}">{{trans('admin.menu.translations')}}</a></li>
+                <li><a href="{{url('admin/administrators')}}">{{trans('admin.menu.administrators')}}</a></li>
+                <li @if (request()->is('admin/types/*')) class="active" @endif><a href="{{url('admin/types')}}">{{trans('admin.menu.content_types')}}</a></li>
                 @include('larams::admin.blocks.navbar_extra')
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
-                <li class="divider-before"><span>{{__("Logged as")}} <strong>{{Auth::user()->name}}</strong></span></li>
-                <li><a href="{{url( 'admin/auth/logout' )}}" class="logout-link"> {{__("Logout")}}</a></li>
+                <li class="divider-before"><span>{{trans('admin.text.logged_as')}} <strong>{{Auth::user()->name}}</strong></span></li>
+                <li><a href="{{url( 'admin/auth/logout' )}}" class="logout-link"> {{trans('admin.menu.logout')}}</a></li>
             </ul>
         </div>
     </div>

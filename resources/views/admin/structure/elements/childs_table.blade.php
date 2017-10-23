@@ -4,11 +4,11 @@
         @if (!empty( $sorting ))
             <th>&nbsp;</th>
         @endif
-        <th>{{__("Title")}}</th>
+        <th>{{trans('admin.table_heading.title')}}</th>
         @foreach ( $extra_columns as $column => $columnTitle )
             <th>{{$columnTitle}}</th>
         @endforeach
-        <th class="col-xs-1">{{__("Status")}}</th>
+        <th class="col-xs-1">{{trans('admin.table_heading.status')}}</th>
         <th class="col-xs-2">&nbsp;</th>
     </tr>
     </thead>
@@ -35,12 +35,12 @@
                 </td>
             @endforeach
             <td>
-                <a class="label @if ($item->active == 1)label-success @else label-danger @endif " href="{{url( '/admin/structure/active/'. $currentItem->id .'/'. $item->id . '/' . $item->active )}}" title="@if ($item->active == 1) {{__('Hide element')}} @else {{__('Make visible')}} @endif">@if ($item->active == 1)
-                        {{__("Visible")}} @else {{__("Hidden")}} @endif </a>
+                <a class="label @if ($item->active == 1)label-success @else label-danger @endif " href="{{url( '/admin/structure/active/'. $currentItem->id .'/'. $item->id . '/' . $item->active )}}" title="@if ($item->active == 1) {{trans('admin.Hide element')}} @else {{trans('admin.Make visible')}} @endif">@if ($item->active == 1)
+                        {{trans('admin.button.visible')}} @else {{trans('admin.button.hidden')}} @endif </a>
             </td>
             <td class="actions">
-                <a href="{{url(  '/admin/structure/index/' . $item->id )}}" title="{{$item->name}}" class="btn btn-xs btn-default edit-row-link">{{__("Edit")}}</a>
-                &nbsp;<a href="{{url( '/admin/structure/delete/' . $currentItem->id . '/'. $item->id )}}" class="btn btn-xs btn-default delete-row-link">{{__("Delete")}}</a>
+                <a href="{{url(  '/admin/structure/index/' . $item->id )}}" title="{{$item->name}}" class="btn btn-xs btn-default edit-row-link">{{trans('admin.button.edit')}}</a>
+                &nbsp;<a href="{{url( '/admin/structure/delete/' . $currentItem->id . '/'. $item->id )}}" class="btn btn-xs btn-default delete-row-link">{{trans('admin.button.delete')}}</a>
             </td>
         </tr>
     @endforeach

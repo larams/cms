@@ -8,7 +8,7 @@
                         <img style="margin-bottom: 10px;" id="property_{{$name}}_thumb" src="{{url('media/'. $item->data->{$name}->id . '_120_120.png')}}"/>
                         <div>
                             <label>
-                                <input type="checkbox" name="data[{{$name}}_delete]" value="1"/> {{__("Delete uploaded image")}}
+                                <input type="checkbox" name="data[{{$name}}_delete]" value="1"/> {{trans('admin.button.delete_uploaded_image')}}
                             </label>
                         </div>
                     @else
@@ -19,13 +19,13 @@
 
                     <a class="btn btn-xs btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name )}}', 'image-{{$name}}', 'width=900,height=600' ); return false;">
                         <span class="fa fa-file-o"></span>
-                        {{__("Choose image")}}
+                        {{trans('admin.button.choose_image')}}
                     </a>
                 </div>
             </div>
             @if (count( $versions ) > 1)
                 <div class="col-xs-12 col-sm-6">
-                    <strong>{{__("Automatically generated versions")}}<br/>
+                    <strong>{{trans('admin.text.automatically_generated_versions')}}<br/>
                         @foreach ( $versions as $version => $versionDetails )
                             {{strtoupper( $version )}}, {{$versionDetails['width']}}x{{$versionDetails['height']}}<br/>
                         @endforeach
@@ -37,7 +37,7 @@
                 <div class="col-xs-12 col-sm-6">
                     @if (count( $versions ) > 1)
                         <div>
-                            <strong>{{__("Version")}} {{strtoupper( $version )}}, {{$versionDetails['width']}}x{{$versionDetails['height']}}</strong>
+                            <strong>{{trans('admin.text.version')}} {{strtoupper( $version )}}, {{$versionDetails['width']}}x{{$versionDetails['height']}}</strong>
                         </div>
                     @endif
 
@@ -46,7 +46,7 @@
                             <img style="margin-bottom: 10px;" id="property_{{$name}}_{{$version}}_thumb" src="{{url('media/'. $item->data->{$name}->{$version}->id . '_120_120.png')}}"/>
                             <div>
                                 <label>
-                                    <input type="checkbox" name="data[{{$name}}_{{$version}}_delete]" value="1"/> {{__("Delete uploaded image")}}
+                                    <input type="checkbox" name="data[{{$name}}_{{$version}}_delete]" value="1"/> {{trans('admin.button.delete_uploaded_image')}}
                                 </label>
                             </div>
                         @else
@@ -57,7 +57,7 @@
 
                         <a class="btn btn-xs btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name.'_'.$version )}}', 'image-{{$name}}-{{$version}}}', 'width=900,height=600' ); return false;">
                             <span class="fa fa-file-o"></span>
-                            {{__("Choose image")}}
+                            {{trans('admin.button.choose_image')}}
                         </a>
                     </div>
                 </div>

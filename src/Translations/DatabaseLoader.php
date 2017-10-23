@@ -15,7 +15,7 @@ class DatabaseLoader implements LoaderInterface
 
     public function load($locale, $group, $namespace = null)
     {
-        return $this->translationKeyword->translations( $locale );
+        return $this->translationKeyword->translations( $locale, $group, $namespace );
     }
 
     /**

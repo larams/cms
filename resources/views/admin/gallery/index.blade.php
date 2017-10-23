@@ -77,7 +77,7 @@
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
             <input type="text" name="folder" class="form-control"/>
-            <button class="btn btn-primary">{{__('Create folder')}}</button>
+            <button class="btn btn-primary">{{trans('admin.button.create_folder')}}</button>
         </form>
     </div>
 

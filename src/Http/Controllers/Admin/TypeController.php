@@ -40,8 +40,8 @@ class TypeController extends Controller
 
         $types = $structureType->orderBy('name')->get();
 
-        $relations = $item->types()->where('additional', 0 )->lists('rel_type_id')->all();
-        $additional = $item->types()->where('additional', 1 )->lists('rel_type_id')->all();
+        $relations = $item->types()->where('additional', 0 )->pluck('rel_type_id')->toArray();
+        $additional = $item->types()->where('additional', 1 )->pluck('rel_type_id')->toArray();
 
         return $this->view('larams::admin.types.edit', compact('item', 'types', 'handlers', 'relations', 'additional') );
 

@@ -17,18 +17,18 @@
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="tree" value="<?=$tree; ?>"/>
 
-                    {!! BootstrapForm::input( ['name' => 'name', 'title' => __('Title'), 'max_length' => '255' ] ) !!}
+                    {!! BootstrapForm::input( ['name' => 'name', 'title' => trans('admin.field.title'), 'max_length' => '255' ] ) !!}
 
                     @if ( count( $types ) == 1 )
                         <input type="hidden" name="type_id" value="{{$types->first()->id}}"/>
                     @else
-                        {!! BootstrapForm::select( ['name' => 'type_id', 'title' => __('Type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}
+                        {!! BootstrapForm::select( ['name' => 'type_id', 'title' => trans('admin.field.type'), 'values' => $types, 'option_key' => 'id', 'option_value' => 'name_lang' ]) !!}
                     @endif
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{__("Cancel")}}</button>
-                    <button type="submit" class="btn btn-primary">{{__("Continue")}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('admin.button.cancel')}}</button>
+                    <button type="submit" class="btn btn-primary">{{trans('admin.button.continue')}}</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

@@ -21,8 +21,8 @@
 
         <div class="row">
             <div class="col-xs-12">
-                <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
-                <button class="btn btn-default" onclick="history.back();return false;">{{__('Cancel')}}</button>
+                <button type="submit" class="btn btn-primary">{{trans('admin.button.save')}}</button>
+                <button class="btn btn-default" onclick="history.back();return false;">{{trans('admin.button.cancel')}}</button>
             </div>
         </div>
 

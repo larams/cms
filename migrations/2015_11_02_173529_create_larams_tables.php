@@ -70,6 +70,7 @@ class CreateLaramsTables extends Migration
             $table->char('name');
             $table->timestamp('logged_at');
             $table->char('last_ip');
+            $table->tinyInteger('require_change')->default(0);
             $table->char('type')->default('ADMIN');
             $table->char('remember_token');
             $table->timestamp('password_changed_at')->nullable();

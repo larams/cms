@@ -1,7 +1,7 @@
 @if ( !empty( $isCreate ) )
-    <h2 class="mt20">{{__('Create New Content Type')}}</h2>
+    <h2 class="mt20">{{trans('admin.title.create_new_content_type')}}</h2>
 @else
-    <h2 class="mt20">{{__('Edit Content Type')}}</h2>
+    <h2 class="mt20">{{trans('admin.title.edit_content_type')}}</h2>
 @endif
 
 
@@ -13,20 +13,20 @@
 
         <div class="row">
             <div class="col-xs-4">
-                {!! BootstrapForm::input( ['name' => 'name', 'value' => !empty( $item ) ? $item->name : '', 'title' => __('Developer title')] ) !!}
+                {!! BootstrapForm::input( ['name' => 'name', 'value' => !empty( $item ) ? $item->name : '', 'title' => trans('admin.field.developer_title')] ) !!}
             </div>
             <div class="col-xs-4">
-                {!! BootstrapForm::input( ['name' => 'name_lang', 'value' => !empty( $item ) ? $item->name_lang : '', 'title' => __('Administrator title') ] ) !!}
+                {!! BootstrapForm::input( ['name' => 'name_lang', 'value' => !empty( $item ) ? $item->name_lang : '', 'title' => trans('admin.field.administrator_title') ] ) !!}
             </div>
             <div class="col-xs-4">
-                {!! BootstrapForm::select( ['name' => 'handler', 'value' => !empty( $item ) ? $item->handler : null, 'title' => __('Handler'), 'values' => $handlers, 'option_key' => 'id', 'option_value' => 'title' ]) !!}
+                {!! BootstrapForm::select( ['name' => 'handler', 'value' => !empty( $item ) ? $item->handler : null, 'title' => trans('admin.field.handler'), 'values' => $handlers, 'option_key' => 'id', 'option_value' => 'title' ]) !!}
             </div>
         </div>
 
 
         <div class="row">
             <div class="col-sm-6">
-                <legend>{{__('Child tree elements types')}}</legend>
+                <legend>{{trans('admin.text.child_tree_elements_types')}}</legend>
 
                 <div class="form-group">
                     <div class="col-sm-12">
@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="col-xs-6">
-                <legend>{{__('Child additional element types')}}</legend>
+                <legend>{{trans('admin.text.child_additional_element_types')}}</legend>
                 <div class="form-group">
                     <div class="col-sm-12">
                         @foreach ( $types as $type )
@@ -60,8 +60,8 @@
 
         <div class="form-group">
             <div class="col-xs-12">
-                <button type="submit" class="btn btn-primary">{{__('Save')}}</button>
-                <button class="btn btn-default" onclick="history.back();return false;">{{__('Cancel')}}</button>
+                <button type="submit" class="btn btn-primary">{{trans('admin.button.save')}}</button>
+                <button class="btn btn-default" onclick="history.back();return false;">{{trans('admin.button.cancel')}}</button>
             </div>
         </div>
 

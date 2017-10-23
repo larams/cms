@@ -23,7 +23,7 @@ class TranslationKeyword extends \Eloquent
 
     }
 
-    public function translations( $locale )
+    public function translations( $locale, $group, $namespace = null )
     {
         $language = StructureItem::getModel()->byTypeName('site_lang')->whereData('short_code', $locale )->first();
 
@@ -37,7 +37,13 @@ class TranslationKeyword extends \Eloquent
             ->where('translation_values.value', '!=', '')
             ->pluck('value', 'keyword');
 
-        return $translations->toArray();
+        $output = [];
+        foreach ( $translations as $k => $v ) {
+            $k = str_replace( $group.'.', '', $k );
+            $output[ $k] = $v;
+        }
+
+        return $output;
     }
 
 }
