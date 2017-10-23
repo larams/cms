@@ -11,7 +11,7 @@
   "minimum-stability": "dev",
   "require": {
     "php": ">=5.5.9",
-    "laravel/framework": "5.*",
+    "laravel/framework": "5.4.*",
     "intervention/image": "~2.3",
     "intervention/imagecache": "~2.3"
   },

@@ -18,7 +18,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'ipCheck'], function () {
 
-        Route::get('auth/login', 'AuthController@getLogin');
+        Route::get('auth/login', 'AuthController@getLogin')->name('login');
         Route::post('auth/login', 'AuthController@login');
 
         Route::group(['middleware' => 'auth'], function () {

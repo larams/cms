@@ -20,7 +20,7 @@ class CreateLaramsTables extends Migration
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('type_id')->nullable();
             $table->char('name');
-            $table->char('uri');
+            $table->char('uri')->default(NULL);
             $table->unsignedTinyInteger('custom_uri')->default(0);
             $table->timestamp('date');
             $table->unsignedInteger('level');
@@ -28,7 +28,7 @@ class CreateLaramsTables extends Migration
             $table->integer('right');
             $table->tinyInteger('active')->default(0);
             $table->tinyInteger('tree')->default(0);
-            $table->text('search');
+            $table->text('search')->default(NULL);
             $table->timestamps();
         });
 
@@ -69,10 +69,10 @@ class CreateLaramsTables extends Migration
             $table->char('password');
             $table->char('name');
             $table->timestamp('logged_at');
-            $table->char('last_ip');
+            $table->char('last_ip')->default(NULL);
             $table->tinyInteger('require_change')->default(0);
             $table->char('type')->default('ADMIN');
-            $table->char('remember_token');
+            $table->char('remember_token')->default(NULL);
             $table->timestamp('password_changed_at')->nullable();
             $table->timestamps();
         });
