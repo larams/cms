@@ -44,6 +44,7 @@ class LaramsServiceProvider extends ServiceProvider
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'larams');
 
         $this->publishes([
+            __DIR__ . '/../config/larams.php' => config_path('larams.php'),
             __DIR__ . '/../public' => public_path('vendor/larams'),
             __DIR__ . '/../migrations' => database_path('migrations'),
             __DIR__ . '/../seeds' => database_path('seeds'),
