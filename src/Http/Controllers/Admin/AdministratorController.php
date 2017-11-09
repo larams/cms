@@ -30,7 +30,9 @@ class AdministratorController extends Controller
         $isCreate = true;
         $types = $this->model->types();
 
-        return $this->view('larams::admin.administrators.edit', compact('isCreate', 'types'));
+        $user = $this->model->find( auth()->user()->id );
+
+        return $this->view('larams::admin.administrators.edit', compact('isCreate', 'types', 'user'));
 
     }
 
@@ -41,7 +43,9 @@ class AdministratorController extends Controller
 
         $types = $this->model->types();
 
-        return $this->view('larams::admin.administrators.edit', compact('item', 'types') );
+        $user = $this->model->find( auth()->user()->id );
+
+        return $this->view('larams::admin.administrators.edit', compact('item', 'types', 'user') );
 
     }
 
