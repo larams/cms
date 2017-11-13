@@ -8,7 +8,7 @@
                         <input
                                 class="form-control"
                                 name="data[{{$name}}][{{$inputItem->id}}]"
-                                value="@if (!empty( $item->data->{$name}->{$inputItem->id} ) ){{$item->data->{$name}->{$inputItem->id} }}@endif"/>
+                                value="@if (isset( $item->data->{$name}->{$inputItem->id} ) ){{$item->data->{$name}->{$inputItem->id} }}@endif"/>
                     </div>
                 </div>
             </div>
