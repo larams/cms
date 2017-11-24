@@ -16,11 +16,7 @@
 
         var funcNum = GetUrlParam('CKEditorFuncNum');
 
-        if (!isNaN(funcNum)) {
-            funcNum = 0;
-        }
-
-        window.top.opener.CKEDITOR.tools.callFunction(funcNum, fileUrl);
+        window.top.opener.CKEDITOR.tools.callFunction(''+funcNum, fileUrl);
 
     }
 
