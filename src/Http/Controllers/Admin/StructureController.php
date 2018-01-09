@@ -250,7 +250,7 @@ class StructureController extends Controller
         $itemsWithChilds = [];
         foreach ($items as $itemId) {
             $itemsWithChilds[$itemId] = $structureItem->find($itemId);
-            $itemsWithChilds[$itemId]->childIds = $structureItem->where('left', '>=', $itemsWithChilds[$itemId]->left)->where('right', '<=', $itemsWithChilds[$itemId]->right)->lists('id');
+            $itemsWithChilds[$itemId]->childIds = $structureItem->where('left', '>=', $itemsWithChilds[$itemId]->left)->where('right', '<=', $itemsWithChilds[$itemId]->right)->pluck('id');
         }
 
         $left = $parentItem->left + 1;
