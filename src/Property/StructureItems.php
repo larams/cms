@@ -26,16 +26,29 @@ class StructureItems extends Property
 
     protected $allowEmpty = false;
 
+    protected $sameLanguage = false;
+
     public function getHtml()
     {
 
         $structureItems = new StructureItem();
 
+        if (!empty($this->item) && !empty($this->sameLanguage)) {
+            $language = $this->item->path( $this->item->left, $this->item->right )->byTypeName('site_lang')->first();
+        }
+
         if (!empty( $this->topLevelId )) {
             $topLevelItem = $structureItems->find( $this->topLevelId );
         } else {
-            $topLevelItem = $structureItems->byTypeName($this->typeName)->first();
+            $topLevelItem = $structureItems->byTypeName($this->typeName);
+
+            if (!empty($language)) {
+                $topLevelItem = $topLevelItem->childsOf( $language->id );
+            }
+
+            $topLevelItem = $topLevelItem->first();
         }
+
 
         if (!empty($this->firstLevel)) {
             $childs = $structureItems->where('parent_id', $topLevelItem->id);
@@ -72,6 +85,7 @@ class StructureItems extends Property
             'childTypeName' => $this->childTypeName,
             'style' => $this->style,
             'firstLevel' => $this->firstLevel,
+            'sameLanguage' => $this->sameLanguage,
             'multiple' => $this->multiple,
             'allowEmpty' => $this->allowEmpty,
             'item' => $this->item,
