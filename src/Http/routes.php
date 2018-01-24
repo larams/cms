@@ -40,7 +40,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
             Route::get('gallery/index/{itemId?}/{select?}/{target?}', 'GalleryController@getIndex');
             Route::post('gallery/save-folder/{itemId?}/{id?}/{target?}', 'GalleryController@postSaveFolder');
             Route::get('gallery/delete/{parentId}/{itemId}/{id?}', 'GalleryController@getDelete');
-            Route::any('gallery/upload/{itemId}/{id?}', 'GalleryController@anyUpload');
+            Route::any('gallery/upload/{itemId}/{id?}/{imageName?}', 'GalleryController@anyUpload');
             Route::post('gallery/move', 'GalleryController@postMove');
 
             Route::get('types', 'TypeController@getIndex');

@@ -20,7 +20,7 @@ abstract class Controller extends BaseController
             $variables['route'] = $this->route;
         }
 
-        return view( $this->layout, ['content' => view( $view, $variables )]);
+        return response()->view( $this->layout, ['content' => view( $view, $variables )]);
     }
 
 }
