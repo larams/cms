@@ -191,7 +191,7 @@ class StructureItem extends \Eloquent
 
     /**
      * @param \Eloquent $query
-     * @param $key
+     * @param string|array|\Closure $key
      * @param null $value
      * @return mixed
      */
@@ -200,16 +200,24 @@ class StructureItem extends \Eloquent
 
         $alias = uniqid();
 
-        if (is_null($value)) {
-            $value = $operator;
-            $operator = '=';
+        $query
+            ->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=', $alias . '.item_id')
+            ->where($alias . '.name', $key);
+
+        if ($operator instanceof \Closure) {
+            $nestedQuery = $this->newQueryWithoutScopes();
+            $operator($nestedQuery, $alias);
+            $query->addNestedWhereQuery($nestedQuery->getQuery(), 'and');
+        } else {
+            if (is_null($value)) {
+                $value = $operator;
+                $operator = '=';
+            }
+
+            $query->where($alias . '.data', $operator, $value);
         }
 
-        return $query
-            ->leftJoin('structure_data AS ' . $alias, 'structure_items.id', '=', $alias . '.item_id')
-            ->where($alias . '.name', $key)
-            ->where($alias . '.data', $operator, $value)
-            ->select(['structure_items.*']);
+        return $query->select(['structure_items.*']);
     }
 
     /**
