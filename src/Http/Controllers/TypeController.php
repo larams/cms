@@ -33,7 +33,7 @@ class TypeController extends Controller
             $className = $this->getIndexController( $currLang );
         } else {
 
-            $currItem = $structureItem->with('type')->where('uri', $uri )->first();
+            $currItem = $structureItem->with('type')->where('uri', $uri )->where('active', 1 )->first();
             if (empty( $currItem) || empty($currLang)) {
                 return abort( 404, 'Page not found');
             }
