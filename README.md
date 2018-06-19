@@ -20,3 +20,19 @@ Usage:
 
 - Create `resources/views/index.blade.php` for title page
 - Create `resources/views/types/text.blade.php` for each content type you need
+- 
+
+# Troubleshooting
+
+## CMS structure tree is not loading
+
+- Modify `admin/blocks/head.blade.php` to use non-minified version of jstree
+- In jstree.js file add `console.log` on Line 1718
+
+        // 2) populate children (foreach)
+    	for(i = 0, j = dat.length; i < j; i++) {
+            console.log( dat[i].parent, dat[i] );
+    		m[dat[i].parent.toString()].children.push(dat[i].id.toString());
+    		// populate parent.children_d
+    		p.children_d.push(dat[i].id.toString());
+    	}
