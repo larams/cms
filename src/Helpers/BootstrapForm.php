@@ -39,16 +39,23 @@ class BootstrapForm
         }
 
         $disabled = '';
-        if (!empty( $params['disabled'])) {
+        if (!empty($params['disabled'])) {
             $disabled = ' disabled="disabled" ';
         }
 
         $html = '
              <div class="form-group">
-                <label for="'.$id.'" class="control-label">' . $params['title'] . '</label>
+                <label for="' . $id . '" class="control-label">' . $params['title'] . '</label>
                 <div class="">
-                    <input ' . $max_length . $disabled . ' type="'. (!empty( $params['type'] ) ? $params['type'] : 'text') .'" name="' . $params['name'] . '" class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" id="' . $id . '" value="' . htmlspecialchars( !empty( $params['value'] ) ? $params['value'] : '', ENT_QUOTES, 'UTF-8' ) . '">
-                                        ' . $hint . '
+                    <input 
+                    ' . $max_length . $disabled . ' 
+                    type="' . (!empty($params['type']) ? $params['type'] : 'text') . '" 
+                    name="' . $params['name'] . '" 
+                    class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" 
+                    id="' . $id . '" 
+                    value="' . htmlspecialchars(array_key_exists('value', $params) ? $params['value'] : '', ENT_QUOTES, 'UTF-8') . '"
+                    >
+                    ' . $hint . '
                 </div>
             </div>
         ';
@@ -75,10 +82,10 @@ class BootstrapForm
 
         foreach ($params['values'] as $key => $value) {
 
-            $option_key = !empty($params['option_key']) && isset( $value[$params['option_key'] ]) ? $value[$params['option_key']] : $key;
-            $option_value = !empty($params['option_value']) && isset( $value[$params['option_value'] ]) ? $value[$params['option_value']] : $value;
+            $option_key = !empty($params['option_key']) && isset($value[$params['option_key']]) ? $value[$params['option_key']] : $key;
+            $option_value = !empty($params['option_value']) && isset($value[$params['option_value']]) ? $value[$params['option_value']] : $value;
 
-            $html .= '<option ' . (!empty( $params['value'] ) && $option_key == $params['value'] ? 'selected="selected"' : '') . ' value="' . $option_key . '">' . $option_value . '</option>';
+            $html .= '<option ' . (!empty($params['value']) && $option_key == $params['value'] ? 'selected="selected"' : '') . ' value="' . $option_key . '">' . $option_value . '</option>';
         }
 
         $html .= '
