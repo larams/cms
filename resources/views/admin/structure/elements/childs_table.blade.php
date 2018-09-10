@@ -28,9 +28,13 @@
             @foreach ( $extra_columns as $column => $columnTitle )
                 <td>
                     @if (strpos( $column, 'data.') !== false)
-                        {{ $item->data->{substr( $column, 5 )} }}
+                        @if ( property_exists( $item->data, substr( $column, 5 )))
+                            {{ $item->data->{substr( $column, 5 )} }}
+                        @endif
                     @else
-                        {{$item->$column}}
+                        @if (property_exists( $item, $column ))
+                            {{$item->$column}}
+                        @endif
                     @endif
                 </td>
             @endforeach
