@@ -33,8 +33,19 @@ class TypeController extends Controller
             $className = $this->getIndexController( $currLang );
         } else {
 
-            $currItem = $structureItem->with('type')->where('uri', $uri )->where('active', 1 )->first();
-            if (empty( $currItem) || empty($currLang)) {
+            /** @var StructureItem $currItem */
+            $currItem = $structureItem->withTrashed()->with('type')->where('uri', $uri )->first();
+            if (empty( $currItem) || empty($currLang) || !$currItem->canBeDisplayed() ) {
+
+                if ( !empty( $currItem ) && $currItem->trashed()) {
+                    $parentItems = $structureItem->withTrashed()->path( $currItem->left, $currItem->right )->orderBy('left', 'desc')->get();
+                    foreach ( $parentItems as $parentItem ) {
+                        if ( !$parentItem->trashed()) {
+                            return redirect( $parentItem->uri, 301 );
+                        }
+                    }
+                }
+
                 return abort( 404, 'Page not found');
             }
 

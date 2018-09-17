@@ -2,6 +2,8 @@
 
 namespace Larams\Cms;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
  * Class StructureItem
  * @package Larams\Cms
@@ -17,6 +19,8 @@ namespace Larams\Cms;
 
 class StructureItem extends \Eloquent
 {
+
+    use SoftDeletes;
 
     public static $currLang;
 
@@ -91,15 +95,18 @@ class StructureItem extends \Eloquent
 
     }
 
+    public function deleteSelfOnly()
+    {
+        return parent::delete();
+    }
+
     public function delete()
     {
 
-        $this->where('left', '>', $this->left)->where('right', '<', $this->right)->delete();
-
-        $delta = $this->right - $this->left + 1;
-
-        $this->where('left', '>', $this->left)->decrement('left', $delta);
-        $this->where('right', '>', $this->right)->decrement('right', $delta);
+        $items = $this->where('left', '>', $this->left )->where('right', '<', $this->right )->get();
+        foreach ( $items as $item ) {
+            $item->deleteSelfOnly();
+        }
 
         return parent::delete();
     }
@@ -382,5 +389,10 @@ class StructureItem extends \Eloquent
         $this->level = $parent->level + 1;
         $this->save();
 
+    }
+
+    public function canBeDisplayed()
+    {
+        return !$this->trashed() && $this->active == 1;
     }
 }
