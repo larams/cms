@@ -38,7 +38,7 @@ class TypeController extends Controller
             if (empty( $currItem) || empty($currLang) || !$currItem->canBeDisplayed() ) {
 
                 if ( !empty( $currItem ) && $currItem->trashed()) {
-                    $parentItems = $structureItem->withTrashed()->path( $currItem->left, $currItem->right )->orderBy('left', 'desc')->get();
+                    $parentItems = $structureItem->withTrashed()->path( $currItem->left, $currItem->right )->where('active', 1 )->orderBy('left', 'desc')->get();
                     foreach ( $parentItems as $parentItem ) {
                         if ( !$parentItem->trashed()) {
                             return redirect( $parentItem->uri, 301 );
