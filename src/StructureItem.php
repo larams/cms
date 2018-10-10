@@ -250,6 +250,8 @@ class StructureItem extends \Eloquent
     public function updateChildUris($item)
     {
 
+        ActionLog::log( $item->id, 'STRUCTURE', "Update child urls (parent id: {$item->id}) where left > {$item->left} and right < {$item->right}", $item );
+
         $childs = $this->where('left', '>', $item->left)->where('right', '<', $item->right)->get();
 
         foreach ($childs as $child) {
@@ -265,6 +267,8 @@ class StructureItem extends \Eloquent
 
     public function addItem($data, StructureItem $parent)
     {
+
+        ActionLog::log($parent->id, 'STRUCTURE', "addItem, increment left/right by 2 where left > {$parent->right}, right > " . ($parent->right - 1));
 
         $this->where('left', '>', $parent->right)->increment('left', 2);
         $this->where('right', '>', $parent->right - 1)->increment('right', 2);
@@ -284,6 +288,8 @@ class StructureItem extends \Eloquent
         if (!isset($data['level'])) {
             $data['level'] = $parent->level + 1;
         }
+
+        ActionLog::log($parent->id, 'STRUCTURE', 'addItem, create child', $data );
 
         return $this->create($data);
     }

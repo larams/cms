@@ -120,7 +120,8 @@
                             {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => trans('admin.field.title') ] ) !!}
 
                             @if (!empty( $typeConfiguration['allow_custom_uri'] ))
-                                {!! BootstrapForm::input( ['name' => 'uri', 'value' => $currentItem->uri, 'title' => trans('admin.field.link') ] ) !!}
+                                {!! BootstrapForm::input( ['name' => '', 'readonly' => 'readonly', 'disabled' => 'disabled', 'value' => $currentItem->uri, 'title' => trans('admin.field.link') ] ) !!}
+                                {!! BootstrapForm::input( ['name' => 'custom_uri', 'value' => $currentItem->custom_uri, 'title' => trans('admin.field.link') ] ) !!}
                             @endif
 
                             @if ( !empty( $isDeveloper ) )

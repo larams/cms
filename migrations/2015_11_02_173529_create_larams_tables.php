@@ -103,6 +103,16 @@ class CreateLaramsTables extends Migration
             $table->timestamps();
         });
 
+        Schema::create('actions_log', function( Blueprint $table ) {
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('related_id');
+            $table->char('type');
+            $table->char('message');
+            $table->longText('data');
+            $table->timestamps();
+        });
+
     }
 
     /**
