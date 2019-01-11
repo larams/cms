@@ -286,12 +286,17 @@ class StructureController extends Controller
     public function getTree(StructureItem $structureItem, $itemId)
     {
 
-        $items = $structureItem->childsOf($itemId)->where('tree', 1)->orderBy('left')->get();
+        $items = $structureItem->with('parent')->childsOf($itemId)->where('tree', 1)->orderBy('left')->get();
         $childsCounts = $structureItem->select([\DB::raw('COUNT( id ) as childs'), 'parent_id'])->groupBy('parent_id')->pluck('childs', 'parent_id');
 
         $response = [];
 
         foreach ($items as $item) {
+
+            // @todo: Skip also those items that has more parents not in tree
+            if (empty($item->parent->tree)) {
+                continue;
+            }
 
             $response[] = [
 
