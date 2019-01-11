@@ -29,6 +29,7 @@ class CreateLaramsTables extends Migration
             $table->tinyInteger('active')->default(0);
             $table->tinyInteger('tree')->default(0);
             $table->text('search')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
 
@@ -109,7 +110,7 @@ class CreateLaramsTables extends Migration
             $table->unsignedInteger('related_id');
             $table->char('type');
             $table->char('message');
-            $table->longText('data');
+            $table->longText('data')->nullable();
             $table->timestamps();
         });
 
