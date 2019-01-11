@@ -16,7 +16,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
     Route::get('media/{id}.{format?}', 'MediaController@getView');
     Route::get('admin', 'Admin\AuthController@getLogin')->middleware('ipCheck');
 
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'ipCheck'], function () {
+    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['ipCheck', 'cacheControl']], function () {
 
         Route::get('auth/login', 'AuthController@getLogin')->name('login');
         Route::post('auth/login', 'AuthController@login');
