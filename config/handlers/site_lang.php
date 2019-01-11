@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'child_tree_items_list_title' => 'Content blocks',
-    'child_tree_item_create_title' => 'Create new block',
+    'child_tree_items_list_title' => 'admin.text.content_blocks',
+    'child_tree_item_create_title' => 'admin.text.create_new_block',
     'properties' => [
         [
             'class' => 'Larams\Cms\Property\Text',

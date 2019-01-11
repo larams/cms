@@ -88,6 +88,10 @@ class StructureItemSeeder extends Seeder
         DB::table('translation_keywords')->insert(array('id' => 66, 'keyword' => 'admin.text.characters_left'));
         DB::table('translation_keywords')->insert(array('id' => 67, 'keyword' => 'admin.button.continue'));
         DB::table('translation_keywords')->insert(array('id' => 68, 'keyword' => 'admin.text.loading'));
+        DB::table('translation_keywords')->insert(array('id' => 69, 'keyword' => 'admin.text.languages'));
+        DB::table('translation_keywords')->insert(array('id' => 70, 'keyword' => 'admin.text.new_language'));
+        DB::table('translation_keywords')->insert(array('id' => 71, 'keyword' => 'admin.text.content_blocks'));
+        DB::table('translation_keywords')->insert(array('id' => 72, 'keyword' => 'admin.text.create_new_block'));
 
         foreach ([$firstLanguageId, $secondLanguageId] as $languageId) {
 
@@ -150,6 +154,10 @@ class StructureItemSeeder extends Seeder
             DB::table('translation_values')->insert(array('keyword_id' => 66, 'language_id' => $languageId, 'value' => 'Characters left'));
             DB::table('translation_values')->insert(array('keyword_id' => 67, 'language_id' => $languageId, 'value' => 'Continue'));
             DB::table('translation_values')->insert(array('keyword_id' => 68, 'language_id' => $languageId, 'value' => 'Loading'));
+            DB::table('translation_values')->insert(array('keyword_id' => 69, 'language_id' => $languageId, 'value' => 'Languages'));
+            DB::table('translation_values')->insert(array('keyword_id' => 70, 'language_id' => $languageId, 'value' => 'Create new language'));
+            DB::table('translation_values')->insert(array('keyword_id' => 71, 'language_id' => $languageId, 'value' => 'Content blocks'));
+            DB::table('translation_values')->insert(array('keyword_id' => 72, 'language_id' => $languageId, 'value' => 'Create new block'));
         }
     }
 
