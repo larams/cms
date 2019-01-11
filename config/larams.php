@@ -5,6 +5,7 @@ return [
     'gallery' => true,
     'register_frontend_routes' => true,
     'admin' => [
+        'allow_custom_uri' => false,
         'password_expires_in' => false, // '-2 months',
         'require_password_change' => false,
         'redirect_location' => 'admin/structure',

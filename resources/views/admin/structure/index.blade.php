@@ -118,9 +118,9 @@
                         <fieldset>
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             {!! BootstrapForm::input( ['name' => 'name', 'value' => $currentItem->name, 'title' => trans('admin.field.title') ] ) !!}
+                            {!! BootstrapForm::input( ['name' => '', 'readonly' => 'readonly', 'disabled' => 'disabled', 'value' => $currentItem->uri, 'title' => trans('admin.field.link') ] ) !!}
 
-                            @if (!empty( $typeConfiguration['allow_custom_uri'] ))
-                                {!! BootstrapForm::input( ['name' => '', 'readonly' => 'readonly', 'disabled' => 'disabled', 'value' => $currentItem->uri, 'title' => trans('admin.field.link') ] ) !!}
+                            @if (config('larams.admin.allow_custom_uri'))
                                 {!! BootstrapForm::input( ['name' => 'custom_uri', 'value' => $currentItem->custom_uri, 'title' => trans('admin.field.link') ] ) !!}
                             @endif
 
