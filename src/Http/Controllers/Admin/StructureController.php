@@ -262,7 +262,7 @@ class StructureController extends Controller
             $itemsWithChilds[$itemId]->childIds = $structureItem->where('left', '>=', $itemsWithChilds[$itemId]->left)->where('right', '<=', $itemsWithChilds[$itemId]->right)->pluck('id');
         }
 
-        ActionLog::log(null, 'STRUCTURE', 'Sort', $items);
+        ActionLog::log($parentId, 'STRUCTURE', 'Sort', $items);
 
         $left = $parentItem->left + 1;
         foreach ($itemsWithChilds as $item) {
