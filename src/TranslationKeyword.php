@@ -39,6 +39,9 @@ class TranslationKeyword extends \Eloquent
 
         $output = [];
         foreach ( $translations as $k => $v ) {
+            if ( $group != '*' && !preg_match('/^'. preg_quote($group). '/si', $k )) {
+                continue;
+            }
             $k = str_replace( $group.'.', '', $k );
             $output[ $k] = $v;
         }
