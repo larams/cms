@@ -255,11 +255,7 @@ class StructureItem extends \Eloquent
         $childs = $this->where('left', '>', $item->left)->where('right', '<', $item->right)->get();
 
         foreach ($childs as $child) {
-            if (!empty( $child->custom_uri )) {
-                continue;
-            }
-
-            $child->uri = $child->full_uri;
+            $child->uri = $this->generateUrl( $child->custom_uri, $child->name, $child->parent, $child->id );
             $child->save();
         }
 
@@ -400,5 +396,29 @@ class StructureItem extends \Eloquent
     public function canBeDisplayed()
     {
         return !$this->trashed() && $this->active == 1;
+    }
+
+    public function generateUrl($customUri, $name, $parentItem, $itemId)
+    {
+        if (empty($customUri) || substr($customUri, 0, 1) !== '/') {
+
+            $pageUri = !empty($customUri) ? $customUri : Utils::toAscii($name);
+
+            $iteration = 1;
+            do {
+                $uri = trim((!empty($parentItem) ? $parentItem->full_uri . '/' : '') . $pageUri, '/');
+
+                if ($iteration > 1) {
+                    $uri .= '-' . $iteration;
+                }
+
+                $elementWithUri = $this->where('uri', $uri)->where('id', '!=', $itemId)->first();
+                $iteration++;
+            } while (!empty($elementWithUri));
+
+            return $uri;
+        }
+
+        return substr($customUri, 1);
     }
 }

@@ -196,28 +196,7 @@ class StructureController extends Controller
         }
 
         $rawFormData['data'] = $additionalFieldsData;
-
-        if ( empty( $rawFormData['custom_uri']) || substr($rawFormData['custom_uri'], 0, 1) !== '/') {
-
-            $pageUri = !empty($rawFormData['custom_uri']) ? $rawFormData['custom_uri'] : Utils::toAscii($rawFormData['name']);
-
-            $iteration = 1;
-            do {
-                $uri = trim((!empty($item->parent) ? $item->parent->full_uri . '/' : '') . $pageUri, '/');
-
-                if ($iteration > 1) {
-                    $uri .= '-' . $iteration;
-                }
-
-                $elementWithUri = $structureItem->where('uri', $uri)->where('id', '!=', $item->id)->first();
-                $iteration++;
-            } while (!empty($elementWithUri));
-
-            $rawFormData['uri'] = $uri;
-        } else {
-            $rawFormData['uri'] = substr($rawFormData['custom_uri'], 1);
-        }
-
+        $rawFormData['uri'] = $structureItem->generateUrl( $rawFormData['custom_uri'], $rawFormData['name'], $item->parent, $item->id );
         $rawFormData['search'] = $rawFormData['name'];
 
         $item->content()->delete();
@@ -328,7 +307,7 @@ class StructureController extends Controller
 
         $element->move($data['parent'], $data['position']);
 
-        ActionLog::log( $element->id, 'STRUCTURE', 'Move to parent:' . $data['parent']. ' position:'.$data['position'] );
+        ActionLog::log($element->id, 'STRUCTURE', 'Move to parent:' . $data['parent'] . ' position:' . $data['position']);
 
         return response()->json(['success' => true]);
 
