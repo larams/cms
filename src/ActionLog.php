@@ -12,6 +12,10 @@ class ActionLog extends Model
 
     public static function log($relatedId, $type, $message, $data = null)
     {
+        if (!config('larams.admin.log_admin_actions')) {
+            return null;
+        }
+
         return static::create([
             'user_id' => auth()->user()->id,
             'related_id' => $relatedId,
