@@ -196,7 +196,7 @@ class StructureController extends Controller
         }
 
         $rawFormData['data'] = $additionalFieldsData;
-        $rawFormData['uri'] = $structureItem->generateUrl( $rawFormData['custom_uri'], $rawFormData['name'], $item->parent, $item->id );
+        $rawFormData['uri'] = $structureItem->generateUrl( !empty($rawFormData['custom_uri']) ? $rawFormData['custom_uri'] : '', $rawFormData['name'], $item->parent, $item->id );
         $rawFormData['search'] = $rawFormData['name'];
 
         $item->content()->delete();
