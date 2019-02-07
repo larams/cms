@@ -3,8 +3,23 @@
 
         <div class="mt20">
 
+            @if ( count( $topLevelItems ) > 1)
+                <div class="btn-group" style="width: 100%; padding: 0 20px;">
+                    <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Select site <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        @foreach ( $topLevelItems as $topLevelItem )
+                            <li @if ( $topLevelItem->id == $currentLanguage->id ) class="active" @endif>
+                                <a href="{{url('admin/structure/index/' . $topLevelItem->id )}}">{{$topLevelItem->name}}</a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             @if ( count( $languages) )
-                <ul class="nav nav-pills">
+                <ul class="nav nav-pills mt20">
                     @foreach ( $languages as $language )
                         <li @if ( $language->id == $currentLanguage->id ) class="active" @endif>
                             <a href="{{url('admin/structure/index/' . $language->id )}}">{{$language->name}}</a>

@@ -21,8 +21,10 @@ class StructureController extends Controller
             $currentItem = $structureItem->with('content')->with('type')->find($itemId);
         }
 
-        $topLevelItem = $structureItem->whereNull('parent_id')->first();
-        $languages = $structureItem->where('parent_id', $topLevelItem->id)->orderBy('left')->get();
+        $topLevelItems = $structureItem->whereNull('parent_id')->byTypeName('site')->get();
+
+        $currentTopLevelItem = $structureItem->currSite();
+        $languages = $structureItem->where('parent_id', $currentTopLevelItem->id)->orderBy('left')->get();
 
         if (empty($currentItem)) {
             return redirect('admin/' . $this->route . '/index/' . $languages->first()->id);
@@ -32,7 +34,7 @@ class StructureController extends Controller
             $this->panic('Cms actions : no items!');
         } else {
 
-            $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->orderBy('left')->get();;
+            $currentPath = $structureItem->path($currentItem->left, $currentItem->right)->orderBy('left')->get();
 
             if (count($currentPath) == 1) {
                 $currentLanguage = $structureItem->where('parent_id', $currentItem->id)->first();
@@ -100,7 +102,7 @@ class StructureController extends Controller
             }
         }
 
-        return $this->view('larams::admin.structure.index', compact('currentItem', 'currentPath', 'currentLanguage', 'isDeveloper', 'treeChilds', 'extraChilds', 'types', 'languages', 'treeTypes', 'extraTypes', 'typeConfiguration'));
+        return $this->view('larams::admin.structure.index', compact('currentItem', 'currentPath', 'currentLanguage', 'isDeveloper', 'topLevelItems', 'currentTopLevelItem', 'treeChilds', 'extraChilds', 'types', 'languages', 'treeTypes', 'extraTypes', 'typeConfiguration'));
 
     }
 
@@ -196,7 +198,7 @@ class StructureController extends Controller
         }
 
         $rawFormData['data'] = $additionalFieldsData;
-        $rawFormData['uri'] = $structureItem->generateUrl( !empty($rawFormData['custom_uri']) ? $rawFormData['custom_uri'] : '', $rawFormData['name'], $item->parent, $item->id );
+        $rawFormData['uri'] = $structureItem->generateUrl(!empty($rawFormData['custom_uri']) ? $rawFormData['custom_uri'] : '', $rawFormData['name'], $item->parent, $item->id);
         $rawFormData['search'] = $rawFormData['name'];
 
         $item->content()->delete();
