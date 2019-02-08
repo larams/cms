@@ -6,13 +6,15 @@
             @if ( count( $topLevelItems ) > 1)
                 <div class="btn-group" style="width: 100%; padding: 0 20px;">
                     <button type="button" class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Select site <span class="caret"></span>
+                        <span style="float: left;">{{$currentTopLevelItem->name}}</span> <span style="float: right; margin-top: 7px;" class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="width: 100%">
                         @foreach ( $topLevelItems as $topLevelItem )
-                            <li @if ( $topLevelItem->id == $currentLanguage->id ) class="active" @endif>
-                                <a href="{{url('admin/structure/index/' . $topLevelItem->id )}}">{{$topLevelItem->name}}</a>
-                            </li>
+                            @if($topLevelItem->id != $currentTopLevelItem->id)
+                                <li @if ( $topLevelItem->id == $currentLanguage->id ) class="active" @endif>
+                                    <a href="{{url('admin/structure/index/' . $topLevelItem->id )}}">{{$topLevelItem->name}}</a>
+                                </li>
+                            @endif
                         @endforeach
                     </ul>
                 </div>
