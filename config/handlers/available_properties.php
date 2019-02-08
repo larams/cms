@@ -73,7 +73,7 @@ $properties = [
     [
         'class' => 'Larams\Cms\Property\StructureText',
         'name' => 'multi_items',
-        'sameLanding' => true,
+        'splitByType' => 'site',
         'typeName' => 'site_lang',
         'inputWidthClass' => 'col-xs-3',
         'title' => 'Text for every language'

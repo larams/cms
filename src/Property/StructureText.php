@@ -14,12 +14,12 @@ class StructureText extends Property
 
     protected $parentTypeName = '';
 
-    protected $sameLanding = false;
+    protected $splitByType = '';
 
     /** @var StructureItem */
     protected $structureItem;
 
-    public function __construct( StructureItem $structureItem )
+    public function __construct(StructureItem $structureItem)
     {
         $this->structureItem = $structureItem;
     }
@@ -27,17 +27,23 @@ class StructureText extends Property
     public function getHtml()
     {
 
-        if (!empty( $this->parentTypeName )) {
-            $items = $this->structureItem->byParentTypeName( $this->parentTypeName );
-        } elseif (!empty( $this->typeName )) {
-            $items = $this->structureItem->byTypeName( $this->typeName );
+        if (!empty($this->parentTypeName)) {
+            $items = $this->structureItem->byParentTypeName($this->parentTypeName);
+        } elseif (!empty($this->typeName)) {
+            $items = $this->structureItem->byTypeName($this->typeName);
         }
 
-        if (!empty( $this->sameLanding )) {
-            $topItem = $this->structureItem->path( $this->item->left, $this->item->right )->where('active', 1)->take( PHP_INT_MAX )->orderBy('left')->offset( 1 )->first();
-            $items = $items->childsOf( $topItem->id );
+        if (!empty($this->splitByType)) {
+            $topItem = $this->structureItem
+                ->byTypeName($this->splitByType)
+                ->path($this->item->left, $this->item->right)
+                ->where('active', 1)
+                ->take(PHP_INT_MAX)
+                ->orderBy('left')
+                ->first();
+            $items = $items->childsOf($topItem->id);
         }
-
+        
         $items = $items->orderBy('left')->get();
 
         $configuration = array(
