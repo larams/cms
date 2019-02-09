@@ -23,7 +23,12 @@ class StructureController extends Controller
 
         $topLevelItems = $structureItem->whereNull('parent_id')->byTypeName('site')->get();
 
-        $currentTopLevelItem = $structureItem->currSite();
+        if (empty($currentItem)) {
+            $currentTopLevelItem = $topLevelItems->first();
+        } else {
+            $currentTopLevelItem = $structureItem->path( $currentItem->left, $currentItem->right )->first();
+        }
+
         $languages = $structureItem->where('parent_id', $currentTopLevelItem->id)->orderBy('left')->get();
 
         if (empty($currentItem)) {
