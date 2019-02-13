@@ -82,8 +82,13 @@ class BootstrapForm
 
         foreach ($params['values'] as $key => $value) {
 
-            $option_key = !empty($params['option_key']) && isset($value[$params['option_key']]) ? $value[$params['option_key']] : $key;
-            $option_value = !empty($params['option_value']) && isset($value[$params['option_value']]) ? $value[$params['option_value']] : $value;
+            if ( is_array( $value)) {
+                $option_key = !empty($params['option_key']) && isset($value[$params['option_key']]) ? $value[$params['option_key']] : $key;
+                $option_value = !empty($params['option_value']) && isset($value[$params['option_value']]) ? $value[$params['option_value']] : $value;
+            } else {
+                $option_key = !empty($params['option_key']) && isset($value->{$params['option_key']}) ? $value->{$params['option_key']} : $key;
+                $option_value = !empty($params['option_value']) && isset($value->{$params['option_value']}) ? $value->{$params['option_value']} : $value;
+            }
 
             $html .= '<option ' . (!empty($params['value']) && $option_key == $params['value'] ? 'selected="selected"' : '') . ' value="' . $option_key . '">' . $option_value . '</option>';
         }
