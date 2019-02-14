@@ -23,6 +23,8 @@
     </div>
 </div>
 
+@include('larams::admin.blocks.footer_scripts')
+
 </body>
 
 </html>

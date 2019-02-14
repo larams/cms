@@ -21,6 +21,8 @@
     <link href="{{asset('vendor/larams/css/jstree/style.css')}}" rel="stylesheet" />
     <link href="{{asset('vendor/larams/css/admin.css')}}" rel="stylesheet">
 
+    @include('larams::admin.blocks.head_scripts')
+
     <script type="text/javascript">
         $.ajaxSetup({
                 headers: {
