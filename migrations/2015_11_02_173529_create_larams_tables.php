@@ -15,7 +15,6 @@ class CreateLaramsTables extends Migration
         Schema::create('structure_items', function (Blueprint $table) {
 
             $table->increments('id');
-            $table->engine = 'MyISAM';
             $table->unsignedInteger('parent_id')->nullable();
             $table->unsignedInteger('user_id')->nullable();
             $table->unsignedInteger('type_id')->nullable();
@@ -31,9 +30,14 @@ class CreateLaramsTables extends Migration
             $table->text('search')->nullable();
             $table->softDeletes();
             $table->timestamps();
+
+            $table->index(['left', 'right'], 'left_right');
+            $table->index('deleted_at');
+            $table->index(['parent_id', 'active']);
+            $table->index('type_id');
         });
 
-        DB::statement('ALTER TABLE structure_items ADD FULLTEXT FULL( search )');
+//        DB::statement('ALTER TABLE structure_items ADD FULLTEXT FULL( search )');
 
         Schema::create('structure_data', function (Blueprint $table) {
 
@@ -42,6 +46,9 @@ class CreateLaramsTables extends Migration
             $table->char('name');
             $table->text('data');
             $table->timestamps();
+
+            $table->index('item_id');
+
         });
 
         Schema::create('structure_types', function (Blueprint $table) {
@@ -51,6 +58,8 @@ class CreateLaramsTables extends Migration
             $table->char('handler');
             $table->char('name_lang');
             $table->timestamps();
+
+            $table->index('name');
 
         });
 
@@ -112,6 +121,15 @@ class CreateLaramsTables extends Migration
             $table->char('message');
             $table->longText('data')->nullable();
             $table->timestamps();
+        });
+
+        Schema::table('structure_items', function( Blueprint $table ) {
+            $table->foreign('type_id')->references('id')->on('structure_types')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('parent_id')->references('id')->on('structure_items')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });
+
+        Schema::table('structure_data', function( Blueprint $table ) {
+            $table->foreign('item_id')->references('id')->on('structure_items')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
 
     }
