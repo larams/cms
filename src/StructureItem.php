@@ -80,14 +80,19 @@ class StructureItem extends \Eloquent
         return $query->where('left', '<', $left)->where('right', '>', $right);
     }
 
-    public function getPathElements( $left, $right )
+    public function getPathElements( $left, $right, $includeSelf )
     {
-        return $this->path( $left, $right )->where('active', 1)->take( PHP_INT_MAX )->orderBy('left')->offset( 1 )->get()->toArray();
+        return $this->path( $left, $right, $includeSelf )
+        			->where('active', 1)
+        			->take( PHP_INT_MAX )
+        			->orderBy('left')
+        			->offset( 1 )
+        			->get()->toArray();
     }
 
     public function getFullUriAttribute()
     {
-        $uri = $this->getPathElements( $this->left, $this->right );
+        $uri = $this->getPathElements( $this->left, $this->right, true );
 
         return trim(implode('/', array_map(function ($item) {
             return !empty($item['custom_uri']) ? $item['uri'] : Utils::toAscii($item['name']);
