@@ -287,6 +287,9 @@ select.mini {
   color: #fff;
   background: #2cd276;
 }
+.well .nav-pills {
+  padding: 0 0 15px 0;
+}
 a.list-group-item {
   padding: 7px 15px;
   font-size: 12px;
