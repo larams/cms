@@ -9,7 +9,7 @@ class BootstrapForm
     public static function input($params)
     {
 
-        $id = str_replace(array('[', ']'), '', $params['name']);
+        $id = empty($params['id']) ? str_replace(array('[', ']'), '', $params['name']) : $params['id'];
         $hint = '';
         $max_length = '';
         if (!empty($params['max_length'])) {
@@ -64,6 +64,49 @@ class BootstrapForm
 
     }
 
+    public static function textarea($params)
+    {
+        $id = empty($params['id']) ? str_replace(array('[', ']'), '', $params['name']) : $params['id'];
+        $hint = '';
+        $rows = '';
+
+        if (!empty($params['rows'])) {
+            $rows .= ' rows="' . $params['rows'] . '" ';
+        }
+
+        if (!empty($params['hint'])) {
+            $hint .= '<br />' . $params['hint'];
+        }
+
+        if (!empty($hint)) {
+            $hint = '<span class="help-block" style="color: #888; margin-top: 3px;">' . $hint . '</span>';
+        }
+
+        $disabled = '';
+        if (!empty($params['disabled'])) {
+            $disabled = ' disabled="disabled" ';
+        }
+
+        $html = '
+             <div class="form-group">
+                <label for="' . $id . '" class="control-label">' . $params['title'] . '</label>
+                <div class="">
+                    <textarea 
+                    ' . $disabled . ' 
+                    ' . $rows . '
+                    name="' . $params['name'] . '" 
+                    class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" 
+                    id="' . $id . '" 
+                    >' . htmlspecialchars(array_key_exists('value', $params) ? $params['value'] : '', ENT_QUOTES, 'UTF-8') . '</textarea>
+                    ' . $hint . '
+                </div>
+            </div>
+        ';
+
+        return $html;
+
+    }
+
     public static function rte($params)
     {
 
@@ -82,7 +125,7 @@ class BootstrapForm
 
         foreach ($params['values'] as $key => $value) {
 
-            if ( is_array( $value)) {
+            if (is_array($value)) {
                 $option_key = !empty($params['option_key']) && isset($value[$params['option_key']]) ? $value[$params['option_key']] : $key;
                 $option_value = !empty($params['option_value']) && isset($value[$params['option_value']]) ? $value[$params['option_value']] : $value;
             } else {
