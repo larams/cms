@@ -28,6 +28,8 @@ class StructureItems extends Property
 
     protected $sameLanguage = false;
 
+    protected $splitByType = '';
+
     public function getHtml()
     {
 
@@ -39,7 +41,15 @@ class StructureItems extends Property
 
         if (!empty( $this->topLevelId )) {
             $topLevelItem = $structureItems->find( $this->topLevelId );
-        } else {
+        } elseif (!empty($this->splitByType)){
+            $topLevelItem = $structureItems
+                          ->byTypeName($this->splitByType)
+                          ->path($this->item->left, $this->item->right)
+                          ->where('active', 1)
+                          ->take(PHP_INT_MAX)
+                          ->orderBy('left')
+                          ->first();
+        }else {
             $topLevelItem = $structureItems->byTypeName($this->typeName);
 
             if (!empty($language)) {
