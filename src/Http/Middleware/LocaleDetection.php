@@ -23,8 +23,23 @@ class LocaleDetection
     public function handle($request, Closure $next)
     {
 
+        $currentDomain = config('larams.domain');
+        if (empty($currentDomain)) {
+            $currentDomain = $request->getHost();
+        }
+
         // Set current site
-        $currSite = $this->structureItem->byTypeName('site')->first();
+        $sites = $this->structureItem->byTypeName('site')->get();
+        if (count($sites) > 1) {
+            foreach ($sites as $site) {
+                if (empty($currSite) || $site->name == $currentDomain) {
+                    $currSite = $site;
+                }
+            }
+        } else {
+            $currSite = $this->structureItem->byTypeName('site')->first();
+        }
+
         $this->structureItem->currSite($currSite);
 
         if (!empty($currSite)) {

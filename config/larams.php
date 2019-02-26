@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'domain' => env('APP_DOMAIN'),
     'gallery' => true,
     'register_frontend_routes' => true,
     'admin' => [
