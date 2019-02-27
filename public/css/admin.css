@@ -58,7 +58,8 @@ a:hover {
   background: #F7FAF9;
   padding-left: 0;
   padding-right: 0;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   width: 293px;
   position: fixed;
 }
