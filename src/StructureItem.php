@@ -407,8 +407,10 @@ class StructureItem extends \Eloquent
     {
         if (empty($customUri) || substr($customUri, 0, 1) !== '/') {
 
-            $pageUri = !empty($customUri) ? $customUri : Utils::toAscii($name);
+            $item = $this->find( $itemId );
+            $topItem = $this->path( $item->left, $item->right )->first();
 
+            $pageUri = !empty($customUri) ? $customUri : Utils::toAscii($name);
             $iteration = 1;
             do {
                 $uri = trim((!empty($parentItem) ? $parentItem->full_uri . '/' : '') . $pageUri, '/');
@@ -417,7 +419,7 @@ class StructureItem extends \Eloquent
                     $uri .= '-' . $iteration;
                 }
 
-                $elementWithUri = $this->where('uri', $uri)->where('id', '!=', $itemId)->first();
+                $elementWithUri = $this->childsOf( $topItem->id )->where('uri', $uri)->where('id', '!=', $itemId)->first();
                 $iteration++;
             } while (!empty($elementWithUri));
 
