@@ -42,13 +42,20 @@ class StructureItems extends Property
         if (!empty( $this->topLevelId )) {
             $topLevelItem = $structureItems->find( $this->topLevelId );
         } elseif (!empty($this->splitByType)){
-            $topLevelItem = $structureItems
+            $splitByItem = $structureItems
                           ->byTypeName($this->splitByType)
                           ->path($this->item->left, $this->item->right)
                           ->where('active', 1)
                           ->take(PHP_INT_MAX)
                           ->orderBy('left')
                           ->first();
+
+            $topLevelItem = $structureItems
+                            ->byTypeName($this->typeName)
+                            ->where('left', '>=', $splitByItem->left )
+                            ->where('right', '<=', $splitByItem->right)
+                            ->first();
+
         }else {
             $topLevelItem = $structureItems->byTypeName($this->typeName);
 
