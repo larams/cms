@@ -15,6 +15,12 @@ class MediaController extends Controller
         return response()->download($path, $filename . '.' . $type);
     }
 
+    public function showFile($filename, $type )
+     {
+         $path = storage_path('uploads/'. $filename);
+         return response()->file( $path);
+     }
+
     public function getViewByFile($filename, $width = null, $height = null, $cropType = 0, $type = 'png', $filePrefix = '', $routeFolder = 'image')
     {
 
