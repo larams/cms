@@ -79,7 +79,11 @@ class GalleryController extends StructureController
     {
         /** @var StructureItem $item */
         $item = $structureItem->find($delItemId);
-        $item->removeFile( $item->data->name );
+
+        if (!empty( $item->data->name )) {
+            $item->removeFile( $item->data->name );
+        }
+
         $item->delete();
 
         return redirect('admin/'.$this->route.'/index/' . $itemId);
