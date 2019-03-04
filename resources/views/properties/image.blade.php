@@ -5,14 +5,14 @@
             <div class="col-xs-12 col-sm-3">
                 <div style="margin-top: 10px;">
                     @if (!empty( $item->data->{$name} ))
-                        <img style="margin-bottom: 10px;" id="property_{{$name}}_thumb" src="{{url('media/'. $item->data->{$name}->id . '_120_120.png')}}"/>
+                        <img style="margin-bottom: 10px; max-width: 120px;" id="property_{{$name}}_thumb" src="{{url('media/'. $item->data->{$name}->id . '_120_120.png')}}"/>
                         <div>
                             <label>
                                 <input type="checkbox" name="data[{{$name}}_delete]" value="1"/> {{trans('admin.button.delete_uploaded_image')}}
                             </label>
                         </div>
                     @else
-                        <img style="margin-bottom: 10px; display: none;" id="property_{{$name}}_thumb" src=""/>
+                        <img style="margin-bottom: 10px; max-width: 120px; display: none;" id="property_{{$name}}_thumb" src=""/>
                     @endif
 
                     <input name="data[{{$name}}]" type="hidden" id="property_{{$name}}_value" value="@if (!empty( $item->data->{$name} )){{$item->data->{$name}->id}}@endif"/>
@@ -43,14 +43,14 @@
 
                     <div style="margin-top: 10px;">
                         @if (!empty( $item->data->{$name}->{$version} ))
-                            <img style="margin-bottom: 10px;" id="property_{{$name}}_{{$version}}_thumb" src="{{url('media/'. $item->data->{$name}->{$version}->id . '_120_120.png')}}"/>
+                            <img style="margin-bottom: 10px; max-width: 120px;" id="property_{{$name}}_{{$version}}_thumb" src="{{url('media/'. $item->data->{$name}->{$version}->id . '_120_120.png')}}"/>
                             <div>
                                 <label>
                                     <input type="checkbox" name="data[{{$name}}_{{$version}}_delete]" value="1"/> {{trans('admin.button.delete_uploaded_image')}}
                                 </label>
                             </div>
                         @else
-                            <img style="margin-bottom: 10px; display: none;" id="property_{{$name}}_{{$version}}_thumb" src=""/>
+                            <img style="margin-bottom: 10px; max-width: 120px; display: none;" id="property_{{$name}}_{{$version}}_thumb" src=""/>
                         @endif
 
                         <input name="data[{{$name}}_{{$version}}]" type="hidden" id="property_{{$name}}_{{$version}}_value" value="@if (!empty( $item->data->{$name}->{$version} )){{$item->data->{$name}->{$version}->id}}@endif"/>

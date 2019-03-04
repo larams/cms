@@ -119,6 +119,7 @@ class GalleryController extends StructureController
             $data = [
                 'name' => $storedFileName,
                 'is_file' => (int)(strpos($file->getClientMimeType(), 'image') === false),
+                'is_svg' => (int)(strpos($file->getClientMimeType(), 'svg') !== false),
                 'type' => $file->getClientMimeType(),
                 'size' => $file->getClientSize(),
                 'extension' => $file->getClientOriginalExtension()

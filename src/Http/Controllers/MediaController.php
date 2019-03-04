@@ -8,21 +8,23 @@ use Larams\Cms\StructureItem;
 class MediaController extends Controller
 {
 
-    public function getFile( StructureItem $structureItem, $id, $filename, $type )
+    public function getFile(StructureItem $structureItem, $id, $filename, $type)
     {
         $file = $structureItem->find($id);
-        $path = storage_path('uploads/'. $file->data->name );
-        return response()->download( $path, $filename.'.'.$type );
+        $path = storage_path('uploads/' . $file->data->name);
+        return response()->download($path, $filename . '.' . $type);
     }
 
     public function getViewByFile($filename, $width = null, $height = null, $cropType = 0, $type = 'png', $filePrefix = '', $routeFolder = 'image')
     {
 
-        if (empty( $filePrefix )) {
+        if (empty($filePrefix)) {
             $filePrefix = $filename;
         }
 
-        $imagePath = storage_path('uploads/' . $filename );
+        if (!is_numeric($width) && empty($height)) {
+            $filename .= '/' . $width;
+        }
 
         $isRetinaSize = false;
         if (strpos($cropType, '@2x') !== false) {
@@ -47,34 +49,41 @@ class MediaController extends Controller
 
         if (in_array($width, ['jpg', 'png', 'gif'])) {
             $type = $width;
+            $filename = str_replace('/' . $width, '', $filename);
             $width = null;
         }
 
-        $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
 
-            if (!empty($width) || !empty($height)) {
+        $imagePath = storage_path('uploads/' . $filename);
+        $fileType = mime_content_type( $imagePath );
 
-                if (empty($cropType)) {
-                    $image->make($imagePath)->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                } elseif ($cropType == 1) {
-                    $image->make($imagePath)->fit($width, $height, function ($constraint) {
-                        $constraint->upsize();
-                    });
-                } elseif ($cropType == 2) {
-                    $image->make($imagePath)->resize($width, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    });
+        if ( strpos( $fileType, 'svg') === false) {
+            $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
+
+                if (!empty($width) || !empty($height)) {
+
+                    if (empty($cropType)) {
+                        $image->make($imagePath)->resize($width, $height, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } elseif ($cropType == 1) {
+                        $image->make($imagePath)->fit($width, $height, function ($constraint) {
+                            $constraint->upsize();
+                        });
+                    } elseif ($cropType == 2) {
+                        $image->make($imagePath)->resize($width, $height, function ($constraint) {
+                            $constraint->aspectRatio();
+                        });
+                    }
+
+                } else {
+
+                    $image->make($imagePath);
+
                 }
-
-            } else {
-
-                $image->make($imagePath);
-
-            }
-        }, null, true);
+            }, null, true);
+        }
 
         $outputFileName = $filePrefix;
 
@@ -91,11 +100,26 @@ class MediaController extends Controller
             $outputFileName .= '.' . $type;
         }
 
-        if ( empty( $width ) && empty( $height ) && $img->mime() == 'image/gif') {
-            copy( $imagePath, public_path($routeFolder .'/' . $outputFileName) );
-            return response( file_get_contents( $imagePath ), 200, [ 'Content-Type' => 'image/gif'] );
+        // Handle Animated GIFs and all SVGs
+        if (strpos( $fileType, 'svg') !== false || (empty($width) && empty($height) && $img->mime() == 'image/gif')) {
+            copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
+            return response(file_get_contents($imagePath), 200, ['Content-Type' => $fileType]);
         } else {
-            $img->save(public_path($routeFolder .'/' . $outputFileName));
+
+            $path = public_path($routeFolder . '/' . $outputFileName);
+
+            $img->save($path);
+
+            $apiKey = config('larams.tinify_api_key');
+            if (!empty($apiKey)) {
+                try {
+                    \Tinify\setKey($apiKey);
+                    $source = \Tinify\fromFile($path);
+                    $source->toFile($path);
+                } catch (\Exception $e) {
+                }
+            }
+
             return $img->response($type);
         }
 
@@ -106,6 +130,15 @@ class MediaController extends Controller
 
         $image = $structureItem->find($mediaId);
 
-        return $this->getViewByFile($image->data->name, $width, $height, $cropType, $type, intval($mediaId), 'media' );
+        return $this->getViewByFile($image->data->name, $width, $height, $cropType, $type, intval($mediaId), 'media');
+    }
+
+
+    public function getViewWithoutResize(StructureItem $structureItem, $mediaId, $type = 'png')
+    {
+
+        $image = $structureItem->find($mediaId);
+
+        return $this->getViewByFile($image->data->name, 0, 0, 1, $type, intval($mediaId), 'media');
     }
 }
