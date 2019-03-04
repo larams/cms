@@ -22,7 +22,7 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
         Route::get('auth/login', 'AuthController@getLogin')->name('admin.login');
         Route::post('auth/login', 'AuthController@login');
 
-        Route::group(['middleware' => 'auth'], function () {
+        Route::group(['middleware' => 'auth.admin'], function () {
 
             Route::get('auth/logout', 'AuthController@logout');
 
