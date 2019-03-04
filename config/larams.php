@@ -3,6 +3,8 @@
 return [
     'domain' => env('APP_DOMAIN'),
     'gallery' => true,
+    'structure' => true,
+    'translations' => true,
     'register_frontend_routes' => true,
     'admin' => [
         'log_admin_actions' => false,
