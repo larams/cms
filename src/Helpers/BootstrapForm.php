@@ -64,6 +64,29 @@ class BootstrapForm
 
     }
 
+    public static function checkbox($params)
+    {
+        $id = empty($params['id']) ? str_replace(array('[', ']'), '', $params['name']) : $params['id'];
+
+        $html = '
+             <div class="checkbox">
+                <label for="' . $id . '">
+                    <input 
+                    '. (!empty($params['checked']) ? 'checked="checked"' : '') .' 
+                    type="' . (!empty($params['type']) ? $params['type'] : 'checkbox') . '" 
+                    name="' . $params['name'] . '" 
+                    class="' . (!empty($params['class']) ? $params['class'] : '') . '" 
+                    id="' . $id . '" 
+                    value="' . htmlspecialchars(array_key_exists('value', $params) ? $params['value'] : '1', ENT_QUOTES, 'UTF-8') . '"
+                    >
+                    ' . $params['title'] . '
+                </label>
+            </div>
+        ';
+
+        return $html;
+    }
+
     public static function textarea($params)
     {
         $id = empty($params['id']) ? str_replace(array('[', ']'), '', $params['name']) : $params['id'];
