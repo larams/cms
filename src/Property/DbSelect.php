@@ -26,12 +26,16 @@ class DbSelect extends Property
 
     protected $valueColumn = 'name';
 
+    protected function collectData()
+    {
+        $tableModel = app()->make( $this->model );
+        return $tableModel->get();
+    }
+
     public function getHtml()
     {
 
-        $tableModel = new $this->model;
-
-        $items = $tableModel->get();
+        $items = $this->collectData();
 
         $value = isset($this->item->data->{$this->name}) ? $this->item->data->{$this->name} : null;
 
