@@ -24,9 +24,11 @@
                 <td><a href="{{url('admin/translations/edit', [ $keyword->id ] )}}" title="">{{$keyword->keyword}}</a></td>
                 @foreach ( $languages as $language )
                     <td>
-                        @if (!empty($keyword->lang_value[ $language->id ]))
-                            {{$keyword->lang_value[ $language->id ]}}
-                        @endif
+                        @foreach($keyword->values as $value)
+                            @if($value->language_id == $language->id)
+                                {{$value->value}}
+                            @endif
+                        @endforeach
                     </td>
                 @endforeach
                 <td class="actions">

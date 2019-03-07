@@ -27,7 +27,7 @@ class TranslationsController extends Controller
             $keywords = $keywords->where('keyword', 'NOT LIKE', 'admin%');
         }
 
-        $keywords = $keywords->get();
+        $keywords = $keywords->with('values')->get();
 
         return $this->view('larams::admin.translations.index', compact('keywords', 'languages'));
 
