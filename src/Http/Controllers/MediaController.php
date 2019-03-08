@@ -107,9 +107,12 @@ class MediaController extends Controller
         }
 
         // Handle Animated GIFs and all SVGs
-        if (strpos( $fileType, 'svg') !== false || (empty($width) && empty($height) && $img->mime() == 'image/gif')) {
+        if (strpos( $fileType, 'svg') !== false ) {
             copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
             return response(file_get_contents($imagePath), 200, ['Content-Type' => 'image/svg+xml']);
+        } elseif ( (empty($width) && empty($height) && $img->mime() == 'image/gif')) {
+            copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
+            return response(file_get_contents($imagePath), 200, ['Content-Type' => $img->mime()]);
         } else {
 
             $path = public_path($routeFolder . '/' . $outputFileName);
