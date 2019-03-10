@@ -19,6 +19,7 @@ class Image extends Property
 
         $configuration = [
             'name' => $this->name,
+            'format' => $this->format,
             'item' => $this->item,
             'automatic' => $this->automatic,
             'versions' => $this->versions,
