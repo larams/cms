@@ -20,7 +20,7 @@ class AuthController extends Controller
 
     protected $userLogin;
 
-    public function __construct( UserLogin $userLogin )
+    public function __construct(UserLogin $userLogin)
     {
         $this->userLogin = $userLogin;
         $this->redirectTo = config('larams.admin.redirect_location', 'admin/structure');
@@ -31,9 +31,9 @@ class AuthController extends Controller
     protected function authenticated(Request $request, $user)
     {
 
-        $userIp = !empty( $_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER["REMOTE_ADDR"];
+        $userIp = !empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER["REMOTE_ADDR"];
 
-        $this->userLogin->create( [
+        $this->userLogin->create([
             'username' => $user->email,
             'has_logged' => 1,
             'ip' => $userIp
@@ -43,7 +43,7 @@ class AuthController extends Controller
         $user->last_ip = $userIp;
         $user->save();
 
-        if ((config('larams.admin.require_password_change') && !empty( $user->require_change )) ||
+        if ((config('larams.admin.require_password_change') && !empty($user->require_change)) ||
             (config('larams.admin.password_expires_in') && strtotime($user->password_changed_at) <= strtotime(config('larams.admin.password_expires_in')))) {
             return redirect('admin/password');
         }
@@ -54,10 +54,10 @@ class AuthController extends Controller
     protected function incrementLoginAttempts(Request $request)
     {
 
-        $this->userLogin->create( [
+        $this->userLogin->create([
             'username' => $request->input('email'),
             'has_logged' => 1,
-            'ip' => !empty( $_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER["REMOTE_ADDR"]
+            'ip' => !empty($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER["REMOTE_ADDR"]
         ]);
 
         $this->limiter()->hit($this->throttleKey($request));
@@ -70,5 +70,10 @@ class AuthController extends Controller
         }
 
         return $this->view('larams::admin.auth.login');
+    }
+
+    protected function loggedOut(Request $request)
+    {
+        return redirect(config('larams.admin.logout_url') );
     }
 }
