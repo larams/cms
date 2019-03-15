@@ -15,11 +15,11 @@ class MediaController extends Controller
         return response()->download($path, $filename . '.' . $type);
     }
 
-    public function showFile($filename, $type )
-     {
-         $path = storage_path('uploads/'. $filename);
-         return response()->file( $path);
-     }
+    public function showFile($filename)
+    {
+        $path = storage_path('uploads/' . $filename);
+        return response()->file($path);
+    }
 
     public function getViewByFile($filename, $width = null, $height = null, $cropType = 0, $type = 'png', $filePrefix = '', $routeFolder = 'image')
     {
@@ -61,9 +61,11 @@ class MediaController extends Controller
 
 
         $imagePath = storage_path('uploads/' . $filename);
-        $fileType = mime_content_type( $imagePath );
+        $fileType = mime_content_type($imagePath);
 
-        if ( strpos( $fileType, 'svg') === false) {
+        $isValidImage = strpos($fileType, 'gif') === true || strpos($fileType, 'png') === true || strpos($fileType, 'jpeg') === true || strpos($fileType, 'jpg') === true;
+
+        if ($isValidImage) {
             $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
 
                 if (!empty($width) || !empty($height)) {
@@ -89,6 +91,13 @@ class MediaController extends Controller
 
                 }
             }, null, true);
+        } else {
+            $content = file_get_contents($imagePath);
+            if (strpos($content, '<?xml') === false) {
+                $content = '<?xml version="1.0" encoding="utf-8"?>' . $content;
+                file_put_contents($imagePath, $content);
+                $fileType = mime_content_type($imagePath);
+            }
         }
 
         $outputFileName = $filePrefix;
@@ -107,10 +116,10 @@ class MediaController extends Controller
         }
 
         // Handle Animated GIFs and all SVGs
-        if (strpos( $fileType, 'svg') !== false ) {
+        if (strpos($fileType, 'svg') !== false) {
             copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
             return response(file_get_contents($imagePath), 200, ['Content-Type' => 'image/svg+xml']);
-        } elseif ( (empty($width) && empty($height) && $img->mime() == 'image/gif')) {
+        } elseif ((empty($width) && empty($height) && $img->mime() == 'image/gif')) {
             copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
             return response(file_get_contents($imagePath), 200, ['Content-Type' => $img->mime()]);
         } else {
