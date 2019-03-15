@@ -75,6 +75,10 @@
             height: auto;
         }
 
+        .form-control--editable[value="missing"] {
+            color: #c00;
+        }
+
         .form-control--editable:focus {
             background: #ffff66;
             color: #000;
