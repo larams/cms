@@ -14,7 +14,7 @@ class TranslationsController extends Controller
 
     protected $languageTypeName = 'site_lang';
 
-    public function getIndex( StructureItem $structureItem, TranslationKeyword $keyword )
+    public function getIndex( StructureItem $structureItem, TranslationKeyword $keyword, TranslationValue $translationValue )
     {
 
         $languages = $structureItem->byTypeName( $this->languageTypeName )->orderBy('left')->get();
@@ -27,9 +27,11 @@ class TranslationsController extends Controller
             $keywords = $keywords->where('keyword', 'NOT LIKE', 'admin%');
         }
 
-        $keywords = $keywords->with('values')->get();
+        $keywords = $keywords->orderBy('keyword')->get();
 
-        return $this->view('larams::admin.translations.index', compact('keywords', 'languages'));
+        $values = $translationValue->getGroupped();
+
+        return $this->view('larams::admin.translations.index', compact('keywords', 'languages', 'values'));
 
     }
 
@@ -78,8 +80,12 @@ class TranslationsController extends Controller
             }
         }
 
-        return redirect('admin/' . $this->route );
-    }
+        if ( !$request->ajax()) {
+            return redirect('admin/' . $this->route );
+        } else {
+            return response()->json(['success' => true ]);
+        }
+     }
 
     public function getDelete( TranslationKeyword $translationKeyword, TranslationValue $translationValue, $id )
     {
