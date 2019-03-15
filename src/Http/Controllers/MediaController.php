@@ -63,9 +63,7 @@ class MediaController extends Controller
         $imagePath = storage_path('uploads/' . $filename);
         $fileType = mime_content_type($imagePath);
 
-        $isValidImage = strpos($fileType, 'gif') === true || strpos($fileType, 'png') === true || strpos($fileType, 'jpeg') === true || strpos($fileType, 'jpg') === true;
-
-        if ($isValidImage) {
+        if ( strpos( $fileType, 'svg') === false && strpos( $fileType, 'xml') === false) {
             $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
 
                 if (!empty($width) || !empty($height)) {
@@ -116,7 +114,7 @@ class MediaController extends Controller
         }
 
         // Handle Animated GIFs and all SVGs
-        if (strpos($fileType, 'svg') !== false) {
+        if (strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false) {
             copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
             return response(file_get_contents($imagePath), 200, ['Content-Type' => 'image/svg+xml']);
         } elseif ((empty($width) && empty($height) && $img->mime() == 'image/gif')) {
