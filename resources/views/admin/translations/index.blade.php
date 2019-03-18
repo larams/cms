@@ -5,16 +5,18 @@
         {{trans('admin.text.keyword')}}: <input type="text" name="title" class="form-control" value=""/>
         <button type="submit" class="btn btn-primary">{{trans('admin.button.create')}}</button>
     </form>
-    <form class="pull-right form-inline"
-          style="margin-right: 20px;"
-          enctype="multipart/form-data"
-          action="{{url('admin/translations/upload')}}"
-          method="post">
-        {!! csrf_field() !!}
-        {{trans('admin.text.upload_keywords_xlf')}}: <input type="file" name="file" class="form-control"/>
-        <button type="submit" class="btn btn-primary"><span
-                    class="fa fa-upload"></span> {{trans('admin.button.upload')}}</button>
-    </form>
+    @if (config('larams.admin.translations.enable_xlf_download'))
+        <form class="pull-right form-inline"
+              style="margin-right: 20px;"
+              enctype="multipart/form-data"
+              action="{{url('admin/translations/upload')}}"
+              method="post">
+            {!! csrf_field() !!}
+            {{trans('admin.text.upload_keywords_xlf')}}: <input type="file" name="file" class="form-control"/>
+            <button type="submit" class="btn btn-primary"><span
+                        class="fa fa-upload"></span> {{trans('admin.button.upload')}}</button>
+        </form>
+    @endif
     <div class="clearfix"></div>
 
 
@@ -24,8 +26,11 @@
             @foreach ( $languages as $language )
                 <th>
                     {{$language->name}}
-                    <a href="{{route('admin.translations.download', ['languageId' => $language->id ] )}}"><span
-                                class="fa fa-download"></span></a>
+                    @if (config('larams.admin.translations.enable_xlf_download'))
+                        <a href="{{route('admin.translations.download', ['languageId' => $language->id ] )}}">
+                            <span class="fa fa-download"></span>
+                        </a>
+                    @endif
                 </th>
             @endforeach
             <th>&nbsp;</th>

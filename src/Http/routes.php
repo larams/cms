@@ -64,6 +64,8 @@ Route::group( ['prefix' => env('BASE_URL', ''), 'middleware' => 'web' ], functio
             Route::get('translations/edit/{id}', 'TranslationsController@getEdit');
             Route::post('translations/save/{id?}', 'TranslationsController@postSave');
             Route::get('translations/delete/{id}', 'TranslationsController@getDelete');
+            Route::get('translations/download/{languageId}', 'TranslationsController@download')->name('admin.translations.download');
+            Route::post('translations/upload', 'TranslationsController@upload')->name('admin.translations.upload');
 
             Route::get('password', 'PasswordController@getIndex');
             Route::post('password', 'PasswordController@postIndex');

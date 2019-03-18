@@ -7,6 +7,9 @@ return [
     'translations' => true,
     'register_frontend_routes' => true,
     'admin' => [
+        'translations' => [
+            'enable_xlf' => false
+        ],
         'log_admin_actions' => false,
         'allow_custom_uri' => false,
         'password_expires_in' => false, // '-2 months',

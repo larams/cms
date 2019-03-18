@@ -96,5 +96,74 @@ class TranslationsController extends Controller
         return redirect('admin/' . $this->route );
 
     }
+    public function download(TranslationKeyword $translationKeyword, StructureItem $structureItem, $languageId)
+    {
+        set_time_limit(0);
 
+        $language = $structureItem->find( $languageId);
+
+        $keywords = $translationKeyword
+            ->where('keyword', 'NOT LIKE', 'admin%')
+            ->with('values')
+            ->get();
+
+
+        $input = [
+            'file' => [
+                '@attributes' => [
+                    'source-lang' => 'en',
+                    'datatype' => 'plaintext',
+                    'original' => 'ng2.template'
+                ],
+                'body' => [],
+            ],
+            '@attributes' => [
+                'version' => '1.2',
+                'xmlns' => 'urn:oasis:names:tc:xliff:document:1.2'
+            ]
+        ];
+
+        foreach ($keywords as $keyword) {
+            $input['file']['body'][] = [
+                '@name' => 'trans-unit',
+                '@attributes' => [
+                    'id' => $keyword->keyword,
+                    'datatype' => 'html'
+                ],
+                'target' => $keyword->lang_value[ $languageId ]
+            ];
+        }
+
+
+        $formatter = Formatter::make($input, Formatter::ARR);
+
+        $tmpFile = tempnam( storage_path(), 'xlf');
+        file_put_contents($tmpFile, $formatter->toXml('xliff') );
+
+        return response()->download( $tmpFile, 'messages.'. (!empty($language->data->short_code) ? $language->data->short_code : '__') . '.xlf' );
+    }
+
+    public function upload( Request $request, TranslationKeyword $translationKeyword, TranslationValue $translationValue )
+    {
+        $file = $request->file('file');
+
+        $content = new \SimpleXMLElement( $file->get() );
+
+        foreach ( $content->file->body->{'trans-unit'} as $transUnit ) {
+
+            $id = $transUnit['id'];
+            $valueLt = $transUnit->note;
+            $valueEn = $transUnit->source;
+
+            $kw = $translationKeyword->where('keyword', $id )->first();
+            if (empty($kw)) {
+                /** @var TranslationKeyword $kw */
+                $kw = $translationKeyword->create(['keyword' => $id]);
+                $kw->values()->create([ 'language_id' => 3, 'value' => $valueEn ]);
+                $kw->values()->create([ 'language_id' => 6, 'value' => $valueLt ]);
+            }
+        }
+
+        return redirect()->back();
+    }
 }
