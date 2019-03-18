@@ -63,6 +63,13 @@ a:hover {
   width: 293px;
   position: fixed;
 }
+@media only screen and (max-width: 767px) {
+  .sidebar {
+    width: 100%;
+    position: static;
+    height: auto;
+  }
+}
 .form-control {
   border: 1px solid #e1e1e1;
   -webkit-box-shadow: none;

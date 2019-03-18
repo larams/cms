@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-3 sidebar">
+    <div class="col-md-4 col-lg-3 sidebar">
 
         <div class="mt20">
 
@@ -75,7 +75,7 @@
             </script>
         </div>
     </div><!--/span-->
-    <div class="col-xs-9 col-xs-offset-3">
+    <div class="col-md-8 col-md-offset-4 col-lg-9 col-lg-offset-3">
         <div class="mt20 mb20">
             @if ( count( $currentPath )  > 1)
                 <ul class="breadcrumb">

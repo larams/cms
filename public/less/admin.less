@@ -1,6 +1,12 @@
 @blue: #00A0D1;
 @green: #2CD276;
 
+@mobileXs:      ~"only screen and (max-width: 340px)";
+@mobile:      ~"only screen and (max-width: 767px)";
+@tablet:      ~"only screen and (max-width: 991px)";
+@desktop:     ~"only screen and (max-width: 1199px)";
+@desktop-xl:  ~"only screen and (min-width: 1511px)";
+
 html, body {
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, San Francisco, Segoe UI, "Roboto", Helvetica Neue, sans-serif;
@@ -79,6 +85,12 @@ a {
     overflow-y: auto;
     width: 293px;
     position: fixed;
+
+    @media @mobile {
+        width: 100%;
+        position: static;
+        height: auto;
+    }
 }
 
 .form-control {
