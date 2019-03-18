@@ -33,6 +33,7 @@ class TranslationKeyword extends \Eloquent
             $language = StructureItem::getModel()
                 ->byTypeName('site_lang')
                 ->whereData('short_code', $locale)
+                ->orderBy('left', 'ASC')
                 ->first();
 
             if (empty($language)) {
