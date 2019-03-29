@@ -114,7 +114,7 @@ class MediaController extends Controller
         }
 
         $isSvg = strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false;
-        $isAnimatedGif = (empty($width) && empty($height) && $img->mime() == 'image/gif');
+        $isAnimatedGif = (empty($width) && empty($height) && !empty($img) && $img->mime() == 'image/gif');
 
         $path = public_path($routeFolder . '/' . $outputFileName);
 
