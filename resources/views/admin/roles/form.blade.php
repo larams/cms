@@ -32,7 +32,7 @@
                                                @if(!empty($permissionIds) && in_array($permission->id, $permissionIds)) checked="checked"
                                                @endif
                                                value="{{$permission->id}}"
-                                               name="permission[]"/>
+                                               name="permission_id[]"/>
                                         {{$permission->title}}
                                     </label>
                                 </div>

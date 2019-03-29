@@ -23,7 +23,9 @@ class PermissionsTableSeeder extends Seeder
             ['permission' => 'admin.permissions.*', 'title' => 'Permissions'],
             ['permission' => 'admin.roles.*', 'title' => 'Roles'],
             ['permission' => 'admin.password.*', 'title' => 'Password'],
+            ['permission' => 'admin.login.*', 'title' => 'Login'],
             ['permission' => 'admin.logout', 'title' => 'Logout'],
+            ['permission' => 'admin.login', 'title' => 'Login index'],
         ];
 
         foreach ($permissions as $permission) {

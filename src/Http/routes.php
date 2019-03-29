@@ -20,7 +20,7 @@ Route::group(['prefix' => env('BASE_URL', ''), 'middleware' => 'web'], function 
     Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['ipCheck', 'cacheControl', 'permission']], function () {
 
         Route::get('auth/login', 'AuthController@getLogin')->name('admin.login');
-        Route::post('auth/login', 'AuthController@login');
+        Route::post('auth/login', 'AuthController@login')->name('admin.login.post');
 
         Route::group(['middleware' => 'auth.admin'], function () {
 
