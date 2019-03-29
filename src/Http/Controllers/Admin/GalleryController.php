@@ -96,17 +96,22 @@ class GalleryController extends StructureController
         $file = request()->file('file');
         $storedFileName = uniqid('larams_');
 
+		$originalName = $file->getClientOriginalName();
+		$originalExtension = $file->getClientOriginalExtension();
+		$clientMimeType = $file->getClientMimeType();
+		$clientSize = $file->getClientSize();
+
         $uploadSuccess = $file->move(storage_path('uploads'), $storedFileName);
 
         $parentItem = $structureItem->find($itemId);
 
         $type = $structureType->where('name', 'cms.media_file')->first();
 
-        if ( $file->getClientOriginalExtension() != 'php') {
+        if ( $originalExtension != 'php') {
 
             $item = [
                 'parent_id' => $itemId,
-                'name' => $file->getClientOriginalName(),
+                'name' => $originalName,
                 'tree' => 0,
                 'type_id' => $type->id,
                 'left' => $parentItem->right,
@@ -122,11 +127,11 @@ class GalleryController extends StructureController
 
             $data = [
                 'name' => $storedFileName,
-                'is_file' => (int)(strpos($file->getClientMimeType(), 'image') === false),
-                'is_svg' => (int)(strpos($file->getClientMimeType(), 'svg') !== false),
-                'type' => $file->getClientMimeType(),
-                'size' => $file->getClientSize(),
-                'extension' => $file->getClientOriginalExtension()
+                'is_file' => (int)(strpos($clientMimeType, 'image') === false),
+                'is_svg' => (int)(strpos($clientMimeType, 'svg') !== false),
+                'type' => $clientMimeType,
+                'size' => $clientSize,
+                'extension' => $originalExtension
             ];
 
             foreach ($data as $fieldName => $fieldValue) {
