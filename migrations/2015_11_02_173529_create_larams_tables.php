@@ -75,19 +75,23 @@ class CreateLaramsTables extends Migration
         Schema::create('users', function (Blueprint $table) {
 
             $table->increments('id');
+            $table->unsignedInteger('role_id');
             $table->char('email');
             $table->char('password');
             $table->char('name');
             $table->timestamp('logged_at');
             $table->char('last_ip')->nullable();
             $table->tinyInteger('require_change')->default(0);
-            $table->char('type')->default('ADMIN');
             $table->char('remember_token')->nullable();
             $table->timestamp('password_changed_at')->nullable();
             $table->timestamps();
         });
 
-        Schema::create('users_logins', function( Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
+            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });
+
+        Schema::create('users_logins', function (Blueprint $table) {
 
             $table->increments('id');
             $table->char('username');
@@ -97,7 +101,7 @@ class CreateLaramsTables extends Migration
 
         });
 
-        Schema::create('translation_keywords', function( Blueprint $table ) {
+        Schema::create('translation_keywords', function (Blueprint $table) {
 
             $table->increments('id');
             $table->text('keyword');
@@ -105,7 +109,7 @@ class CreateLaramsTables extends Migration
 
         });
 
-        Schema::create('translation_values', function( Blueprint $table ) {
+        Schema::create('translation_values', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('keyword_id');
             $table->unsignedInteger('language_id');
@@ -113,7 +117,7 @@ class CreateLaramsTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('actions_log', function( Blueprint $table ) {
+        Schema::create('actions_log', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('related_id');
@@ -123,15 +127,37 @@ class CreateLaramsTables extends Migration
             $table->timestamps();
         });
 
-        Schema::table('structure_items', function( Blueprint $table ) {
+        Schema::table('structure_items', function (Blueprint $table) {
             $table->foreign('type_id')->references('id')->on('structure_types')->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->foreign('parent_id')->references('id')->on('structure_items')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
 
-        Schema::table('structure_data', function( Blueprint $table ) {
+        Schema::table('structure_data', function (Blueprint $table) {
             $table->foreign('item_id')->references('id')->on('structure_items')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
 
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->char('title');
+            $table->timestamps();
+        });
+
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->char('permission');
+            $table->char('title');
+            $table->timestamps();
+        });
+
+        Schema::create('roles_permissions', function (Blueprint $table) {
+            $table->unsignedInteger('role_id');
+            $table->unsignedInteger('permission_id');
+        });
+
+        Schema::table('roles_permissions', function (Blueprint $table) {
+            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });
     }
 
     /**
@@ -141,6 +167,13 @@ class CreateLaramsTables extends Migration
      */
     public function down()
     {
-        Schema::drop( ['structure_items', 'structure_types', 'structure_types_relations', 'users', 'translations']);
+        Schema::drop('structure_items');
+        Schema::drop('structure_types');
+        Schema::drop('structure_types_relations');
+        Schema::drop('users');
+        Schema::drop('translations');
+        Schema::drop('roles');
+        Schema::drop('permissions');
+        Schema::drop('roles_permissions');
     }
 }

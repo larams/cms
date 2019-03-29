@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        @if ( !$user->isCustomer() )
+        @if ( $user->isAllowed('admin.structure.change_type') )
         <div class="row">
             <div class="col-xs-12 col-sm-6">
                 {!! BootstrapForm::select( ['name' => 'type', 'title' => trans('admin.field.type'), 'values' => $types, 'value' => !empty( $item ) ? $item->type : null ] ) !!}

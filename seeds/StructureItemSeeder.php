@@ -91,6 +91,8 @@ class StructureItemSeeder extends Seeder
         DB::table('translation_keywords')->insert(array('id' => 69, 'keyword' => 'admin.text.version'));
         DB::table('translation_keywords')->insert(array('id' => 70, 'keyword' => 'admin.button.choose_image'));
         DB::table('translation_keywords')->insert(array('id' => 71, 'keyword' => 'admin.button.delete_uploaded_image'));
+        DB::table('translation_keywords')->insert(array('id' => 72, 'keyword' => 'admin.menu.permissions'));
+        DB::table('translation_keywords')->insert(array('id' => 73, 'keyword' => 'admin.menu.roles'));
 
         foreach ([$firstLanguageId, $secondLanguageId] as $languageId) {
 
@@ -156,6 +158,8 @@ class StructureItemSeeder extends Seeder
             DB::table('translation_values')->insert(array('keyword_id' => 69, 'language_id' => $languageId, 'value' => 'Version'));
             DB::table('translation_values')->insert(array('keyword_id' => 70, 'language_id' => $languageId, 'value' => 'Choose image'));
             DB::table('translation_values')->insert(array('keyword_id' => 71, 'language_id' => $languageId, 'value' => 'Delete uploaded image'));
+            DB::table('translation_values')->insert(array('keyword_id' => 72, 'language_id' => $languageId, 'value' => 'Permissions'));
+            DB::table('translation_values')->insert(array('keyword_id' => 73, 'language_id' => $languageId, 'value' => 'Roles'));
         }
     }
 

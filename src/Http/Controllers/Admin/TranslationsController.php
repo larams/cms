@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Larams\Cms\StructureItem;
 use Larams\Cms\TranslationKeyword;
 use Larams\Cms\TranslationValue;
+use Larams\Cms\User;
 
 class TranslationsController extends Controller
 {
@@ -21,9 +22,10 @@ class TranslationsController extends Controller
 
         $keywords = $keyword;
 
+        /** @var User $user */
         $user = app()->make( config('larams.admin.database_model') )->find( auth(config('larams.admin.guard'))->user()->id );
 
-        if ( !$user->isDeveloper() ) {
+        if ( $user->isAllowed('admin.translations.view_admin_keywords') ) {
             $keywords = $keywords->where('keyword', 'NOT LIKE', 'admin%');
         }
 

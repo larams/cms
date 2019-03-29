@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call( StructureItemSeeder::class);
         $this->call( StructureTypeSeeder::class);
         $this->call( UsersTableSeeder::class);
+        $this->call( PermissionsTableSeeder::class);
 
         Model::reguard();
     }

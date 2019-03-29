@@ -19,8 +19,40 @@ return [
         'guard' => 'web',
         'database_model' => \Larams\Cms\User::class,
         'allowed_ips' => [],
+        'menu_items' => [
+            [
+                'route' => 'admin.structure.index',
+                'title' => 'admin.menu.content',
+            ],
+            [
+                'route' => 'admin.gallery.index',
+                'title' => 'admin.menu.gallery'
+            ],
+            [
+                'route' => 'admin.translations.index',
+                'title' => 'admin.menu.translations'
+            ],
+            [
+                'route' => 'admin.administrators.index',
+                'title' => 'admin.menu.administrators'
+            ],
+            [
+                'route' => 'admin.types.index',
+                'title' => 'admin.menu.content_types'
+            ],
+            [
+                'route' => 'admin.permissions.index',
+                'title' => 'admin.menu.permissions'
+            ],
+            [
+                'route' => 'admin.roles.index',
+                'title' => 'admin.menu.roles'
+            ]
+        ]
     ],
     'locales' => [
-        'lt', 'en', 'ru'
+        'lt',
+        'en',
+        'ru'
     ]
 ];

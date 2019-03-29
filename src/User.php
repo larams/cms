@@ -36,43 +36,26 @@ class User extends \Eloquent implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public static function types()
-    {
-        return [
-            'DEV' => trans('admin.role.developer'),
-            'ADMIN' => trans('admin.role.administrator'),
-            'CUSTOMER' => trans('admin.role.customer'),
-        ];
-    }
-
-    public function isAdministrator()
-    {
-        return $this->type == 'ADMIN';
-    }
-
-    public function isCustomer()
-    {
-        return $this->type == 'CUSTOMER';
-    }
-
-    public function isDeveloper()
-    {
-        return $this->type == 'DEV';
-    }
-
     public function getTypeTitleAttribute()
     {
         $types = $this->types();
-
         return $types[$this->attributes['type']];
     }
 
     public function setPasswordAttribute($password)
     {
-
         if (!empty($password)) {
             $this->attributes['password'] = \Hash::make($password);
         }
+    }
 
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    public function isAllowed($permission)
+    {
+        return $this->role->isAllowed($permission);
     }
 }

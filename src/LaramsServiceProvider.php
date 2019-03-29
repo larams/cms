@@ -63,6 +63,7 @@ class LaramsServiceProvider extends ServiceProvider
 
         $router->aliasMiddleware('ipCheck', \Larams\Cms\Http\Middleware\ValidateAdminIp::class );
         $router->aliasMiddleware('cacheControl', \Larams\Cms\Http\Middleware\CacheControl::class );
+        $router->aliasMiddleware('permission', \Larams\Cms\Http\Middleware\ValidateAdminPermisssions::class );
 
         if (in_array(request()->segment(1), config('larams.locales'))) {
             app()->setLocale(request()->segment(1));

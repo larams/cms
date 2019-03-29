@@ -1,21 +1,25 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
-class UsersTableSeeder extends Seeder {
+class UsersTableSeeder extends Seeder
+{
 
     public function run()
     {
         DB::table('users')->delete();
 
-        DB::table('users')->insert( array(
+        $password = str_random(6) . '-' . str_random(6) . '-' . str_random(6);
+
+        $output = new ConsoleOutput();
+        $output->writeln('New password for `dev` user: ' . $password);
+
+        DB::table('users')->insert(array(
             'email' => 'dev',
-            'password' => '$2y$10$aU.kj5BptrswUomyW/9Hj.TVkf.3BW.QFD7GLI1l9BsRSXGTNkm2O',
+            'password' => Hash::make($password),
             'name' => 'Developer',
-            'type' => 'DEV'
+            'role_id' => 1
         ));
-
-
     }
-
 }

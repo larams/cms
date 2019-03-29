@@ -48,6 +48,13 @@ class AuthController extends Controller
             return redirect('admin/password');
         }
 
+        foreach( config('larams.admin.menu_items') as $menuItem ) {
+            if ($user->isAllowed($menuItem['route'])) {
+                $this->redirectTo = route($menuItem['route']);
+                break;
+            }
+        }
+
         return redirect()->intended($this->redirectPath());
     }
 
