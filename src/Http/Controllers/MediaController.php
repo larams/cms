@@ -62,12 +62,14 @@ class MediaController extends Controller
 
         $imagePath = storage_path('uploads/' . $filename);
         $fileType = mime_content_type($imagePath);
+        $originalImage = true;
 
-        if ( strpos( $fileType, 'svg') === false && strpos( $fileType, 'xml') === false) {
+        if (strpos($fileType, 'svg') === false && strpos($fileType, 'xml') === false) {
             $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
 
                 if (!empty($width) || !empty($height)) {
 
+                    $originalImage = false;
                     if (empty($cropType)) {
                         $image->make($imagePath)->resize($width, $height, function ($constraint) {
                             $constraint->aspectRatio();
@@ -84,9 +86,7 @@ class MediaController extends Controller
                     }
 
                 } else {
-
                     $image->make($imagePath);
-
                 }
             }, null, true);
         } else {
@@ -113,18 +113,20 @@ class MediaController extends Controller
             $outputFileName .= '.' . $type;
         }
 
-        // Handle Animated GIFs and all SVGs
-        if (strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false) {
-            copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
-            return response(file_get_contents($imagePath), 200, ['Content-Type' => 'image/svg+xml']);
-        } elseif ((empty($width) && empty($height) && $img->mime() == 'image/gif')) {
-            copy($imagePath, public_path($routeFolder . '/' . $outputFileName));
-            return response(file_get_contents($imagePath), 200, ['Content-Type' => $img->mime()]);
+        $isSvg = strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false;
+        $isAnimatedGif = (empty($width) && empty($height) && $img->mime() == 'image/gif');
+
+        $path = public_path($routeFolder . '/' . $outputFileName);
+
+        if ( !empty($originalImage) || $isSvg || $isAnimatedGif ) {
+            copy($imagePath, $path);
         } else {
+            $quality = 100;
+            if (strpos($fileType, 'png') !== false) {
+                $quality = 9;
+            }
 
-            $path = public_path($routeFolder . '/' . $outputFileName);
-
-            $img->save($path);
+            $img->save($path, $quality);
 
             $apiKey = config('larams.tinify_api_key');
             if (!empty($apiKey)) {
@@ -135,10 +137,15 @@ class MediaController extends Controller
                 } catch (\Exception $e) {
                 }
             }
-
-            return $img->response($type);
         }
 
+        if ($isSvg) {
+            return response(file_get_contents($imagePath), 200, ['Content-Type' => 'image/svg+xml']);
+        } elseif ($isAnimatedGif || $originalImage) {
+            return response(file_get_contents($imagePath), 200, ['Content-Type' => $img->mime()]);
+        } else {
+            return $img->response($type);
+        }
     }
 
     public function getView(StructureItem $structureItem, $mediaId, $width = null, $height = null, $cropType = 0, $type = 'png')
