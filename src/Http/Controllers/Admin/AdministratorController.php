@@ -31,7 +31,7 @@ class AdministratorController extends Controller
         $roles = $role->get();
         $user = $this->model->find( auth()->user()->id );
 
-        return $this->view('larams::admin.administrators.edit', compact('isCreate', 'types', 'user', 'roles'));
+        return $this->view('larams::admin.administrators.edit', compact('isCreate', 'user', 'roles'));
     }
 
     public function getEdit( Role $role, $id )
@@ -40,7 +40,7 @@ class AdministratorController extends Controller
         $roles = $role->get();
         $user = $this->model->find( auth()->user()->id );
 
-        return $this->view('larams::admin.administrators.edit', compact('item', 'types', 'user', 'roles') );
+        return $this->view('larams::admin.administrators.edit', compact('item', 'user', 'roles') );
     }
 
     public function postSave( Request $request, $id = null )
