@@ -49,7 +49,7 @@ class StructureItemSeeder extends Seeder
         DB::table('translation_keywords')->insert(array('id' => 23, 'keyword' => 'admin.menu.logout'));
         DB::table('translation_keywords')->insert(array('id' => 24, 'keyword' => 'admin.button.hidden'));
         DB::table('translation_keywords')->insert(array('id' => 26, 'keyword' => 'admin.field.title'));
-        DB::table('translation_keywords')->insert(array('id' => 27, 'keyword' => 'admin.field.type'));
+        DB::table('translation_keywords')->insert(array('id' => 27, 'keyword' => 'admin.field.role'));
         DB::table('translation_keywords')->insert(array('id' => 28, 'keyword' => 'admin.button.add_new_tree_item'));
         DB::table('translation_keywords')->insert(array('id' => 29, 'keyword' => 'admin.button.add_new_item'));
         DB::table('translation_keywords')->insert(array('id' => 30, 'keyword' => 'admin.button.visible'));
@@ -115,7 +115,7 @@ class StructureItemSeeder extends Seeder
             DB::table('translation_values')->insert(array('keyword_id' => 23, 'language_id' => $languageId, 'value' => 'Logout'));
             DB::table('translation_values')->insert(array('keyword_id' => 24, 'language_id' => $languageId, 'value' => 'Hidden'));
             DB::table('translation_values')->insert(array('keyword_id' => 26, 'language_id' => $languageId, 'value' => 'Title'));
-            DB::table('translation_values')->insert(array('keyword_id' => 27, 'language_id' => $languageId, 'value' => 'Type'));
+            DB::table('translation_values')->insert(array('keyword_id' => 27, 'language_id' => $languageId, 'value' => 'Role'));
             DB::table('translation_values')->insert(array('keyword_id' => 28, 'language_id' => $languageId, 'value' => 'Add new tree item'));
             DB::table('translation_values')->insert(array('keyword_id' => 29, 'language_id' => $languageId, 'value' => 'Add new item'));
             DB::table('translation_values')->insert(array('keyword_id' => 30, 'language_id' => $languageId, 'value' => 'Visible'));

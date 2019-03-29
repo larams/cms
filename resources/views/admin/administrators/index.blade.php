@@ -22,7 +22,7 @@
                     <a href="{{url('admin/'.$route.'/edit/' . $user->id )}}" title="{{$user->email}}">{{$user->email}}</a>
                 </td>
                 <td>{{$user->name}}</td>
-                <td>{{$user->type_title}}</td>
+                <td>{{$user->role->title}}</td>
                 <td>{{$user->logged_at}}</td>
                 <td>{{$user->last_ip}}</td>
                 <td class="actions">

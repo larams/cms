@@ -3,6 +3,7 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
+use Larams\Cms\Role;
 use Larams\Cms\StructureType;
 
 class AdministratorController extends Controller
@@ -24,29 +25,22 @@ class AdministratorController extends Controller
 
     }
 
-    public function getAdd()
+    public function getAdd( Role $role )
     {
-
         $isCreate = true;
-        $types = $this->model->types();
-
+        $roles = $role->get();
         $user = $this->model->find( auth()->user()->id );
 
-        return $this->view('larams::admin.administrators.edit', compact('isCreate', 'types', 'user'));
-
+        return $this->view('larams::admin.administrators.edit', compact('isCreate', 'types', 'user', 'roles'));
     }
 
-    public function getEdit( $id )
+    public function getEdit( Role $role, $id )
     {
-
         $item = $this->model->find( $id );
-
-        $types = $this->model->types();
-
+        $roles = $role->get();
         $user = $this->model->find( auth()->user()->id );
 
-        return $this->view('larams::admin.administrators.edit', compact('item', 'types', 'user') );
-
+        return $this->view('larams::admin.administrators.edit', compact('item', 'types', 'user', 'roles') );
     }
 
     public function postSave( Request $request, $id = null )
