@@ -143,7 +143,7 @@ class BootstrapForm
              <div class="form-group">
                 <label for="' . $params['name'] . '" class="control-label">' . $params['title'] . '</label>
                 <div class="">
-                    <select name="' . $params['name'] . '" class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" id="' . $params['name'] . '">
+                    <select ' . (!empty($params['multiple']) ? 'multiple' : '') . ' name="' . $params['name'] . '" class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" id="' . $params['name'] . '">
         ';
 
         foreach ($params['values'] as $key => $value) {
@@ -156,7 +156,7 @@ class BootstrapForm
                 $option_value = !empty($params['option_value']) && isset($value->{$params['option_value']}) ? $value->{$params['option_value']} : $value;
             }
 
-            $html .= '<option ' . (!empty($params['value']) && $option_key == $params['value'] ? 'selected="selected"' : '') . ' value="' . $option_key . '">' . $option_value . '</option>';
+            $html .= '<option ' . ((!empty($params['value']) && $option_key == $params['value']) || (!empty($params['ids']) && (in_array($option_key, $params['ids']))) ? 'selected="selected"' : '') . ' value="' . $option_key . '">' . $option_value . '</option>';
         }
 
         $html .= '
