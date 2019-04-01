@@ -65,7 +65,7 @@ class MediaController extends Controller
         $originalImage = true;
 
         if (strpos($fileType, 'svg') === false && strpos($fileType, 'xml') === false) {
-            $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
+            $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType, $originalImage) {
 
                 if (!empty($width) || !empty($height)) {
 
