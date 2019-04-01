@@ -65,11 +65,13 @@ class MediaController extends Controller
         $originalImage = true;
 
         if (strpos($fileType, 'svg') === false && strpos($fileType, 'xml') === false) {
-            $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType, $originalImage) {
 
+            if (!empty($width) || !empty($height)) {
+                $originalImage = false;
+            }
+
+            $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
                 if (!empty($width) || !empty($height)) {
-
-                    $originalImage = false;
                     if (empty($cropType)) {
                         $image->make($imagePath)->resize($width, $height, function ($constraint) {
                             $constraint->aspectRatio();
