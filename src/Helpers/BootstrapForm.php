@@ -72,7 +72,7 @@ class BootstrapForm
              <div class="checkbox">
                 <label for="' . $id . '">
                     <input 
-                    '. (!empty($params['checked']) ? 'checked="checked"' : '') .' 
+                    ' . (!empty($params['checked']) ? 'checked="checked"' : '') . ' 
                     type="' . (!empty($params['type']) ? $params['type'] : 'checkbox') . '" 
                     name="' . $params['name'] . '" 
                     class="' . (!empty($params['class']) ? $params['class'] : '') . '" 
@@ -145,6 +145,10 @@ class BootstrapForm
                 <div class="">
                     <select ' . (!empty($params['multiple']) ? 'multiple' : '') . ' name="' . $params['name'] . '" class="form-control ' . (!empty($params['class']) ? $params['class'] : '') . '" id="' . $params['name'] . '">
         ';
+
+        if (!empty($params['empty'])) {
+            $html .= '<option value="">' . (!empty($params['empty_title']) ? $params['empty_title'] : '') . '</option>';
+        }
 
         foreach ($params['values'] as $key => $value) {
 
