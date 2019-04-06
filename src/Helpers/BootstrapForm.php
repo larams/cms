@@ -71,6 +71,7 @@ class BootstrapForm
         $html = '
              <div class="checkbox">
                 <label for="' . $id . '">
+                    <input type="hidden" name="'. $params['name'].'" value="0" />
                     <input 
                     ' . (!empty($params['checked']) ? 'checked="checked"' : '') . ' 
                     type="' . (!empty($params['type']) ? $params['type'] : 'checkbox') . '" 
