@@ -34,7 +34,7 @@ class TypeController extends Controller
         } else {
 
             /** @var StructureItem $currItem */
-            $currItem = $structureItem->withTrashed()->with('type')->where('uri', $uri )->orderBy('active', 'desc')->first();
+            $currItem = $structureItem->withTrashed()->with('type')->where('uri', $uri )->orderBy('deleted_at', 'asc')->orderBy('active', 'desc')->first();
             if (empty( $currItem) || empty($currLang) || !$currItem->canBeDisplayed() ) {
 
                 if ( !empty( $currItem ) && $currItem->trashed()) {
