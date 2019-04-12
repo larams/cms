@@ -90,6 +90,17 @@ class MediaController extends Controller
                 } else {
                     $image->make($imagePath);
                 }
+
+                list( $orientation, $flip ) = $this->getOrientation( $imagePath );
+
+                if ( !empty( $flip ) ) {
+                    $image->flip();
+                }
+
+                if ( $orientation > 0 ) {
+                    $image->rotate( $orientation );
+                }
+
             }, null, true);
         } else {
             $content = file_get_contents($imagePath);
@@ -148,6 +159,25 @@ class MediaController extends Controller
         } else {
             return $img->response($type);
         }
+    }
+
+    protected function getOrientation( $path )
+    {
+        $exif = @exif_read_data( $path );
+
+        if ( !empty( $exif['Orientation'])) {
+            switch ( $exif['Orientation']) {
+                case 2: return [ 0, true ];
+                case 3: return [ 180, false ];
+                case 4: return [ 180, true ];
+                case 5: return [ 270, true ];
+                case 6: return [ 270, false ];
+                case 7: return [ 90, true ];
+                case 8: return [ 90, false ];
+            }
+        }
+
+        return [ 0, false ];
     }
 
     public function getView(StructureItem $structureItem, $mediaId, $width = null, $height = null, $cropType = 0, $type = 'png')
