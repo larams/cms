@@ -163,17 +163,26 @@ class MediaController extends Controller
 
     protected function getOrientation( $path )
     {
-        $exif = @exif_read_data( $path );
+        if (function_exists('exif_read_data')) {
+            $exif = @exif_read_data($path);
 
-        if ( !empty( $exif['Orientation'])) {
-            switch ( $exif['Orientation']) {
-                case 2: return [ 0, true ];
-                case 3: return [ 180, false ];
-                case 4: return [ 180, true ];
-                case 5: return [ 270, true ];
-                case 6: return [ 270, false ];
-                case 7: return [ 90, true ];
-                case 8: return [ 90, false ];
+            if (!empty($exif['Orientation'])) {
+                switch ($exif['Orientation']) {
+                    case 2:
+                        return [0, true];
+                    case 3:
+                        return [180, false];
+                    case 4:
+                        return [180, true];
+                    case 5:
+                        return [270, true];
+                    case 6:
+                        return [270, false];
+                    case 7:
+                        return [90, true];
+                    case 8:
+                        return [90, false];
+                }
             }
         }
 
