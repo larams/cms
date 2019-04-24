@@ -3,7 +3,7 @@
 if (!function_exists('webp')) {
     function webp()
     {
-        return strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false;
+        return config('larams.enable_webp') && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false;
     }
 }
 
