@@ -3,7 +3,14 @@
 if (!function_exists('webp')) {
     function webp()
     {
-        return config('larams.enable_webp') && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false;
+        $acceptWebpHeader = !empty($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false;
+        $isChrome = strpos($_SERVER['HTTP_USER_AGENT'], 'Chrome') !== false;
+
+//        ((is.chrome && agent.satisfies('>=23.0.0'))
+//        					||  (is.opera && agent.satisfies('>=12.1'))
+//        					||  (is.android && agent.satisfies('>=4.0')))
+
+        return config('larams.enable_webp') && ( $acceptWebpHeader || $isChrome );
     }
 }
 
