@@ -1,7 +1,14 @@
 <?php
 
+if (!function_exists('webp')) {
+    function webp()
+    {
+        return strpos($_SERVER['HTTP_ACCEPT'], 'image/webp') !== false;
+    }
+}
+
 if (!function_exists('dim')) {
-    function dim(&$var, $default = NULL)
+    function dim(&$var, $default = null)
     {
         return empty($var) ? $var = $default : $var;
     }

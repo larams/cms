@@ -124,8 +124,7 @@ class MediaController extends Controller
         if (!empty($type) && in_array($type, ['jpg', 'png', 'gif', 'webp'])) {
 
             if (config('larams.enable_webp')) {
-                $headers = request()->header('accept');
-                if (strpos($headers, 'image/webp') !== false) {
+                if (webp()) {
                     $type = 'webp';
                 } elseif ($type == 'webp') {
                     $type = 'png';
