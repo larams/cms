@@ -6,6 +6,8 @@ return [
     'structure' => true,
     'translations' => true,
     'register_frontend_routes' => true,
+    'enable_webp' => false,
+    'tinify_api_key' => '',
     'admin' => [
         'translations' => [
             'enable_xlf' => false

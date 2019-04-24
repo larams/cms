@@ -53,12 +53,11 @@ class MediaController extends Controller
             $height *= 2;
         }
 
-        if (in_array($width, ['jpg', 'png', 'gif'])) {
+        if (in_array($width, ['jpg', 'png', 'gif', 'webp'])) {
             $type = $width;
             $filename = str_replace('/' . $width, '', $filename);
             $width = null;
         }
-
 
         $imagePath = storage_path('uploads/' . $filename);
         $fileType = mime_content_type($imagePath);
@@ -91,14 +90,14 @@ class MediaController extends Controller
                     $image->make($imagePath);
                 }
 
-                list( $orientation, $flip ) = $this->getOrientation( $imagePath );
+                list($orientation, $flip) = $this->getOrientation($imagePath);
 
-                if ( !empty( $flip ) ) {
+                if (!empty($flip)) {
                     $image->flip();
                 }
 
-                if ( $orientation > 0 ) {
-                    $image->rotate( $orientation );
+                if ($orientation > 0) {
+                    $image->rotate($orientation);
                 }
 
             }, null, true);
@@ -122,7 +121,17 @@ class MediaController extends Controller
             $outputFileName .= '_' . intval($cropType);
         }
 
-        if (!empty($type) && in_array($type, ['jpg', 'png', 'gif'])) {
+        if (!empty($type) && in_array($type, ['jpg', 'png', 'gif', 'webp'])) {
+
+            if (config('larams.enable_webp')) {
+                $headers = request()->header('accept');
+                if (strpos($headers, 'image/webp') !== false) {
+                    $type = 'webp';
+                } elseif ($type == 'webp') {
+                    $type = 'png';
+                }
+            }
+
             $outputFileName .= '.' . $type;
         }
 
@@ -131,15 +140,23 @@ class MediaController extends Controller
 
         $path = public_path($routeFolder . '/' . $outputFileName);
 
-        if ( !empty($originalImage) || $isSvg || $isAnimatedGif ) {
+        if (!empty($originalImage) || $isSvg || $isAnimatedGif) {
             copy($imagePath, $path);
         } else {
-            $quality = 100;
+
             if (strpos($fileType, 'png') !== false) {
                 $quality = 9;
             }
 
-            $img->save($path, $quality);
+            if (strpos($fileType, 'jpg') !== false) {
+                $quality = 100;
+            }
+
+            if (!empty($quality)) {
+                $img->save($path, $quality);
+            } else {
+                $img->save($path);
+            }
 
             $apiKey = config('larams.tinify_api_key');
             if (!empty($apiKey)) {
@@ -161,7 +178,7 @@ class MediaController extends Controller
         }
     }
 
-    protected function getOrientation( $path )
+    protected function getOrientation($path)
     {
         if (function_exists('exif_read_data')) {
             $exif = @exif_read_data($path);
@@ -186,7 +203,7 @@ class MediaController extends Controller
             }
         }
 
-        return [ 0, false ];
+        return [0, false];
     }
 
     public function getView(StructureItem $structureItem, $mediaId, $width = null, $height = null, $cropType = 0, $type = 'png')
