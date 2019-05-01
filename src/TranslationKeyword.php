@@ -30,9 +30,13 @@ class TranslationKeyword extends \Eloquent
         $cacheKey = 'translations_' . $locale;
 
         if (empty($this->translations[$locale])) {
-            $language = StructureItem::getModel()
+
+            $structureItems = StructureItem::getModel();
+
+            $language = $structureItems
                 ->byTypeName('site_lang')
                 ->whereData('short_code', $locale)
+                ->childsOf( $structureItems->currSite()->id )
                 ->orderBy('left', 'ASC')
                 ->first();
 
