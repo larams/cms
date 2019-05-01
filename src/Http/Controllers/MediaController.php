@@ -143,11 +143,11 @@ class MediaController extends Controller
             copy($imagePath, $path);
         } else {
 
-            if (strpos($fileType, 'png') !== false) {
+            if (strpos($path, 'png') !== false) {
                 $quality = 9;
             }
 
-            if (strpos($fileType, 'jpg') !== false) {
+            if (strpos($path, 'jpg') !== false) {
                 $quality = 100;
             }
 
