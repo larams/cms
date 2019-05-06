@@ -27,18 +27,22 @@ class TranslationKeyword extends \Eloquent
 
     public function translations($locale, $group, $namespace = null)
     {
-        $cacheKey = 'translations_' . $locale;
-
         if (empty($this->translations[$locale])) {
 
+            /** @var StructureItem $structureItems */
             $structureItems = StructureItem::getModel();
+            $currentSite = $structureItems->currSite();
 
             $language = $structureItems
                 ->byTypeName('site_lang')
                 ->whereData('short_code', $locale)
-                ->childsOf( $structureItems->currSite()->id )
-                ->orderBy('left', 'ASC')
-                ->first();
+                ->orderBy('left', 'ASC');
+
+            if (!empty($currentSite)) {
+                $language = $language->childsOf( $currentSite->id );
+            }
+
+            $language = $language->first();
 
             if (empty($language)) {
                 return [];
