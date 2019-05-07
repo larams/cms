@@ -210,6 +210,10 @@ class MediaController extends Controller
 
         $image = $structureItem->find($mediaId);
 
+        if (empty($image)) {
+            app()->abort( 404 );
+        }
+
         return $this->getViewByFile($image->data->name, $width, $height, $cropType, $type, intval($mediaId), 'media');
     }
 
@@ -218,6 +222,10 @@ class MediaController extends Controller
     {
 
         $image = $structureItem->find($mediaId);
+
+        if (empty($image)) {
+            app()->abort( 404 );
+        }
 
         return $this->getViewByFile($image->data->name, 0, 0, 1, $type, intval($mediaId), 'media');
     }
