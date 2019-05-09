@@ -8,12 +8,14 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Larams\Cms\UserTraits\EncryptsPassword;
+use Larams\Cms\UserTraits\HasRoles;
 
 class User extends \Eloquent implements AuthenticatableContract,
     AuthorizableContract,
     CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, CanResetPassword;
+    use Authenticatable, Authorizable, CanResetPassword, HasRoles, EncryptsPassword;
 
     /**
      * The database table used by the model.
@@ -36,26 +38,4 @@ class User extends \Eloquent implements AuthenticatableContract,
      */
     protected $hidden = ['password', 'remember_token'];
 
-    public function getTypeTitleAttribute()
-    {
-        $types = $this->types();
-        return $types[$this->attributes['type']];
-    }
-
-    public function setPasswordAttribute($password)
-    {
-        if (!empty($password)) {
-            $this->attributes['password'] = \Hash::make($password);
-        }
-    }
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    public function isAllowed($permission)
-    {
-        return $this->role->isAllowed($permission);
-    }
 }
