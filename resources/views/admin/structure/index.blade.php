@@ -75,7 +75,7 @@
             </script>
         </div>
     </div><!--/span-->
-    <div class="col-md-8 col-md-offset-4 col-lg-9 col-lg-offset-3">
+    <div class="col-md-8 col-md-offset-4 col-lg-9 col-lg-offset-3 content-area">
         <div class="mt20 mb20">
             @if ( count( $currentPath )  > 1)
                 <ul class="breadcrumb">
