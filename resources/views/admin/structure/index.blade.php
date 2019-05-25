@@ -129,6 +129,8 @@
                 </div>
             @endif
 
+            @include('larams::admin.structure.elements.block_before_fields')
+
             <div id="edit-item" class="well">
                 @if ($currentItem->level > 3 || $isDeveloper)
                     <form class="form" action="{{url('admin/structure/save/' . $currentItem->id )}}" enctype="multipart/form-data" method="post" name="doing_stuff_with_content">
@@ -168,6 +170,9 @@
                     </form>
                 @endif
             </div>
+
+            @include('larams::admin.structure.elements.block_after_fields')
+
         </div>
     </div>
 </div>
