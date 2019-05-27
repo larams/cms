@@ -31,7 +31,7 @@ class BootstrapForm
         }
 
         if (!empty($params['hint'])) {
-            $hint .= '<br />' . $params['hint'];
+            $hint .= (!empty( $hint) ? '<br />' : '') . $params['hint'];
         }
 
         if (!empty($hint)) {
@@ -99,7 +99,7 @@ class BootstrapForm
         }
 
         if (!empty($params['hint'])) {
-            $hint .= '<br />' . $params['hint'];
+            $hint .= (!empty( $hint) ? '<br />' : '') . $params['hint'];
         }
 
         if (!empty($hint)) {
