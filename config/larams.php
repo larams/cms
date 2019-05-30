@@ -12,6 +12,7 @@ return [
         'translations' => [
             'enable_xlf' => false
         ],
+        'allow_folder_moving' => true,
         'log_admin_actions' => false,
         'allow_custom_uri' => false,
         'password_expires_in' => false, // '-2 months',

@@ -1,5 +1,5 @@
 function confirmDelete() {
-    return ( window.confirm('Ar tikrai norite ištrinti?') );
+    return (window.confirm('Ar tikrai norite ištrinti?'));
 }
 
 function generatePassword() {
@@ -14,17 +14,17 @@ function generatePassword() {
 
 $(document).ready(function () {
 
-    $('.js-generate-password').click( function() {
+    $('.js-generate-password').click(function () {
 
         var pass = generatePassword();
 
-        $('.js-password').val( pass ).attr('type', 'text');
-        $('.js-password-confirm').val( pass ).attr('type', 'text');
+        $('.js-password').val(pass).attr('type', 'text');
+        $('.js-password-confirm').val(pass).attr('type', 'text');
         return false;
 
     });
 
-    $('.js-password, .js-password-confirm').focus( function() {
+    $('.js-password, .js-password-confirm').focus(function () {
         $('.js-password, .js-password-confirm').attr('type', 'password');
     });
 
@@ -147,27 +147,29 @@ $(document).ready(function () {
         }
     });
 
-    $('#gallerySortable .dz-folder-preview').droppable({
-        accept: '#gallerySortable li',
-        drop: function (ev, ui) {
+    if (window.allowFolderMoving) {
+        $('#gallerySortable .dz-folder-preview').droppable({
+            accept: '#gallerySortable li',
+            drop: function (ev, ui) {
 
-            dropped = true;
+                dropped = true;
 
-            var move_url = $(this).parent().data('move-url');
+                var move_url = $(this).parent().data('move-url');
 
-            $('#loader').show();
+                $('#loader').show();
 
-            $.post(move_url, {
-                position: 1,
-                parent_id: $(this).data('id'),
-                id: ui.draggable.data('id')
-            }, function () {
-                ui.draggable.remove();
-                $('#loader').hide();
-            });
+                $.post(move_url, {
+                    position: 1,
+                    parent_id: $(this).data('id'),
+                    id: ui.draggable.data('id')
+                }, function () {
+                    ui.draggable.remove();
+                    $('#loader').hide();
+                });
 
-        }
-    });
+            }
+        });
+    }
 
 });
 

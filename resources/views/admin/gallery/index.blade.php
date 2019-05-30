@@ -131,3 +131,6 @@
     </form>
 
 </div>
+<script type="text/javascript">
+    window.allowFolderMoving = {{config('larams.admin.allow_folder_moving')}};
+</script>
