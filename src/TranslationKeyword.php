@@ -2,7 +2,9 @@
 
 namespace Larams\Cms;
 
-class TranslationKeyword extends \Eloquent
+use Illuminate\Database\Eloquent\Model;
+
+class TranslationKeyword extends Model
 {
 
     protected $table = 'translation_keywords';
@@ -39,7 +41,7 @@ class TranslationKeyword extends \Eloquent
                 ->orderBy('left', 'ASC');
 
             if (!empty($currentSite)) {
-                $language = $language->childsOf( $currentSite->id );
+                $language = $language->childsOf($currentSite->id);
             }
 
             $language = $language->first();

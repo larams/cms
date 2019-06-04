@@ -2,7 +2,9 @@
 
 namespace Larams\Cms;
 
-class Permission extends \Eloquent
+use Illuminate\Database\Eloquent\Model;
+
+class Permission extends Model
 {
 
     protected $fillable = ['permission', 'title'];

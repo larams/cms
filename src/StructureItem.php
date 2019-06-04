@@ -2,6 +2,7 @@
 
 namespace Larams\Cms;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -16,8 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static StructureItem byId($itemId)
  * @method static StructureItem orderByData($column, $direction = 'asc')
  */
-
-class StructureItem extends \Eloquent
+class StructureItem extends Model
 {
 
     use SoftDeletes;
@@ -80,19 +80,19 @@ class StructureItem extends \Eloquent
         return $query->where('left', '<', $left)->where('right', '>', $right);
     }
 
-    public function getPathElements( $left, $right, $includeSelf )
+    public function getPathElements($left, $right, $includeSelf)
     {
-        return $this->path( $left, $right, $includeSelf )
-        			->where('active', 1)
-        			->take( PHP_INT_MAX )
-        			->orderBy('left')
-        			->offset( 1 )
-        			->get()->toArray();
+        return $this->path($left, $right, $includeSelf)
+            ->where('active', 1)
+            ->take(PHP_INT_MAX)
+            ->orderBy('left')
+            ->offset(1)
+            ->get()->toArray();
     }
 
     public function getFullUriAttribute()
     {
-        $uri = $this->getPathElements( $this->left, $this->right, true );
+        $uri = $this->getPathElements($this->left, $this->right, true);
 
         return trim(implode('/', array_map(function ($item) {
             return !empty($item['custom_uri']) ? $item['uri'] : Utils::toAscii($item['name']);
@@ -108,29 +108,29 @@ class StructureItem extends \Eloquent
     public function delete()
     {
 
-        $items = $this->where('left', '>', $this->left )->where('right', '<', $this->right )->get();
-        foreach ( $items as $item ) {
+        $items = $this->where('left', '>', $this->left)->where('right', '<', $this->right)->get();
+        foreach ($items as $item) {
             $item->deleteSelfOnly();
         }
 
         return parent::delete();
     }
 
-    public function removeFile( $filename )
+    public function removeFile($filename)
     {
-        if (empty( $filename )) {
+        if (empty($filename)) {
             return false;
         }
 
-        $path = storage_path('uploads/' . $filename );
-        if (file_exists( $path )) {
-            unlink( $path );
+        $path = storage_path('uploads/' . $filename);
+        if (file_exists($path)) {
+            unlink($path);
             return true;
         }
 
-        $cachedFiles = glob(public_path('image/' . $this->id.'*' ));
-        foreach ( $cachedFiles as $cachedFile ) {
-            unlink( $cachedFile );
+        $cachedFiles = glob(public_path('image/' . $this->id . '*'));
+        foreach ($cachedFiles as $cachedFile) {
+            unlink($cachedFile);
         }
 
         return false;
@@ -255,12 +255,12 @@ class StructureItem extends \Eloquent
     public function updateChildUris($item)
     {
 
-        ActionLog::log( $item->id, 'STRUCTURE', "Update child urls (parent id: {$item->id}) where left > {$item->left} and right < {$item->right}", $item );
+        ActionLog::log($item->id, 'STRUCTURE', "Update child urls (parent id: {$item->id}) where left > {$item->left} and right < {$item->right}", $item);
 
         $childs = $this->where('left', '>', $item->left)->where('right', '<', $item->right)->get();
 
         foreach ($childs as $child) {
-            $child->uri = $this->generateUrl( $child->custom_uri, $child->name, $child->parent, $child->id );
+            $child->uri = $this->generateUrl($child->custom_uri, $child->name, $child->parent, $child->id);
             $child->save();
         }
 
@@ -290,7 +290,7 @@ class StructureItem extends \Eloquent
             $data['level'] = $parent->level + 1;
         }
 
-        ActionLog::log($parent->id, 'STRUCTURE', 'addItem, create child', $data );
+        ActionLog::log($parent->id, 'STRUCTURE', 'addItem, create child', $data);
 
         return $this->create($data);
     }
@@ -407,8 +407,8 @@ class StructureItem extends \Eloquent
     {
         if (empty($customUri) || substr($customUri, 0, 1) !== '/') {
 
-            $item = $this->find( $itemId );
-            $topItem = $this->path( $item->left, $item->right )->first();
+            $item = $this->find($itemId);
+            $topItem = $this->path($item->left, $item->right)->first();
 
             $pageUri = !empty($customUri) ? $customUri : Utils::toAscii($name);
             $iteration = 1;
@@ -419,7 +419,7 @@ class StructureItem extends \Eloquent
                     $uri .= '-' . $iteration;
                 }
 
-                $elementWithUri = $this->childsOf( $topItem->id )->where('uri', $uri)->where('id', '!=', $itemId)->first();
+                $elementWithUri = $this->childsOf($topItem->id)->where('uri', $uri)->where('id', '!=', $itemId)->first();
                 $iteration++;
             } while (!empty($elementWithUri));
 

@@ -2,13 +2,14 @@
 
 namespace Larams\Cms;
 
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Class StructureData
  * @package Larams\Cms
  *
  */
-
-class StructureData extends \Eloquent
+class StructureData extends Model
 {
 
     protected $table = 'structure_data';
@@ -22,16 +23,16 @@ class StructureData extends \Eloquent
 
     public function getDataAttribute()
     {
-        $result = json_decode( $this->attributes['data'] );
-        if ( $result != $this->attributes['data'] && json_last_error() == JSON_ERROR_NONE ) {
+        $result = json_decode($this->attributes['data']);
+        if ($result != $this->attributes['data'] && json_last_error() == JSON_ERROR_NONE) {
             return $result;
         }
 
         return $this->attributes['data'];
     }
 
-    public function setDataAttribute( $value )
+    public function setDataAttribute($value)
     {
-        $this->attributes['data'] = is_scalar( $value ) ? $value : json_encode( $value );
+        $this->attributes['data'] = is_scalar($value) ? $value : json_encode($value);
     }
 }

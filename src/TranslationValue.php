@@ -2,7 +2,9 @@
 
 namespace Larams\Cms;
 
-class TranslationValue extends \Eloquent
+use Illuminate\Database\Eloquent\Model;
+
+class TranslationValue extends Model
 {
 
     protected $table = 'translation_values';

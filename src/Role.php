@@ -2,7 +2,9 @@
 
 namespace Larams\Cms;
 
-class Role extends \Eloquent
+use Illuminate\Database\Eloquent\Model;
+
+class Role extends Model
 {
 
     protected $fillable = ['title'];
@@ -24,7 +26,7 @@ class Role extends \Eloquent
             //'/admin\.structure\.(.*?)/'
             $perm->permission = str_replace('.', '\.', $perm->permission);
             $perm->permission = '/' . str_replace('*', '(.*?)', $perm->permission) . '/';
-            if ($perm->matches($permission) === true){
+            if ($perm->matches($permission) === true) {
                 return true;
             };
         }
