@@ -15,6 +15,10 @@ trait HasRoles {
 
     public function isAllowed($permission)
     {
+        if (empty($this->role)) {
+            return true;
+        }
+
         return $this->role->isAllowed($permission);
     }
 
