@@ -15,7 +15,8 @@ class DoubleText extends Property
         $configuration = array(
             'inputs' => $this->inputs,
             'item' => $this->item,
-            'name' => $this->name
+            'name' => $this->name,
+            'hint' => $this->hint,
         );
 
         return view('larams::properties.double_text', $configuration);

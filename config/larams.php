@@ -12,6 +12,7 @@ return [
         'translations' => [
             'enable_xlf' => false
         ],
+        'rte_hint' => '',
         'allow_folder_moving' => true,
         'log_admin_actions' => false,
         'allow_custom_uri' => false,

@@ -3,23 +3,24 @@
 $properties = [
 
     [
-        'class' => 'Larams\Cms\Property\Rte',
+        'class' => Larams\Cms\Property\Rte::class,
         'name' => 'text',
         'title' => 'Text',
+        'hint' => '',
     ],
     [
-        'class' => 'Larams\Cms\Property\File',
+        'class' => Larams\Cms\Property\File::class,
         'name' => 'file',
         'title' => 'Attached file',
     ],
     [
-        'class' => 'Larams\Cms\Property\Text',
+        'class' => Larams\Cms\Property\Text::class,
         'name' => 'single_line_text',
         'title' => 'Text single line'
     ],
 
     [
-        'class' => 'Larams\Cms\Property\StructureItems',
+        'class' => Larams\Cms\Property\StructureItems::class,
         'name' => 'item_id',
         'title' => 'Element',
         'allowEmpty' => true,
@@ -29,13 +30,13 @@ $properties = [
         'style' => 'SELECT',    // Leave empty for Checkbox/Radio style
     ],
     [
-        'class' => 'Larams\Cms\Property\Date',
+        'class' => Larams\Cms\Property\Date::class,
         'name' => 'date',
         'title' => 'Date'
     ],
 
     [
-        'class' => 'Larams\Cms\Property\DoubleText',
+        'class' => Larams\Cms\Property\DoubleText::class,
         'name' => 'doubletext',
         'title' => 'Price',
         'inputs' => [
@@ -56,7 +57,7 @@ $properties = [
 
 
     [
-        'class' => 'Larams\Cms\Property\Select',
+        'class' => Larams\Cms\Property\Select::class,
         'name' => 'color',
         'title' => 'Color',
         'options' => [
@@ -66,12 +67,12 @@ $properties = [
     ],
 
     [
-        'class' => 'Larams\Cms\Property\Textarea',
+        'class' => Larams\Cms\Property\Textarea::class,
         'name' => 'simple_text',
         'title' => 'Unformatted text',
     ],
     [
-        'class' => 'Larams\Cms\Property\StructureText',
+        'class' => Larams\Cms\Property\StructureText::class,
         'name' => 'multi_items',
         'splitByType' => 'site',
         'typeName' => 'site_lang',
@@ -79,7 +80,7 @@ $properties = [
         'title' => 'Text for every language'
     ],
     [
-        'class' => 'Larams\Cms\Property\Image',
+        'class' => Larams\Cms\Property\Image::class,
         'name' => 'image',
         'title' => 'Image',
         'format' => 'png',

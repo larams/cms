@@ -43,7 +43,7 @@ class StructureText extends Property
                 ->first();
             $items = $items->childsOf($topItem->id);
         }
-        
+
         $items = $items->orderBy('left')->get();
 
         $configuration = array(
@@ -52,7 +52,8 @@ class StructureText extends Property
             'inputWidthClass' => $this->inputWidthClass,
             'item' => $this->item,
             'name' => $this->name,
-            'items' => $items
+            'items' => $items,
+            'hint' => $this->hint,
         );
 
         return view('larams::properties.struct_text', $configuration);

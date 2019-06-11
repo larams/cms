@@ -1,6 +1,8 @@
 
 <textarea class="form-control" id="{{$name}}" name="data[{{$name}}]" style="width: {{$width}}; height: {{$height}};">@if (isset( $item->data->$name )){{$item->data->$name}}@endif</textarea>
-
+@if (!empty( $hint ))
+    <p class="help-block">{{$hint}}</p>
+@endif
 <script type="text/javascript" src="{{bower('ckeditor/ckeditor.js')}}"></script>
 <script type="text/javascript">
 

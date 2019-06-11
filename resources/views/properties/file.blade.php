@@ -10,4 +10,8 @@
     @endif
 
     <a class="btn btn-sm btn-default" href="#" onclick="window.open( '{{url('admin/gallery/index/0/1/'.$name )}}', 'image-{{$name}}', 'width=900,height=600' ); return false;"><span class="fa fa-folder-o"></span> {{trans('admin.button.choose_file')}}</a>
+
+    @if (!empty( $hint ))
+        <p class="help-block">{{$hint}}</p>
+    @endif
 </div>

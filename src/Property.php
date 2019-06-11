@@ -12,6 +12,8 @@ abstract class Property
 
     protected $item;
 
+    protected $hint;
+
     public function setConfiguration($configuration)
     {
 

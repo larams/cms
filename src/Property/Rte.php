@@ -18,6 +18,7 @@ class Rte extends Property
             'width' => $this->width,
             'height' => $this->height,
             'item' => $this->item,
+            'hint' => $this->hint,
             'name' => $this->name
         );
 

@@ -4,4 +4,7 @@
             name="data[{{$name}}]"
             value="{{ property_exists( $item->data, $name ) ? $item->data->$name  : '' }}"
     />
+    @if (!empty( $hint ))
+        <p class="help-block">{{$hint}}</p>
+    @endif
 </div>

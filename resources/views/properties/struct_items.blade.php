@@ -33,4 +33,8 @@
         </select>
     @endif
 
+        @if (!empty( $hint ))
+            <p class="help-block">{{$hint}}</p>
+        @endif
+
 </div>

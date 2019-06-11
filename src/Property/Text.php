@@ -15,7 +15,8 @@ class Text extends Property
         $configuration = array(
             'cssClass' => $this->cssClass,
             'item' => $this->item,
-            'name' => $this->name
+            'name' => $this->name,
+            'hint' => $this->hint,
         );
 
         return view('larams::properties.text', $configuration);

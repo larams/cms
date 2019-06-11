@@ -23,6 +23,7 @@ class Image extends Property
             'item' => $this->item,
             'automatic' => $this->automatic,
             'versions' => $this->versions,
+            'hint' => $this->hint,
         ];
 
         return view('larams::properties.image', $configuration);

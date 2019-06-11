@@ -53,7 +53,8 @@ class DbSelect extends Property
             'name' => $this->name,
             'items' => $items,
             'keyColumn' => $this->keyColumn,
-            'valueColumn' => $this->valueColumn
+            'valueColumn' => $this->valueColumn,
+            'hint' => $this->hint,
         );
 
         return view('larams::properties.db_select', $configuration);

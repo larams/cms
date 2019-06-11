@@ -27,5 +27,9 @@
 
         @endforeach
 
+        @if (!empty( $hint ))
+            <p class="help-block">{{$hint}}</p>
+        @endif
+
     @endif
 </div>

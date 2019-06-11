@@ -1,6 +1,9 @@
 
 <div>
     <input class="form-control" name="data[{{$name}}]" value="@if(isset( $item->data->$name )){{$item->data->$name}}@endif" id="element_{{$name}}" />
+    @if (!empty( $hint ))
+        <p class="help-block">{{$hint}}</p>
+    @endif
 </div>
 
 <link rel="stylesheet" href="{{bower('bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css')}}" />

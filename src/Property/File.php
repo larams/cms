@@ -22,7 +22,8 @@ class File extends Property
 
         $configuration = [
             'name' => $this->name,
-            'item' => $this->item
+            'item' => $this->item,
+            'hint' => $this->hint,
         ];
 
         return view('larams::properties.file', $configuration );

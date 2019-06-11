@@ -21,6 +21,7 @@ class Select extends Property
 			'cssClass' => $this->cssClass,
             'item' => $this->item,
             'name' => $this->name,
+            'hint' => $this->hint,
             'multiple' => $this->multiple
         );
 

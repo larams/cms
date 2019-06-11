@@ -18,7 +18,8 @@ class Textarea extends Property
             'cssClass' => $this->cssClass,
             'rows' => $this->rows,
             'item' => $this->item,
-            'name' => $this->name
+            'name' => $this->name,
+            'hint' => $this->hint,
         );
 
         return view('larams::properties.textarea', $configuration);

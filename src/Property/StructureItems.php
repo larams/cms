@@ -107,6 +107,7 @@ class StructureItems extends Property
             'allowEmpty' => $this->allowEmpty,
             'item' => $this->item,
             'name' => $this->name,
+            'hint' => $this->hint,
             'childs' => $childs
         );
 
