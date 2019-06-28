@@ -100,6 +100,11 @@ class StructureItem extends Model
 
     }
 
+    public function getTypeNameAttribute()
+    {
+        return $this->type->name;
+    }
+
     public function deleteSelfOnly()
     {
         return parent::delete();
