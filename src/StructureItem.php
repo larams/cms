@@ -45,7 +45,7 @@ class StructureItem extends Model
 
     public function childs()
     {
-        return $this->hasMany('Larams\Cms\StructureItem', 'parent_id');
+        return $this->hasMany('Larams\Cms\StructureItem', 'parent_id')->orderBy('left');
     }
 
     public function parent()
