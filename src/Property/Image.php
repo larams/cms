@@ -56,6 +56,9 @@ class Image extends Property
                     $return[$versionName]['url'] = $imageId . '.' . $format;
                     $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format;
                     $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format;
+                    $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url'] );
+                    $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped'] );
+                    $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted'] );
                     $return[$versionName]['width'] = $dimensions['width'];
                     $return[$versionName]['height'] = $dimensions['height'];
                 }
@@ -74,6 +77,9 @@ class Image extends Property
                 $return[$versionName]['url'] = $imageId . '.' . $format;
                 $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format;
                 $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format;
+                $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url'] );
+                $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped'] );
+                $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted'] );
                 $return[$versionName]['width'] = $dimensions['width'];
                 $return[$versionName]['height'] = $dimensions['height'];
             }
