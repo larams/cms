@@ -12,4 +12,8 @@ trait EncryptsPassword
         }
     }
 
+    public function setEncryptedPasswordAttribute($password)
+    {
+        $this->attributes['password'] = $password;
+    }
 }
