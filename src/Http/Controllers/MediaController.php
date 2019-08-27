@@ -15,6 +15,13 @@ class MediaController extends Controller
         return response()->download($path, $filename . '.' . $type);
     }
 
+    public function getViewFile(StructureItem $structureItem, $id, $filename, $type)
+    {
+        $file = $structureItem->find($id);
+        $path = storage_path('uploads/' . $file->data->name);
+        return response()->file($path);
+    }
+
     public function showFile($filename)
     {
         $path = storage_path('uploads/' . $filename);
@@ -211,7 +218,7 @@ class MediaController extends Controller
         $image = $structureItem->find($mediaId);
 
         if (empty($image)) {
-            app()->abort( 404 );
+            app()->abort(404);
         }
 
         return $this->getViewByFile($image->data->name, $width, $height, $cropType, $type, intval($mediaId), 'media');
@@ -224,7 +231,7 @@ class MediaController extends Controller
         $image = $structureItem->find($mediaId);
 
         if (empty($image)) {
-            app()->abort( 404 );
+            app()->abort(404);
         }
 
         return $this->getViewByFile($image->data->name, 0, 0, 1, $type, intval($mediaId), 'media');
