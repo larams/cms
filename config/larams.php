@@ -8,6 +8,7 @@ return [
     'register_frontend_routes' => true,
     'enable_webp' => false,
     'tinify_api_key' => '',
+    'force_file_download' => false,
     'admin' => [
         'translations' => [
             'enable_xlf' => false
