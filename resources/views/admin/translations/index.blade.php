@@ -19,6 +19,12 @@
     @endif
     <div class="clearfix"></div>
 
+    <div>
+        <label>
+            <input type="checkbox" class="js-has-missing" name="missing" value="1"/>
+            Display only with missing translations
+        </label>
+    </div>
 
     <table class="table table-striped table-condensed mt20">
         <thead>
@@ -36,9 +42,9 @@
             <th>&nbsp;</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="js-translations-list">
         @foreach ( $keywords as $keyword )
-            <tr>
+            <tr @foreach ( $languages as $language ) @if (empty( $values[ $keyword->id ][ $language->id ])) class="has-missing" @endif @endforeach >
                 @foreach ( $languages as $k => $language )
                     <td>
 
@@ -93,6 +99,19 @@
     <script type="text/javascript">
 
         var storageUrl = '{{url('admin/translations/save')}}/';
+
+        $('.js-has-missing').change(function (e) {
+
+            var onlyMissing = $(this).is(':checked');
+
+            if (onlyMissing) {
+                $('.js-translations-list tr').hide();
+                $('.js-translations-list tr.has-missing').show();
+            } else {
+                $('.js-translations-list tr').show();
+            }
+
+        });
 
         $('.js-editable-translation').blur(function (e) {
 
