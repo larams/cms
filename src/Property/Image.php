@@ -48,6 +48,7 @@ class Image extends Property
 
             $return = [
                 'id' => $imageId,
+                'alt' => $formData[$this->name . '_alt'],
                 'url' => $imageId . '.' . $format,
             ];
 
