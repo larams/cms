@@ -4,7 +4,7 @@
     <h2 class="mt20">{{trans('admin.title.administrator.edit')}}</h2>
 @endif
 
-@if (count($errors) > 0)
+@if (!empty($errors) && count($errors) > 0)
     <div class="alert alert-danger">
         <ul>
             @foreach ($errors->all() as $error)
