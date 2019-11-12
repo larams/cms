@@ -95,6 +95,14 @@ class StructureItemSeeder extends Seeder
         DB::table('translation_keywords')->insert(array('id' => 73, 'keyword' => 'admin.menu.roles'));
         DB::table('translation_keywords')->insert(array('id' => 74, 'keyword' => 'admin.text.image_alt_text'));
         DB::table('translation_keywords')->insert(array('id' => 75, 'keyword' => 'admin.text.image_size'));
+        DB::table('translation_keywords')->insert(array('id' => 76, 'keyword' => 'admin.menu.redirects'));
+        DB::table('translation_keywords')->insert(array('id' => 77, 'keyword' => 'admin.title.redirects'));
+        DB::table('translation_keywords')->insert(array('id' => 78, 'keyword' => 'admin.title.create_redirect'));
+        DB::table('translation_keywords')->insert(array('id' => 79, 'keyword' => 'admin.title.edit_redirect'));
+        DB::table('translation_keywords')->insert(array('id' => 80, 'keyword' => 'admin.field.from_url'));
+        DB::table('translation_keywords')->insert(array('id' => 81, 'keyword' => 'admin.field.to_url'));
+        DB::table('translation_keywords')->insert(array('id' => 82, 'keyword' => 'admin.text.from_url_help_text'));
+        DB::table('translation_keywords')->insert(array('id' => 83, 'keyword' => 'admin.text.to_url_help_text'));
 
         foreach ([$firstLanguageId, $secondLanguageId] as $languageId) {
 
@@ -164,6 +172,14 @@ class StructureItemSeeder extends Seeder
             DB::table('translation_values')->insert(array('keyword_id' => 73, 'language_id' => $languageId, 'value' => 'Roles'));
             DB::table('translation_values')->insert(array('keyword_id' => 74, 'language_id' => $languageId, 'value' => 'Image ALT text'));
             DB::table('translation_values')->insert(array('keyword_id' => 75, 'language_id' => $languageId, 'value' => 'Image size'));
+            DB::table('translation_values')->insert(array('keyword_id' => 76, 'language_id' => $languageId, 'value' => 'Redirects'));
+            DB::table('translation_values')->insert(array('keyword_id' => 77, 'language_id' => $languageId, 'value' => 'Redirects'));
+            DB::table('translation_values')->insert(array('keyword_id' => 78, 'language_id' => $languageId, 'value' => 'Create redirect'));
+            DB::table('translation_values')->insert(array('keyword_id' => 79, 'language_id' => $languageId, 'value' => 'Edit redirect'));
+            DB::table('translation_values')->insert(array('keyword_id' => 80, 'language_id' => $languageId, 'value' => 'Source URL'));
+            DB::table('translation_values')->insert(array('keyword_id' => 81, 'language_id' => $languageId, 'value' => 'Destination URL'));
+            DB::table('translation_values')->insert(array('keyword_id' => 82, 'language_id' => $languageId, 'value' => 'Only request path with leading slash should be entered. Domain should be omitted.'));
+            DB::table('translation_values')->insert(array('keyword_id' => 83, 'language_id' => $languageId, 'value' => 'Full URL including domain name can be entered. If URL doesn\'t contain http prefix current site domain will be added automatically.'));
         }
     }
 

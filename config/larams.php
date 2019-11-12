@@ -42,6 +42,10 @@ return [
                 'title' => 'admin.menu.administrators'
             ],
             [
+                'route' => 'admin.redirects.index',
+                'title' => 'admin.menu.redirects'
+            ],
+            [
                 'route' => 'admin.types.index',
                 'title' => 'admin.menu.content_types'
             ],

@@ -61,12 +61,19 @@ Route::group(['prefix' => env('BASE_URL', ''), 'middleware' => 'web'], function 
 
             Route::get('translations', 'TranslationsController@getIndex')->name('admin.translations.index');
             Route::get('translations/index', 'TranslationsController@getIndex')->name('admin.translations.item');
-            Route::post('translations/add', 'TranslationsController@postAdd')->name('admin.translations.add');
+            Route::get('translations/add', 'TranslationsController@postAdd')->name('admin.translations.add');
             Route::get('translations/edit/{id}', 'TranslationsController@getEdit')->name('admin.translations.edit');
             Route::post('translations/save/{id?}', 'TranslationsController@postSave')->name('admin.translations.save');
             Route::get('translations/delete/{id}', 'TranslationsController@getDelete')->name('admin.translations.delete');
             Route::get('translations/download/{languageId}', 'TranslationsController@download')->name('admin.translations.download');
             Route::post('translations/upload', 'TranslationsController@upload')->name('admin.translations.upload');
+
+            Route::get('redirects', 'RedirectsController@getIndex')->name('admin.redirects.index');
+            Route::get('redirects/index', 'RedirectsController@getIndex')->name('admin.redirects.item');
+            Route::get('redirects/add', 'RedirectsController@getAdd')->name('admin.redirects.add');
+            Route::get('redirects/edit/{id}', 'RedirectsController@getEdit')->name('admin.redirects.edit');
+            Route::post('redirects/save/{id?}', 'RedirectsController@postSave')->name('admin.redirects.save');
+            Route::get('redirects/delete/{id}', 'RedirectsController@getDelete')->name('admin.redirects.delete');
 
             Route::get('permissions/index', 'PermissionController@index')->name('admin.permissions.index');
             Route::get('permissions/delete/{id}', 'PermissionController@delete')->name('admin.permissions.delete');
