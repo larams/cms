@@ -61,7 +61,7 @@ Route::group(['prefix' => env('BASE_URL', ''), 'middleware' => 'web'], function 
 
             Route::get('translations', 'TranslationsController@getIndex')->name('admin.translations.index');
             Route::get('translations/index', 'TranslationsController@getIndex')->name('admin.translations.item');
-            Route::get('translations/add', 'TranslationsController@postAdd')->name('admin.translations.add');
+            Route::post('translations/add', 'TranslationsController@postAdd')->name('admin.translations.add');
             Route::get('translations/edit/{id}', 'TranslationsController@getEdit')->name('admin.translations.edit');
             Route::post('translations/save/{id?}', 'TranslationsController@postSave')->name('admin.translations.save');
             Route::get('translations/delete/{id}', 'TranslationsController@getDelete')->name('admin.translations.delete');
