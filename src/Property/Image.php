@@ -37,7 +37,7 @@ class Image extends Property
         $return = [];
         $format = (webp() ? 'webp' : $this->format);
 
-        if (!empty( $this->automatic )) {
+        if (!empty($this->automatic)) {
             $imageId = $formData[$this->name];
             $shouldDelete = !empty($formData[$this->name . '_delete']);
 
@@ -57,18 +57,21 @@ class Image extends Property
                     $return[$versionName]['url'] = $imageId . '.' . $format;
                     $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format;
                     $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format;
-                    $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url'] );
-                    $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped'] );
-                    $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted'] );
+                    $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url']);
+                    $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped']);
+                    $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted']);
                     $return[$versionName]['width'] = $dimensions['width'];
                     $return[$versionName]['height'] = $dimensions['height'];
                 }
             }
         } else {
+
+            $return['alt'] = $formData[$this->name . '_alt'];
+
             foreach ($this->versions as $versionName => $dimensions) {
 
-                $imageId = $formData[$this->name.'_'.$versionName];
-                $shouldDelete = !empty($formData[$this->name .'_'.$versionName. '_delete']);
+                $imageId = $formData[$this->name . '_' . $versionName];
+                $shouldDelete = !empty($formData[$this->name . '_' . $versionName . '_delete']);
 
                 if (empty($imageId) || !empty($shouldDelete)) {
                     return $return;
@@ -78,9 +81,9 @@ class Image extends Property
                 $return[$versionName]['url'] = $imageId . '.' . $format;
                 $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format;
                 $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format;
-                $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url'] );
-                $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped'] );
-                $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted'] );
+                $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url']);
+                $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped']);
+                $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted']);
                 $return[$versionName]['width'] = $dimensions['width'];
                 $return[$versionName]['height'] = $dimensions['height'];
             }
@@ -122,12 +125,12 @@ class Image extends Property
     function pushData(&$data)
     {
 
-        $ret_val = FALSE;
+        $ret_val = false;
 
         if ($this->_configured) {
 
             $data[$this->_config['name']] = isset($this->_intern_data[$this->_config['name']]['image']) ? $this->_intern_data[$this->_config['name']]['image'] : array();
-            $ret_val = TRUE;
+            $ret_val = true;
 
         }
 
@@ -145,13 +148,13 @@ class Image extends Property
     function pushInternData(&$data)
     {
 
-        $ret_val = FALSE;
+        $ret_val = false;
 
         if ($this->_configured) {
 
             $data[$this->_config['name']] = isset($this->_intern_data[$this->_config['name']]) ? $this->_intern_data[$this->_config['name']] : array();
 
-            $ret_val = TRUE;
+            $ret_val = true;
 
         }
 
@@ -163,7 +166,7 @@ class Image extends Property
     function fixVersions()
     {
 
-        $ret_val = FALSE;
+        $ret_val = false;
 
         if ((count($this->_config['versions']) > 0) &&
             isset($this->_intern_data[$this->_config['name']]['image']['item_parent_id'])
@@ -171,7 +174,7 @@ class Image extends Property
 
             $oStruct = &$this->getDependService('struct');
 
-            $image_item = $oStruct->getItems(array('item_id' => $this->_intern_data[$this->_config['name']]['image']['item_parent_id'], 'data_dynamic' => TRUE, 'uncond' => TRUE, 'single' => TRUE));
+            $image_item = $oStruct->getItems(array('item_id' => $this->_intern_data[$this->_config['name']]['image']['item_parent_id'], 'data_dynamic' => true, 'uncond' => true, 'single' => true));
 
             if (count($image_item) > 0) {
 
@@ -197,7 +200,7 @@ class Image extends Property
     function pickEditorData(&$data)
     {
 
-        $ret_val = FALSE;
+        $ret_val = false;
 
         if ($this->_configured) {
 
@@ -209,7 +212,7 @@ class Image extends Property
 
                 $oStruct = &$this->getDependService('struct');
 
-                $image_item = $oStruct->getItems(array('item_id' => $data[$this->_config['name']], 'data_dynamic' => TRUE, 'uncond' => TRUE, 'single' => TRUE));
+                $image_item = $oStruct->getItems(array('item_id' => $data[$this->_config['name']], 'data_dynamic' => true, 'uncond' => true, 'single' => true));
 
                 if (count($image_item) > 0) {
 
@@ -230,7 +233,7 @@ class Image extends Property
 
                     $oStruct = &$this->getDependService('struct');
 
-                    $image_item = $oStruct->getItems(array('item_id' => $data[$this->_config['name']], 'data_dynamic' => TRUE, 'uncond' => TRUE, 'single' => TRUE));
+                    $image_item = $oStruct->getItems(array('item_id' => $data[$this->_config['name']], 'data_dynamic' => true, 'uncond' => true, 'single' => true));
 
                     if (count($image_item) > 0) {
 
@@ -255,7 +258,7 @@ class Image extends Property
                 }
             }
 
-            $ret_val = TRUE;
+            $ret_val = true;
 
         }
 
