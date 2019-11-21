@@ -35,7 +35,7 @@ class BootstrapForm
         }
 
         if (!empty($hint)) {
-            $hint = '<span class="help-block" style="color: #888; margin-top: 3px;">' . $hint . '</span>';
+            $hint = '<span class="help-block" style="margin-top: 3px;">' . $hint . '</span>';
         }
 
         $disabled = '';
@@ -103,7 +103,7 @@ class BootstrapForm
         }
 
         if (!empty($hint)) {
-            $hint = '<span class="help-block" style="color: #888; margin-top: 3px;">' . $hint . '</span>';
+            $hint = '<span class="help-block" style="margin-top: 3px;">' . $hint . '</span>';
         }
 
         $disabled = '';
