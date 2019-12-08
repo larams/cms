@@ -72,6 +72,31 @@ class CreateLaramsTables extends Migration
 
         });
 
+        Schema::create('roles', function (Blueprint $table) {
+            $table->increments('id');
+            $table->char('title')->nullable()->default(null);
+            $table->timestamps();
+        });
+
+        Schema::create('permissions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->char('permission')->nullable()->default(null);
+            $table->char('title')->nullable()->default(null);
+            $table->timestamps();
+        });
+
+        Schema::create('roles_permissions', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('role_id');
+            $table->unsignedInteger('permission_id');
+            $table->enum('type', ['ALLOW', 'DENY'])->default('ALLOW');
+        });
+
+        Schema::table('roles_permissions', function( Blueprint $table ) {
+            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('CASCADE')->onDelete('CASCADE');
+        });
+
         Schema::create('users', function (Blueprint $table) {
 
             $table->increments('id');
@@ -135,29 +160,6 @@ class CreateLaramsTables extends Migration
         Schema::table('structure_data', function (Blueprint $table) {
             $table->foreign('item_id')->references('id')->on('structure_items')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
-
-        Schema::create('roles', function (Blueprint $table) {
-            $table->increments('id');
-            $table->char('title');
-            $table->timestamps();
-        });
-
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->increments('id');
-            $table->char('permission');
-            $table->char('title');
-            $table->timestamps();
-        });
-
-        Schema::create('roles_permissions', function (Blueprint $table) {
-            $table->unsignedInteger('role_id');
-            $table->unsignedInteger('permission_id');
-        });
-
-        Schema::table('roles_permissions', function (Blueprint $table) {
-            $table->foreign('role_id')->references('id')->on('roles')->onUpdate('CASCADE')->onDelete('CASCADE');
-            $table->foreign('permission_id')->references('id')->on('permissions')->onUpdate('CASCADE')->onDelete('CASCADE');
-        });
     }
 
     /**
@@ -171,6 +173,9 @@ class CreateLaramsTables extends Migration
         Schema::drop('structure_types');
         Schema::drop('structure_types_relations');
         Schema::drop('users');
+        Schema::drop('roles_permissioins');
+        Schema::drop('roles');
+        Schema::drop('permissions');
         Schema::drop('translations');
         Schema::drop('roles');
         Schema::drop('permissions');

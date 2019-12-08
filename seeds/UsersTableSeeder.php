@@ -10,7 +10,10 @@ class UsersTableSeeder extends Seeder
     {
         DB::table('users')->delete();
 
-        $password = str_random(6) . '-' . str_random(6) . '-' . str_random(6);
+        $password =
+            \Illuminate\Support\Str::random(6) . '-' .
+            \Illuminate\Support\Str::random(6) . '-' .
+            \Illuminate\Support\Str::random(6);
 
         $output = new ConsoleOutput();
         $output->writeln('New password for `dev` user: ' . $password);
