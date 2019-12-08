@@ -21,5 +21,16 @@
     "psr-4": {
         "Larams\\Cms\\": "src/"
     }
+  },
+  "extra": {
+      "laravel": {
+          "providers": [
+              "Larams\\Cms\\LaramsServiceProvider",
+              "Larams\\Cms\\LaramsTranslationServiceProvider"
+          ],
+          "aliases": {
+              "BootstrapForm": "Larams\\Cms\\Helpers\\BootstrapForm"
+          }
+      }
   }
 }
