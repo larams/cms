@@ -60,7 +60,7 @@ class MediaController extends Controller
             $height *= 2;
         }
 
-        if (in_array($width, ['jpg', 'png', 'gif', 'webp'])) {
+        if (in_array($width, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
             $type = $width;
             $filename = str_replace('/' . $width, '', $filename);
             $width = null;
