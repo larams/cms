@@ -60,7 +60,7 @@ class MediaController extends Controller
             $height *= 2;
         }
 
-        if (in_array($width, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
+        if (in_array( (string)$width, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
             $type = $width;
             $filename = str_replace('/' . $width, '', $filename);
             $width = null;
@@ -234,6 +234,6 @@ class MediaController extends Controller
             app()->abort(404);
         }
 
-        return $this->getViewByFile($image->data->name, 0, 0, 1, $type, intval($mediaId), 'media');
+        return $this->getViewByFile($image->data->name, 0, 0, '', $type, intval($mediaId), 'media');
     }
 }
