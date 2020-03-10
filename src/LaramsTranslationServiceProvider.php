@@ -15,8 +15,10 @@ class LaramsTranslationServiceProvider extends TranslationServiceProvider
      */
     protected function registerLoader()
     {
-        $this->app->singleton('translation.loader', function () {
-            return new DatabaseLoader( new TranslationKeyword() );
-        });
+        if (config('larams.translations')) {
+            $this->app->singleton('translation.loader', function () {
+                return new DatabaseLoader(new TranslationKeyword());
+            });
+        }
     }
 }
