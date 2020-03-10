@@ -19,6 +19,8 @@ class LaramsTranslationServiceProvider extends TranslationServiceProvider
             $this->app->singleton('translation.loader', function () {
                 return new DatabaseLoader(new TranslationKeyword());
             });
+        } else {
+            parent::registerLoader();
         }
     }
 }
