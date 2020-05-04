@@ -126,14 +126,16 @@ class TranslationsController extends Controller
         ];
 
         foreach ($keywords as $keyword) {
-            $input['file']['body'][] = [
-                '@name' => 'trans-unit',
-                '@attributes' => [
-                    'id' => $keyword->keyword,
-                    'datatype' => 'html'
-                ],
-                'target' => $keyword->lang_value[ $languageId ]
-            ];
+            if(!empty($keyword->lang_value[$languageId])) {
+                $input['file']['body'][] = [
+                    '@name' => 'trans-unit',
+                    '@attributes' => [
+                        'id' => $keyword->keyword,
+                        'datatype' => 'html'
+                    ],
+                    'target' => $keyword->lang_value[$languageId]
+                ];
+            }
         }
 
 
