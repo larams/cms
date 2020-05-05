@@ -7,6 +7,7 @@ use Larams\Cms\StructureItem;
 use Larams\Cms\TranslationKeyword;
 use Larams\Cms\TranslationValue;
 use Larams\Cms\User;
+use Talandis\Formatter\Formatter;
 
 class TranslationsController extends Controller
 {
