@@ -1,7 +1,7 @@
 <div class="clearfix">
 
     @if ( $style == 'SELECT' )
-        <select {{$multiple ? 'multiple="multiple"' : ''}} name="data[{{$name}}]{{$multiple ? '[]' : ''}}" class="form-control">
+        <select {{$multiple ? 'multiple="multiple"' : ''}} name="data[{{$name}}]{{$multiple ? '[]' : ''}}" class="form-control {{$cssClass}}">
     @endif
 
             @if ( !empty( $allowEmpty ) && empty( $multiple ) )
