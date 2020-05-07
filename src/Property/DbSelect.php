@@ -14,6 +14,8 @@ class DbSelect extends Property
 
     protected $model = '';
 
+    protected $method = '';
+
     protected $style = null;
 
     protected $firstLevel = false;
@@ -28,7 +30,12 @@ class DbSelect extends Property
 
     protected function collectData()
     {
-        $tableModel = app()->make( $this->model );
+        $tableModel = app()->make($this->model);
+
+        if (!empty($this->method)) {
+            return call_user_func([$tableModel, $this->method]);
+        }
+
         return $tableModel->get();
     }
 
@@ -39,7 +46,7 @@ class DbSelect extends Property
 
         $value = isset($this->item->data->{$this->name}) ? $this->item->data->{$this->name} : null;
 
-        foreach ( $items as &$item ) {
+        foreach ($items as &$item) {
             $item->selected = !empty($value) && (is_array($value) && in_array($item->{$this->keyColumn}, $value) || (!is_array($value) && $item->{$this->keyColumn} == $value));
         }
 
