@@ -62,8 +62,37 @@ class TranslationKeyword extends Model
             if ($group != '*' && !preg_match('/^' . preg_quote($group) . '/si', $k)) {
                 continue;
             }
-            $k = str_replace($group . '.', '', $k);
-            $output[$k] = $v;
+            $k = preg_replace('#'. $group . '(\.|/)#si', '', $k);
+
+
+            $keys = explode('/', $k );
+            $lastKey = $k;
+
+            if ( count( $keys ) > 1 ) {
+
+                $firstKey = true;
+                $res = [];
+                while (count($keys) > 1) {
+                    $key = array_pop($keys);
+
+                    if ($firstKey) {
+                        $res[$key] = $v;
+                        $firstKey = false;
+                    } else {
+                        $res = [$key => $res];
+                    }
+                }
+
+                $lastKey = reset($keys);
+            } else {
+                $res = $v;
+            }
+
+            if ( isset( $output[$lastKey]) && is_array( $output[$lastKey] )) {
+                $output[$lastKey] = array_merge( $output[$lastKey], $res );
+            } else {
+                $output[$lastKey] = $res;
+            }
         }
 
         return $output;
