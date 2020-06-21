@@ -73,4 +73,9 @@ class StructureType extends Model
         }
         return $result;
     }
+
+    public function beforeDelete()
+    {
+        $this->types()->sync([]);
+    }
 }
