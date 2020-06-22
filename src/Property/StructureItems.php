@@ -88,7 +88,7 @@ class StructureItems extends Property
             $whitespaces = '';
             $i = 0;
             while ($i < ($child->level - $childs[0]->level)) {
-                $whitespaces .= '&nbsp;&nbsp;&nbsp;';
+                $whitespaces .= '└ ';
                 $i++;
             }
 
