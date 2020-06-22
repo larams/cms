@@ -62,8 +62,10 @@ class TranslationKeyword extends Model
             if ($group != '*' && !preg_match('/^' . preg_quote($group) . '/si', $k)) {
                 continue;
             }
-            $k = preg_replace('#'. $group . '(\.|/)#si', '', $k);
 
+            if ($group != '*') {
+                $k = preg_replace('#' . $group . '(\.|/)#si', '', $k);
+            }
 
             $keys = explode('/', $k );
             $lastKey = $k;
