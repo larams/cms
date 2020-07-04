@@ -13,7 +13,7 @@ use Laravel\Passport\Passport;
 use League\OAuth2\Server\AuthorizationServer;
 use League\OAuth2\Server\Grant\ClientCredentialsGrant;
 
-class PassportServiceProvider extends \Laravel\Passport\PassportServiceProvider
+class LaramsPassportServiceProvider extends \Laravel\Passport\PassportServiceProvider
 {
     protected function makeFacebookGrant()
     {
@@ -39,7 +39,7 @@ class PassportServiceProvider extends \Laravel\Passport\PassportServiceProvider
         return $grant;
     }
 
-    protected function makeCLientEmailGrant()
+    protected function makeClientEmailGrant()
     {
         $grant = new ClientEmailGrant(
             $this->app->make(Users::class),
@@ -93,7 +93,7 @@ class PassportServiceProvider extends \Laravel\Passport\PassportServiceProvider
                 );
 
                 $server->enableGrantType(
-                    $this->makeCLientEmailGrant(), Passport::tokensExpireIn()
+                    $this->makeClientEmailGrant(), Passport::tokensExpireIn()
                 );
 
                 $server->enableGrantType(
