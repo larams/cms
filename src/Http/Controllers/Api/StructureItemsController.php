@@ -1,8 +1,7 @@
 <?php
 
-namespace Larams\Cms\Http\Controllers\Api\Admin;
+namespace Larams\Cms\Http\Controllers\Api;
 
-use Larams\Cms\Http\Controllers\Api\CrudController;
 use Larams\Cms\Repository\StructureItems;
 use Illuminate\Http\Request;
 use Larams\Cms\Model\StructureItem;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Admin;
+namespace App\Http\Controllers\Api;
 
 use Larams\Cms\Http\Controllers\Api\CrudController;
 use Larams\Cms\Repository\StructureTypes;
