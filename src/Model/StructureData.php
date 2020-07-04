@@ -1,6 +1,6 @@
 <?php
 
-namespace Larams\Cms;
+namespace Larams\Cms\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,7 +18,7 @@ class StructureData extends Model
 
     public function item()
     {
-        return $this->belongsTo('Larams\Cms\StructureItem', 'item_id');
+        return $this->belongsTo('Larams\Cms\Model\StructureItem', 'item_id');
     }
 
     public function getDataAttribute()

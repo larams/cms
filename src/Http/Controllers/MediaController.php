@@ -3,7 +3,7 @@
 namespace Larams\Cms\Http\Controllers;
 
 use Intervention\Image\ImageManagerStatic as Image;
-use Larams\Cms\StructureItem;
+use Larams\Cms\Model\StructureItem;
 
 class MediaController extends Controller
 {

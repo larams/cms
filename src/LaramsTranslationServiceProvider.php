@@ -4,6 +4,7 @@ namespace Larams\Cms;
 
 
 use Illuminate\Translation\TranslationServiceProvider;
+use Larams\Cms\Model\TranslationKeyword;
 use Larams\Cms\Translations\DatabaseLoader;
 
 class LaramsTranslationServiceProvider extends TranslationServiceProvider

@@ -4,7 +4,7 @@ namespace Larams\Cms\Http\Controllers\Admin;
 
 use Larams\Cms\Permission;
 use Larams\Cms\Http\Controllers\Admin\Controller;
-use Larams\Cms\StructureItem;
+use Larams\Cms\Model\StructureItem;
 
 class PermissionController extends Controller
 {

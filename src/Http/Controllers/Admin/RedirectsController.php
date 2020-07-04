@@ -3,11 +3,11 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Larams\Cms\Redirect;
-use Larams\Cms\StructureItem;
-use Larams\Cms\TranslationKeyword;
-use Larams\Cms\TranslationValue;
-use Larams\Cms\User;
+use Larams\Cms\Model\Redirect;
+use Larams\Cms\Model\StructureItem;
+use Larams\Cms\Model\TranslationKeyword;
+use Larams\Cms\Model\TranslationValue;
+use Larams\Cms\Model\User;
 
 class RedirectsController extends Controller
 {

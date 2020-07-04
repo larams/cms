@@ -2,7 +2,7 @@
 
 namespace Larams\Cms\UserTraits;
 
-use Larams\Cms\Role;
+use Larams\Cms\Model\Role;
 
 trait HasRoles {
 

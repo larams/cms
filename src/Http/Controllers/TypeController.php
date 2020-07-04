@@ -3,8 +3,8 @@
 namespace Larams\Cms\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Larams\Cms\StructureItem;
-use Larams\Cms\StructureType;
+use Larams\Cms\Model\StructureItem;
+use Larams\Cms\Model\StructureType;
 
 class TypeController extends Controller
 {

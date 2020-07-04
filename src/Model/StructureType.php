@@ -1,6 +1,6 @@
 <?php
 
-namespace Larams\Cms;
+namespace Larams\Cms\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +13,7 @@ class StructureType extends Model
 
     public function types()
     {
-        return $this->belongsToMany('Larams\Cms\StructureType', 'structure_types_relations', 'type_id', 'rel_type_id')->withPivot(['additional']);
+        return $this->belongsToMany(StructureType::class, 'structure_types_relations', 'type_id', 'rel_type_id')->withPivot(['additional']);
     }
 
     public static function buildClassName($typeName)
@@ -34,7 +34,7 @@ class StructureType extends Model
         $handlersPath = config_path('handlers');
         $handlers = \File::files($handlersPath);
 
-        $preparedHandlersPath = realpath(__DIR__ . '/../config/handlers');
+        $preparedHandlersPath = realpath(__DIR__ . '/../../config/handlers');
         $preparedHandlers = \File::files($preparedHandlersPath);
 
         $handlers = array_merge($preparedHandlers, $handlers);

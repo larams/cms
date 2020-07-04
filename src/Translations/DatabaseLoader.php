@@ -1,7 +1,7 @@
 <?php namespace Larams\Cms\Translations;
 
 use Illuminate\Contracts\Translation\Loader as LoaderInterface;
-use Larams\Cms\TranslationKeyword;
+use Larams\Cms\Model\TranslationKeyword;
 
 class DatabaseLoader implements LoaderInterface
 {

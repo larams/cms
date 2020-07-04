@@ -3,7 +3,7 @@
 namespace Larams\Cms\Http\Middleware;
 
 use Closure;
-use Larams\Cms\StructureItem;
+use Larams\Cms\Model\StructureItem;
 
 class LayoutBuilder
 {

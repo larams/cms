@@ -4,7 +4,7 @@
 namespace Larams\Cms\Property;
 
 use Larams\Cms\Property;
-use Larams\Cms\StructureItem;
+use Larams\Cms\Model\StructureItem;
 
 class File extends Property
 {

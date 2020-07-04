@@ -1,8 +1,8 @@
 <?php
 
-namespace Larams\Cms;
+namespace Larams\Cms\Model;
 
-use Illuminate\Database\Eloquent\Model;
+use Larams\Cms\Model;
 
 class Permission extends Model
 {

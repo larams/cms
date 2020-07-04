@@ -3,9 +3,8 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Http\Request;
-use Larams\Cms\UserLogin;
+use Larams\Cms\Model\UserLogin;
 
 class AuthController extends Controller
 {

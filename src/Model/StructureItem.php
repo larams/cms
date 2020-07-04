@@ -1,9 +1,10 @@
 <?php
 
-namespace Larams\Cms;
+namespace Larams\Cms\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Larams\Cms\Utils;
 
 /**
  * Class StructureItem
@@ -40,27 +41,27 @@ class StructureItem extends Model
 
     public function type()
     {
-        return $this->belongsTo('Larams\Cms\StructureType', 'type_id');
+        return $this->belongsTo( StructureType::class, 'type_id');
     }
 
     public function childs()
     {
-        return $this->hasMany('Larams\Cms\StructureItem', 'parent_id')->orderBy('left');
+        return $this->hasMany( StructureItem::class, 'parent_id')->orderBy('left');
     }
 
     public function parent()
     {
-        return $this->belongsTo('Larams\Cms\StructureItem', 'parent_id');
+        return $this->belongsTo( StructureItem::class , 'parent_id');
     }
 
     public function user()
     {
-        return $this->belongsTo('Larams\Cms\User', 'user_id');
+        return $this->belongsTo( User::class , 'user_id');
     }
 
     public function content()
     {
-        return $this->hasMany('Larams\Cms\StructureData', 'item_id');
+        return $this->hasMany( StructureData::class, 'item_id');
     }
 
     public function scopeChildsOf($query, $itemId)

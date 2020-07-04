@@ -3,8 +3,8 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Larams\Cms\StructureItem;
-use Larams\Cms\StructureType;
+use Larams\Cms\Model\StructureItem;
+use Larams\Cms\Model\StructureType;
 
 class GalleryController extends StructureController
 {

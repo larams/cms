@@ -3,8 +3,8 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Larams\Cms\Role;
-use Larams\Cms\StructureType;
+use Larams\Cms\Model\Role;
+use Larams\Cms\Model\StructureType;
 
 class AdministratorController extends Controller
 {

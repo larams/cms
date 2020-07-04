@@ -2,10 +2,10 @@
 
 namespace Larams\Cms\Http\Controllers\Admin;
 
-use Larams\Cms\Permission;
-use Larams\Cms\Role;
+use Larams\Cms\Model\Permission;
+use Larams\Cms\Model\Role;
 use Larams\Cms\Http\Controllers\Admin\Controller;
-use Larams\Cms\StructureItem;
+use Larams\Cms\Model\StructureItem;
 
 class RoleController extends Controller
 {

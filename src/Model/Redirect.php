@@ -1,13 +1,15 @@
 <?php
 
-namespace Larams\Cms;
+namespace Larams\Cms\Model;
+
+use Larams\Cms\Model;
 
 /**
  * Class Redirect
  * @package Larams\Cms
  *
  */
-class Redirect extends \Eloquent
+class Redirect extends Model
 {
 
     protected $table = 'redirects';

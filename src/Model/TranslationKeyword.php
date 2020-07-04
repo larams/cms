@@ -1,6 +1,6 @@
 <?php
 
-namespace Larams\Cms;
+namespace Larams\Cms\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,16 +15,12 @@ class TranslationKeyword extends Model
 
     public function values()
     {
-        return $this->hasMany('Larams\Cms\TranslationValue', 'keyword_id');
+        return $this->hasMany(TranslationValue::class, 'keyword_id');
     }
 
     public function getLangValueAttribute()
     {
-
-        $items = $this->values()->pluck('value', 'language_id');
-
-        return $items;
-
+        return $this->values()->pluck('value', 'language_id');
     }
 
     public function translations($locale, $group, $namespace = null)
@@ -99,5 +95,4 @@ class TranslationKeyword extends Model
 
         return $output;
     }
-
 }

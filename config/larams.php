@@ -9,6 +9,7 @@ return [
     'enable_webp' => false,
     'tinify_api_key' => '',
     'force_file_download' => false,
+    'common_permissions' => [],
     'admin' => [
         'translations' => [
             'enable_xlf' => false
@@ -22,7 +23,7 @@ return [
         'redirect_location' => 'admin/structure',
         'logout_url' => 'admin',
         'guard' => 'web',
-        'database_model' => \Larams\Cms\User::class,
+        'database_model' => \Larams\Cms\Model\User::class,
         'allowed_ips' => [],
         'menu_items' => [
             [

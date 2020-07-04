@@ -3,9 +3,9 @@
 namespace Larams\Cms\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Larams\Cms\ActionLog;
-use Larams\Cms\StructureItem;
-use Larams\Cms\StructureType;
+use Larams\Cms\Model\ActionLog;
+use Larams\Cms\Model\StructureItem;
+use Larams\Cms\Model\StructureType;
 use Larams\Cms\Utils;
 
 class StructureController extends Controller

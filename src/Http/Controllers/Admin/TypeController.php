@@ -2,7 +2,7 @@
 
 namespace Larams\Cms\Http\Controllers\Admin;
 
-use Larams\Cms\StructureType;
+use Larams\Cms\Model\StructureType;
 
 class TypeController extends Controller
 {
