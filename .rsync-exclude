@@ -1,0 +1,14 @@
+node_modules/
+.git
+.idea
+.gitignore
+.DS_Store
+.gitlab-ci.yml
+docker/mysql/data
+storage/uploads/
+storage/framework/sessions/
+storage/framework/cache/
+storage/framework/views/
+storage/documents/
+storage/logs/
+storage

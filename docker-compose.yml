@@ -1,0 +1,28 @@
+version: "3.2"
+
+services:
+  api:
+    container_name: ${CONTAINER_NAME_API}
+    build:
+      context: docker/httpd
+      dockerfile: Dockerfile
+    environment:
+      PHP_IDE_CONFIG: "serverName=${XDEBUG_SERVER_NAME}"
+      XDEBUG_CONFIG: "remote_enable=1 remote_host=${XDEBUG_HOST} remote_port=9000 idekey=PHPSTORM remote_autostart=1 remote_log=/tmp/xdebug.log"
+    ports:
+    - 80:80
+    - 443:443
+    volumes:
+    - "./:/var/www/html"
+    - "./storage:/var/www/html/storage"
+  db:
+    container_name: ${CONTAINER_NAME_DB}
+    build: ./docker/mysql
+    command: "--innodb_file_per_table=1 --skip-name-resolve --max_allowed_packet=64M --lower_case_table_names=2"
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    volumes:
+    - "./docker/mysql/data:/var/lib/mysql"
+    ports:
+    - ${MYSQL_CONTAINER_PORT}:3306

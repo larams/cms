@@ -48,6 +48,9 @@ class LaramsServiceProvider extends ServiceProvider
             __DIR__ . '/../public' => public_path('vendor/larams'),
             __DIR__ . '/../migrations' => database_path('migrations'),
             __DIR__ . '/../seeds' => database_path('seeds'),
+            __DIR__ . '/../docker' => base_path('docker'),
+            __DIR__ . '/../docker-compose.yml' => base_path('docker-compose.yml'),
+            __DIR__ . '/../.rsync-exclude' => base_path('.rsync-exclude'),
         ], '');
 
     }
