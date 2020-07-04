@@ -2,11 +2,11 @@
 
 namespace Larams\Cms;
 
-use App\Grant\ClientEmailGrant;
-use App\Grant\FacebookGrant;
-use App\Grant\GoogleGrant;
-use App\Grant\ImpersonateGrant;
-use App\Repository\Users;
+use Larams\Cms\Grant\ClientEmailGrant;
+use Larams\Cms\Grant\FacebookGrant;
+use Larams\Cms\Grant\GoogleGrant;
+use Larams\Cms\Grant\ImpersonateGrant;
+use Larams\Cms\Repository\Users;
 use Laravel\Passport\Bridge\PersonalAccessGrant;
 use Laravel\Passport\Bridge\RefreshTokenRepository;
 use Laravel\Passport\Passport;
