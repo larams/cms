@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repository;
+namespace Larams\Cms\Repository;
 
-use App\Model\Role;
-use App\Model\RolePermission;
-use App\Repository;
+use Larams\Cms\Model\Role;
+use Larams\Cms\Model\RolePermission;
+use Larams\Cms\Repository;
 
 class Roles extends Repository
 {
