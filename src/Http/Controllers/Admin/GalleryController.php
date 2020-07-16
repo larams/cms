@@ -99,7 +99,7 @@ class GalleryController extends StructureController
 		$originalName = $file->getClientOriginalName();
 		$originalExtension = $file->getClientOriginalExtension();
 		$clientMimeType = $file->getClientMimeType();
-		$clientSize = $file->getClientSize();
+		$clientSize = $file->getSize();
 
         $uploadSuccess = $file->move(storage_path('uploads'), $storedFileName);
 
