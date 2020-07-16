@@ -2,7 +2,7 @@
 
 namespace Larams\Cms\Http\Controllers\Admin;
 
-use Larams\Cms\Permission;
+use Larams\Cms\Model\Permission;
 use Larams\Cms\Http\Controllers\Admin\Controller;
 use Larams\Cms\Model\StructureItem;
 
