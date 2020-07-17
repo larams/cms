@@ -77,10 +77,12 @@ abstract class Repository
 
         if (!empty($params['sort'])) {
 
-            if (strpos($params['sort'], ',') !== false) {
-                $params['sort'] = explode(',', $params['sort']);
-            } else {
-                $params['sort'] = [$params['sort']];
+            if (!is_array($params['sort'])) {
+                if (strpos($params['sort'], ',') !== false) {
+                    $params['sort'] = explode(',', $params['sort']);
+                } else {
+                    $params['sort'] = [$params['sort']];
+                }
             }
 
             foreach ($params['sort'] as $sort) {
@@ -91,15 +93,10 @@ abstract class Repository
                     $sort = substr($sort, 1);
                 }
 
-                $sorts = $this->mapSortColumn($sort);
-
-                foreach ($sorts as $sort) {
-
-                    if (strpos($sort, '.') === false) {
-                        $sort = $this->getModel()->getTable() . '.' . $sort;
-                    }
-
-                    $select = $select->orderBy($sort, $direction);
+                $mappedSorts = $this->mapSortColumn($sort);
+                foreach ($mappedSorts as $mappedSort) {
+                    $mappedSort = $this->getModel()->qualifyColumn($mappedSort);
+                    $select = $select->orderBy($mappedSort, $direction);
                 }
             }
         }
@@ -204,6 +201,10 @@ abstract class Repository
             $items = $items->get();
         }
 
+        if (empty($params['single']) && !empty($params['keyBy'])) {
+            $items = $items->keyBy($params['keyBy']);
+        }
+
         if (!empty($params['appends'])) {
             $items->each(function ($item) use ($params) {
 
@@ -212,6 +213,7 @@ abstract class Repository
                 }
             });
         }
+
 
         return $items;
     }
