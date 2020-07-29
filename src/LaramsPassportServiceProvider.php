@@ -2,6 +2,7 @@
 
 namespace Larams\Cms;
 
+use Larams\Cms\Grant\AppleGrant;
 use Larams\Cms\Grant\ClientEmailGrant;
 use Larams\Cms\Grant\FacebookGrant;
 use Larams\Cms\Grant\GoogleGrant;
@@ -18,6 +19,18 @@ class LaramsPassportServiceProvider extends \Laravel\Passport\PassportServicePro
     protected function makeFacebookGrant()
     {
         $grant = new FacebookGrant(
+            $this->app->make(Users::class),
+            $this->app->make(RefreshTokenRepository::class)
+        );
+
+        $grant->setRefreshTokenTTL(Passport::refreshTokensExpireIn());
+
+        return $grant;
+    }
+
+    protected function makeAppleGrant()
+    {
+        $grant = new AppleGrant(
             $this->app->make(Users::class),
             $this->app->make(RefreshTokenRepository::class)
         );
@@ -82,6 +95,10 @@ class LaramsPassportServiceProvider extends \Laravel\Passport\PassportServicePro
 
                 $server->enableGrantType(
                     $this->makeFacebookGrant(), Passport::tokensExpireIn()
+                );
+
+                $server->enableGrantType(
+                    $this->makeAppleGrant(), Passport::tokensExpireIn()
                 );
 
                 $server->enableGrantType(
