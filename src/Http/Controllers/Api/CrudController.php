@@ -9,6 +9,8 @@ use Larams\Cms\Repository;
 class CrudController extends Controller
 {
 
+    protected $requests = [];
+
     /** @var Model $model */
     protected $model;
 
@@ -35,6 +37,15 @@ class CrudController extends Controller
         if (!empty(request()->get('DBG'))) {
             \DB::enableQueryLog();
         }
+    }
+
+    public function callAction($method, $parameters)
+    {
+        if ( !empty( $this->requests[ $method ])) {
+            $request = app()->make( $this->requests[ $method ]);
+        }
+
+        return parent::callAction($method, $parameters);
     }
 
     public function index(Request $request)
