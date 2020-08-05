@@ -1,6 +1,6 @@
 <?php
 
-$config = [
+return [
     'properties' => [
         [
             'class' => Larams\Cms\Property\Rte::class,
@@ -10,5 +10,3 @@ $config = [
         ],
     ],
 ];
-
-return ($config);
