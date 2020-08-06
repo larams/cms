@@ -69,9 +69,9 @@ abstract class Repository
 
         if (!empty($params['id'])) {
             if (is_array($params['id'])) {
-                $select = $select->whereIn($this->getModel()->getTable() . '.id', $params['id']);
+                $select = $select->whereIn($this->getModel()->qualifyColumn('id'), $params['id']);
             } else {
-                $select = $select->where($this->getModel()->getTable() . '.id', $params['id']);
+                $select = $select->where($this->getModel()->qualifyColumn('id'), $params['id']);
             }
         }
 
@@ -113,6 +113,14 @@ abstract class Repository
             $select = $select->where(function ($query) use ($params) {
                 return $this->setSearchParams($query, $params['search']);
             });
+        }
+
+        if (!empty($params['fields'])) {
+            $columns = [];
+            foreach ($params['fields'] as $field) {
+                $columns[] = $this->getModel()->qualifyColumn($field);
+            }
+            $select = $select->select($columns);
         }
 
         if (!empty($params['totals'])) {
@@ -160,13 +168,7 @@ abstract class Repository
     public function one($params = [])
     {
         $params['single'] = 1;
-        $items = $this->filter($params);
-
-        if (count($items)) {
-            return $items->first();
-        }
-
-        return null;
+        return $this->filter($params);
     }
 
     protected function getGrouppingColumn()
