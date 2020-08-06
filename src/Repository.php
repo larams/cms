@@ -216,6 +216,13 @@ abstract class Repository
             });
         }
 
+        if (!empty($params['single'])) {
+            if (count($items)) {
+                $items = $items->first();
+            } else {
+                $items = null;
+            }
+        }
 
         return $items;
     }
