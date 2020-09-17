@@ -16,7 +16,6 @@
     "intervention/image": "~2.3",
     "intervention/imagecache": "~2.4",
     "tinify/tinify": "^1.5",
-    "htmlmin/htmlmin": "^7.0",
     "ext-json": "*",
     "ext-simplexml": "*"
   },
