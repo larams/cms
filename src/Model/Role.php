@@ -36,13 +36,13 @@ class Role extends Model
         }
 
         $perms = $this->permissions()->get();
-        $isAllowed = true;
+        $isAllowed = false;
         foreach ($perms as $perm) {
             //'/admin\.structure\.(.*?)/'
             $perm->permission = str_replace('.', '\.', $perm->permission);
             $perm->permission = '/^' . str_replace('*', '(.*?)', $perm->permission) . '$/';
             if ($perm->matches($permission) === true) {
-                $isAllowed &= ($perm->pivot->type === 'ALLOW');
+                $isAllowed = ($perm->pivot->type === 'ALLOW');
             }
         }
 
