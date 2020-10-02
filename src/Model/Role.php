@@ -35,7 +35,7 @@ class Role extends Model
             return true;
         }
 
-        $perms = $this->permissions()->get();
+        $perms = $this->permissions()->orderBy('permission', 'desc')->get();
         $isAllowed = false;
         foreach ($perms as $perm) {
             //'/admin\.structure\.(.*?)/'
