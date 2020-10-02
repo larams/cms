@@ -17,7 +17,10 @@ class Role extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class, 'roles_permissions', 'role_id', 'permission_id');
+        return $this
+            ->belongsToMany(Permission::class, 'roles_permissions', 'role_id', 'permission_id')
+            ->withPivot('type')
+            ->withTimestamps();
     }
 
     public function getPermissionIdsAttribute()
@@ -33,14 +36,16 @@ class Role extends Model
         }
 
         $perms = $this->permissions()->get();
+        $isAllowed = true;
         foreach ($perms as $perm) {
             //'/admin\.structure\.(.*?)/'
             $perm->permission = str_replace('.', '\.', $perm->permission);
             $perm->permission = '/^' . str_replace('*', '(.*?)', $perm->permission) . '$/';
             if ($perm->matches($permission) === true) {
-                return true;
-            };
+                $isAllowed &= ($perm->pivot->type === 'ALLOW');
+            }
         }
-        return false;
+
+        return $isAllowed;
     }
 }

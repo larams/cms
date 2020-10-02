@@ -90,6 +90,7 @@ class CreateLaramsTables extends Migration
             $table->unsignedInteger('role_id');
             $table->unsignedInteger('permission_id');
             $table->enum('type', ['ALLOW', 'DENY'])->default('ALLOW');
+            $table->timestamps();
         });
 
         Schema::table('roles_permissions', function( Blueprint $table ) {
