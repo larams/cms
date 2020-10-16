@@ -43,11 +43,19 @@ class LaramsServiceProvider extends ServiceProvider
 
         $this->loadTranslationsFrom(__DIR__ . '/../resources/lang', 'larams');
 
+        if ( version_compare( app()->version(), '8.0.0', '>=')) {
+            $seedersPath = database_path('seeders');
+            $seedersSource = __DIR__ . '/../seeders';
+        } else {
+            $seedersPath = database_path('seeds');
+            $seedersSource = __DIR__ . '/../seeds';
+        }
+
         $this->publishes([
             __DIR__ . '/../config/larams.php' => config_path('larams.php'),
             __DIR__ . '/../public' => public_path('vendor/larams'),
             __DIR__ . '/../migrations' => database_path('migrations'),
-            __DIR__ . '/../seeds' => database_path('seeds'),
+            $seedersSource => $seedersPath,
             __DIR__ . '/../docker' => base_path('docker'),
             __DIR__ . '/../docker-compose.yml' => base_path('docker-compose.yml'),
             __DIR__ . '/../.rsync-exclude' => base_path('.rsync-exclude'),

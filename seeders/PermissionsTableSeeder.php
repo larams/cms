@@ -1,8 +1,8 @@
 <?php
-namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+
+
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -34,6 +34,7 @@ class PermissionsTableSeeder extends Seeder
             DB::table('roles_permissions')->insert([
                 'role_id' => $administratorId,
                 'permission_id' => $permissionId,
+                'type' => 'ALLOW'
             ]);
         }
     }
