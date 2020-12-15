@@ -57,8 +57,11 @@ class CrudController extends Controller
         }
 
         $currentPage = !empty($input['page']) ? max(0, $input['page']) : 0;
-        $input['limit'] = !empty($input['limit']) ? $input['limit'] : $this->itemsPerPage;
         $input['page'] = $currentPage + 1;
+
+        if (empty($input['limit'])) {
+            $input['limit'] = $this->itemsPerPage;
+        }
 
         $items = $this->repository->filter($input);
         unset($input['limit']);
@@ -75,9 +78,9 @@ class CrudController extends Controller
         }
 
         return $this->json($items)
-            ->header('X-Size', $this->itemsPerPage)
+            ->header('X-Size', $input['limit'])
             ->header('X-Total', $total)
-            ->header('X-Total-Pages', ceil($total / $this->itemsPerPage))
+            ->header('X-Total-Pages', ceil($total / $input['limit']))
             ->header('X-Page', $currentPage);
     }
 
