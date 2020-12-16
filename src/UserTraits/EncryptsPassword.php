@@ -8,7 +8,7 @@ trait EncryptsPassword
     public function setPasswordAttribute($password)
     {
         if (!empty($password)) {
-            $this->attributes['password'] = \Hash::make($password);
+            $this->attributes['password'] = Hash::needsRehash($password) ? \Hash::make($password) : $password;
         }
     }
 
