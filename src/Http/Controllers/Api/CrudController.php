@@ -63,7 +63,7 @@ class CrudController extends Controller
             $input['limit'] = $this->itemsPerPage;
         }
 
-        $itemsPerPage = $input['limit'];
+        $itemsPerPage = max( $input['limit'], 0 );
         $items = $this->repository->filter($input);
         unset($input['limit']);
         unset($input['page']);
@@ -76,6 +76,10 @@ class CrudController extends Controller
         $totals = null;
         if (!empty($input['totals'])) {
             $totals = $this->repository->totals($input);
+        }
+
+        if (empty($itemsPerPage)) {
+            $itemsPerPage = $total;
         }
 
         return $this->json($items)
