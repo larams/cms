@@ -168,7 +168,13 @@ abstract class Repository
     public function one($params = [])
     {
         $params['single'] = 1;
-        return $this->filter($params);
+        $items = $this->filter($params);
+
+        if (count($items)) {
+            return $items->first();
+        }
+
+        return null;
     }
 
     protected function getGrouppingColumn()
@@ -214,14 +220,6 @@ abstract class Repository
                     $item->append($append);
                 }
             });
-        }
-
-        if (!empty($params['single'])) {
-            if (count($items)) {
-                $items = $items->first();
-            } else {
-                $items = null;
-            }
         }
 
         return $items;
