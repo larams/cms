@@ -174,7 +174,8 @@ class CrudController extends Controller
         }
 
         $this->repository->update($model, $input);
-        $model = $this->model->find($id);
+
+        $model = $this->repository->one(['id' => $id ]);
 
         return response()->json($model);
     }
@@ -193,6 +194,8 @@ class CrudController extends Controller
         }
 
         $model = $this->repository->create($input);
+
+        $model = $this->repository->one(['id' => $model->id ]);
 
         return response()->json($model);
 
