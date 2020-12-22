@@ -1,7 +1,10 @@
 <?php
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
