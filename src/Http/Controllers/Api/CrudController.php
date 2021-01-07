@@ -59,7 +59,7 @@ class CrudController extends Controller
         $currentPage = !empty($input['page']) ? max(0, $input['page']) : 0;
         $input['page'] = $currentPage + 1;
 
-        if (empty($input['limit'])) {
+        if (empty($input['limit']) || $input['limit'] < 0 ) {
             $input['limit'] = $this->itemsPerPage;
         }
 
