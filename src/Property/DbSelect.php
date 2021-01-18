@@ -28,12 +28,12 @@ class DbSelect extends Property
 
     protected $valueColumn = 'name';
 
-    protected function collectData()
+    protected function collectData($item)
     {
         $tableModel = app()->make($this->model);
 
         if (!empty($this->method)) {
-            return call_user_func([$tableModel, $this->method]);
+            return call_user_func([$tableModel, $this->method], $item);
         }
 
         return $tableModel->get();
@@ -42,7 +42,7 @@ class DbSelect extends Property
     public function getHtml()
     {
 
-        $items = $this->collectData();
+        $items = $this->collectData($this->item);
 
         $value = isset($this->item->data->{$this->name}) ? $this->item->data->{$this->name} : null;
 
