@@ -3,6 +3,7 @@
 namespace Larams\Cms;
 
 use Larams\Cms\Grant\AppleGrant;
+use Larams\Cms\Grant\ClientCredentialsUserGrant;
 use Larams\Cms\Grant\ClientEmailGrant;
 use Larams\Cms\Grant\FacebookGrant;
 use Larams\Cms\Grant\GoogleGrant;
@@ -122,7 +123,7 @@ class LaramsPassportServiceProvider extends \Laravel\Passport\PassportServicePro
                 );
 
                 $server->enableGrantType(
-                    new ClientCredentialsGrant(), Passport::tokensExpireIn()
+                    new ClientCredentialsUserGrant(), Passport::tokensExpireIn()
                 );
 
                 if (Passport::$implicitGrantEnabled) {
