@@ -11,6 +11,7 @@ Route::group(['prefix' => env('BASE_URL', ''), 'middleware' => 'web'], function 
     Route::get('view-file/{id}_{filename}.{format?}', 'MediaController@getViewFile')->where('id', '\d+');
     Route::get('view/{id}_{filename}.{format?}', 'MediaController@getFileView')->where('id', '\d+');
     Route::get('show/{filename}.{format?}', 'MediaController@showFile');
+    Route::get('download/{filename}.{format?}', 'MediaController@downloadFile');
 
     Route::get('media/{id}_{width?}_{height?}_{type?}.{format?}', 'MediaController@getView')->where('id', '\d+');
     Route::get('media/{id}_{width?}_{height?}.{format?}', 'MediaController@getView')->where('id', '\d+');

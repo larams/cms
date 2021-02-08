@@ -22,6 +22,12 @@ class MediaController extends Controller
         return response()->file($path);
     }
 
+    public function downloadFile($filename)
+    {
+        $path = storage_path('uploads/' . $filename);
+        return response()->download($path);
+    }
+
     public function showFile($filename)
     {
         $path = storage_path('uploads/' . $filename);
