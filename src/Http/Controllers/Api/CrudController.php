@@ -85,7 +85,7 @@ class CrudController extends Controller
         return $this->json($items)
             ->header('X-Size', $itemsPerPage)
             ->header('X-Total', $total)
-            ->header('X-Total-Pages', ceil($total / $itemsPerPage))
+            ->header('X-Total-Pages', $itemsPerPage > 0 ? ceil($total / $itemsPerPage) : 0)
             ->header('X-Page', $currentPage);
     }
 
