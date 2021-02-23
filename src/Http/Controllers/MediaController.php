@@ -12,6 +12,11 @@ class MediaController extends Controller
     {
         $file = $structureItem->find($id);
         $path = storage_path('uploads/' . $file->data->name);
+
+        if (!file_exists($path)) {
+            app()->abort(404);
+        }
+
         return response()->download($path, $filename . '.' . $type);
     }
 
@@ -19,18 +24,33 @@ class MediaController extends Controller
     {
         $file = $structureItem->find($id);
         $path = storage_path('uploads/' . $file->data->name);
+
+        if (!file_exists($path)) {
+            app()->abort(404);
+        }
+
         return response()->file($path);
     }
 
     public function downloadFile($filename)
     {
         $path = storage_path('uploads/' . $filename);
+
+        if (!file_exists($path)) {
+            app()->abort(404);
+        }
+
         return response()->download($path);
     }
 
     public function showFile($filename)
     {
         $path = storage_path('uploads/' . $filename);
+
+        if (!file_exists($path)) {
+            app()->abort(404);
+        }
+
         return response()->file($path);
     }
 
@@ -66,13 +86,18 @@ class MediaController extends Controller
             $height *= 2;
         }
 
-        if (in_array( (string)$width, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
+        if (in_array((string)$width, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
             $type = $width;
             $filename = str_replace('/' . $width, '', $filename);
             $width = null;
         }
 
         $imagePath = storage_path('uploads/' . $filename);
+
+        if (!file_exists($imagePath)) {
+            app()->abort(404);
+        }
+
         $fileType = mime_content_type($imagePath);
         $originalImage = true;
 
