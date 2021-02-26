@@ -16,10 +16,15 @@ class TranslationsController extends Controller
 
     protected $languageTypeName = 'site_lang';
 
+    protected function identifyLanguages(StructureItem $structureItem)
+    {
+        return $structureItem->byTypeName($this->languageTypeName)->orderBy('left')->get();
+    }
+
     public function getIndex( StructureItem $structureItem, TranslationKeyword $keyword, TranslationValue $translationValue )
     {
 
-        $languages = $structureItem->byTypeName( $this->languageTypeName )->orderBy('left')->get();
+        $languages = $this->identifyLanguages();
 
         $keywords = $keyword;
 
@@ -56,7 +61,7 @@ class TranslationsController extends Controller
 
         $values = $translationValue->where('keyword_id', $id )->get()->keyBy('language_id');
 
-        $languages = $structureItem->byTypeName( $this->languageTypeName )->orderBy('left')->get();
+        $languages = $this->identifyLanguages();
 
         return $this->view('larams::admin.translations.edit', compact('values', 'keyword', 'languages', 'id') );
 

@@ -30,7 +30,7 @@
         <thead>
         <tr>
             @foreach ( $languages as $language )
-                <th>
+                <th style="width: {{100/count($languages)}}%">
                     {{$language->name}}
                     @if (config('larams.admin.translations.enable_xlf_download'))
                         <a href="{{route('admin.translations.download', ['languageId' => $language->id ] )}}">
