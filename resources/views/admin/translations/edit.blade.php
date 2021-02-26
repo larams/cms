@@ -2,7 +2,7 @@
 
     <h2>{{$keyword->keyword}}</h2>
 
-    <form class="form mt20" action="{{url('admin/translations/save/' . $id )}}" enctype="multipart/form-data" method="post">
+    <form class="form mt20" action="{{route('admin.translations.save', ['id' => $id ] )}}" enctype="multipart/form-data" method="post">
 
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 

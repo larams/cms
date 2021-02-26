@@ -1,6 +1,6 @@
 <div class="mt20">
     <h2 class="pull-left">{{trans('admin.title.translations')}}</h2>
-    <form class="pull-right form-inline" action="{{url( 'admin/translations/add' )}}" method="post">
+    <form class="pull-right form-inline" action="{{route( 'admin.translations.add' )}}" method="post">
         {!! csrf_field() !!}
         {{trans('admin.text.keyword')}}: <input type="text" name="title" class="form-control" value=""/>
         <button type="submit" class="btn btn-primary">{{trans('admin.button.create')}}</button>
@@ -9,7 +9,7 @@
         <form class="pull-right form-inline"
               style="margin-right: 20px;"
               enctype="multipart/form-data"
-              action="{{url('admin/translations/upload')}}"
+              action="{{route('admin.translations.upload')}}"
               method="post">
             {!! csrf_field() !!}
             {{trans('admin.text.upload_keywords_xlf')}}: <input type="file" name="file" class="form-control"/>
@@ -66,10 +66,10 @@
                     </td>
                 @endforeach
                 <td class="actions" style="min-width: 120px;">
-                    <a href="{{url( 'admin/translations/edit', [ $keyword->id ] )}}"
+                    <a href="{{route( 'admin.translations.edit', [ $keyword->id ] )}}"
                        class="btn btn-xs btn-default">{{trans('admin.button.edit')}}</a>
                     &nbsp;<a onclick="return( confirmDelete() );" class="btn btn-xs btn-danger"
-                             href="{{url('admin/translations/delete', [ $keyword->id ] )}}"
+                             href="{{route('admin.translations.delete', [ $keyword->id ] )}}"
                              title="Trinti elementą">{{trans('admin.button.delete')}}</a>
                 </td>
             </tr>
@@ -78,27 +78,27 @@
     </table>
 
     <style type="text/css">
-        .form-control--editable {
-            background: transparent;
-            padding: 0;
-            border: 0;
-            line-height: 1;
-            height: auto;
-        }
+      .form-control--editable {
+        background: transparent;
+        padding: 0;
+        border: 0;
+        line-height: 1;
+        height: auto;
+      }
 
-        .form-control--editable[value="missing"] {
-            color: #c00;
-        }
+      .form-control--editable[value="missing"] {
+        color: #c00;
+      }
 
-        .form-control--editable:focus {
-            background: #ffff66;
-            color: #000;
-        }
+      .form-control--editable:focus {
+        background: #ffff66;
+        color: #000;
+      }
     </style>
 
     <script type="text/javascript">
 
-        var storageUrl = '{{url('admin/translations/save')}}/';
+        var storageUrl = '{{url('admin.translations.save', ['id' => '#ID#'])}}/';
 
         $('.js-has-missing').change(function (e) {
 
@@ -126,7 +126,7 @@
 
                 post.language[data.languageId] = $input.val();
 
-                $.post(storageUrl + data.keywordId, post, function (response) {
+                $.post(storageUrl.replace(/#ID#/, data.keywordId), post, function (response) {
                     console.log(response);
                 });
             }
