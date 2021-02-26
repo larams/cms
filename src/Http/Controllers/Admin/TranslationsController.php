@@ -50,7 +50,7 @@ class TranslationsController extends Controller
             'keyword' => $request->get('title')
         ]);
 
-        return redirect('admin/'.$this->route.'/edit/'. $k->id );
+        return redirect()->route('admin.translations.edit', ['id' => $k-> id ] );
 
     }
 
@@ -89,7 +89,7 @@ class TranslationsController extends Controller
         }
 
         if ( !$request->ajax()) {
-            return redirect('admin/' . $this->route );
+            return redirect()->route( 'admin.translations.index' );
         } else {
             return response()->json(['success' => true ]);
         }
@@ -101,7 +101,7 @@ class TranslationsController extends Controller
         $translationKeyword->where('id', $id )->delete();
         $translationValue->where('keyword_id', $id )->delete();
 
-        return redirect('admin/' . $this->route );
+        return redirect()->route( 'admin.translations.index' );
 
     }
     public function download(TranslationKeyword $translationKeyword, StructureItem $structureItem, $languageId)
