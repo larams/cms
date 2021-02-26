@@ -98,7 +98,7 @@
 
     <script type="text/javascript">
 
-        var storageUrl = '{{url('admin.translations.save', ['id' => '#ID#'])}}/';
+        var storageUrl = '{{route('admin.translations.save', ['id' => 'ID'])}}/';
 
         $('.js-has-missing').change(function (e) {
 
@@ -126,7 +126,7 @@
 
                 post.language[data.languageId] = $input.val();
 
-                $.post(storageUrl.replace(/#ID#/, data.keywordId), post, function (response) {
+                $.post(storageUrl.replace(/ID/, data.keywordId), post, function (response) {
                     console.log(response);
                 });
             }
