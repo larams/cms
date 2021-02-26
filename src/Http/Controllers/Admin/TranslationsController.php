@@ -24,7 +24,7 @@ class TranslationsController extends Controller
     public function getIndex( StructureItem $structureItem, TranslationKeyword $keyword, TranslationValue $translationValue )
     {
 
-        $languages = $this->identifyLanguages();
+        $languages = $this->identifyLanguages($structureItem);
 
         $keywords = $keyword;
 
@@ -61,7 +61,7 @@ class TranslationsController extends Controller
 
         $values = $translationValue->where('keyword_id', $id )->get()->keyBy('language_id');
 
-        $languages = $this->identifyLanguages();
+        $languages = $this->identifyLanguages($structureItem);
 
         return $this->view('larams::admin.translations.edit', compact('values', 'keyword', 'languages', 'id') );
 
