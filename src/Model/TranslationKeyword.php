@@ -9,6 +9,8 @@ class TranslationKeyword extends Model
 
     protected $table = 'translation_keywords';
 
+    protected $languageColumnName = 'language_id';
+
     protected $fillable = ['keyword'];
 
     protected $translations = [];
@@ -23,32 +25,39 @@ class TranslationKeyword extends Model
         return $this->values()->pluck('value', 'language_id');
     }
 
+    public function identifyLanguageFromLocale($locale)
+    {
+        /** @var StructureItem $structureItems */
+        $structureItems = StructureItem::getModel();
+        $currentSite = $structureItems->currSite();
+
+        $language = $structureItems
+            ->byTypeName('site_lang')
+            ->whereData('short_code', $locale)
+            ->orderBy('left', 'ASC');
+
+        if (!empty($currentSite)) {
+            $language = $language->childsOf($currentSite->id);
+        }
+
+        $language = $language->first();
+
+        if (empty($language)) {
+            return [];
+        }
+
+        return $language->id;
+    }
+
     public function translations($locale, $group, $namespace = null)
     {
         if (empty($this->translations[$locale])) {
 
-            /** @var StructureItem $structureItems */
-            $structureItems = StructureItem::getModel();
-            $currentSite = $structureItems->currSite();
-
-            $language = $structureItems
-                ->byTypeName('site_lang')
-                ->whereData('short_code', $locale)
-                ->orderBy('left', 'ASC');
-
-            if (!empty($currentSite)) {
-                $language = $language->childsOf($currentSite->id);
-            }
-
-            $language = $language->first();
-
-            if (empty($language)) {
-                return [];
-            }
+            $languageId = $this->identifyLanguageFromLocale($locale);
 
             $this->translations[$locale] = $this
                 ->leftJoin('translation_values', 'translation_keywords.id', '=', 'translation_values.keyword_id')
-                ->where('translation_values.language_id', '=', $language->id)
+                ->where('translation_values.' . $this->languageColumnName, '=', $languageId)
                 ->where('translation_values.value', '!=', '')
                 ->pluck('value', 'keyword');
         }
@@ -63,10 +72,10 @@ class TranslationKeyword extends Model
                 $k = preg_replace('#' . $group . '(\.|/)#si', '', $k);
             }
 
-            $keys = explode('/', $k );
+            $keys = explode('/', $k);
             $lastKey = $k;
 
-            if ( count( $keys ) > 1 ) {
+            if (count($keys) > 1) {
 
                 $firstKey = true;
                 $res = [];
@@ -86,8 +95,8 @@ class TranslationKeyword extends Model
                 $res = $v;
             }
 
-            if ( isset( $output[$lastKey]) && is_array( $output[$lastKey] )) {
-                $output[$lastKey] = array_merge( $output[$lastKey], $res );
+            if (isset($output[$lastKey]) && is_array($output[$lastKey])) {
+                $output[$lastKey] = array_merge($output[$lastKey], $res);
             } else {
                 $output[$lastKey] = $res;
             }
