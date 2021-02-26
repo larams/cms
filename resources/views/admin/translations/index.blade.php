@@ -98,7 +98,7 @@
 
     <script type="text/javascript">
 
-        var storageUrl = '{{route('admin.translations.save', ['id' => 'ID'])}}/';
+        var storageUrl = '{{route('admin.translations.save', ['id' => 'ID'])}}';
 
         $('.js-has-missing').change(function (e) {
 
