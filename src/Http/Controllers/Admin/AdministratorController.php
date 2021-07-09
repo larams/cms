@@ -61,12 +61,12 @@ class AdministratorController extends Controller
             $item = $this->model->create( $input );
         }
 
-        if ( isset($input['send'])) {
+        if ( array_key_exists( 'send', $input ) ) {
 
             \Mail::send('larams::admin.emails.password', compact('input', 'item'), function( $message ) use ( $input, $item ) {
 
                 $message->to( $input['email']);
-                $message->subject('Your administrator credentials');
+                $message->subject( trans('admin.text.new_administrator_mail_subject') );
 
             });
 

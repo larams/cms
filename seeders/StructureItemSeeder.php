@@ -105,6 +105,11 @@ class StructureItemSeeder extends Seeder
         DB::table('translation_keywords')->insert(array('id' => 81, 'keyword' => 'admin.field.to_url'));
         DB::table('translation_keywords')->insert(array('id' => 82, 'keyword' => 'admin.text.from_url_help_text'));
         DB::table('translation_keywords')->insert(array('id' => 83, 'keyword' => 'admin.text.to_url_help_text'));
+        DB::table('translation_keywords')->insert(array('id' => 84, 'keyword' => 'admin.text.new_administrator_has_been_created'));
+        DB::table('translation_keywords')->insert(array('id' => 85, 'keyword' => 'admin.text.new_administrator_mail_subject'));
+        DB::table('translation_keywords')->insert(array('id' => 86, 'keyword' => 'admin.password_mail.url'));
+        DB::table('translation_keywords')->insert(array('id' => 87, 'keyword' => 'admin.password_mail.login'));
+        DB::table('translation_keywords')->insert(array('id' => 88, 'keyword' => 'admin.password_mail.password'));
 
         foreach ([$firstLanguageId, $secondLanguageId] as $languageId) {
 
@@ -182,6 +187,11 @@ class StructureItemSeeder extends Seeder
             DB::table('translation_values')->insert(array('keyword_id' => 81, 'language_id' => $languageId, 'value' => 'Destination URL'));
             DB::table('translation_values')->insert(array('keyword_id' => 82, 'language_id' => $languageId, 'value' => 'Only request path with leading slash should be entered. Domain should be omitted.'));
             DB::table('translation_values')->insert(array('keyword_id' => 83, 'language_id' => $languageId, 'value' => 'Full URL including domain name can be entered. If URL doesn\'t contain http prefix current site domain will be added automatically.'));
+            DB::table('translation_values')->insert(array('keyword_id' => 84, 'language_id' => $languageId, 'value' => 'New user has been created for you'));
+            DB::table('translation_values')->insert(array('keyword_id' => 85, 'language_id' => $languageId, 'value' => 'New user has been created for you'));
+            DB::table('translation_values')->insert(array('keyword_id' => 86, 'language_id' => $languageId, 'value' => 'Login URL'));
+            DB::table('translation_values')->insert(array('keyword_id' => 87, 'language_id' => $languageId, 'value' => 'Username'));
+            DB::table('translation_values')->insert(array('keyword_id' => 88, 'language_id' => $languageId, 'value' => 'Password'));
         }
     }
 
