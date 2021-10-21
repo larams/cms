@@ -50,7 +50,7 @@ class StructureType extends Model
         }
 
         usort($handlers, function ($a, $b) {
-            return $a['title'] >= $b['title'];
+            return $a['title'] <=> $b['title'];
         });
 
         return $handlers;
