@@ -196,7 +196,7 @@ class StructureController extends Controller
                 $property = new $propertyConfig['class']($structureItem);
                 $property->setConfiguration($propertyConfig);
 
-                $additionalFieldsData[$propertyConfig['name']] = $property->getFormData($rawFormData['data']);
+                $additionalFieldsData[$propertyConfig['name']] = $property->getFormData($rawFormData['data'] ?? []);
 
             }
 
