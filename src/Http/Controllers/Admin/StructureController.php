@@ -86,8 +86,8 @@ class StructureController extends Controller
 
         $types = $structureType->orderBy('name_lang')->get();
 
-        $treeTypes = $currentItem->type()->first()->types()->where('additional', 0)->get();
-        $extraTypes = $currentItem->type()->first()->types()->where('additional', 1)->get();
+        $treeTypes = $currentItem->type()->first()->types()->where('additional', 0)->orderBy('name_lang')->get();
+        $extraTypes = $currentItem->type()->first()->types()->where('additional', 1)->orderBy('name_lang')->get();
 
         if (!empty($typeConfiguration['properties'])) {
 
