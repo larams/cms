@@ -26,7 +26,7 @@ class StructureController extends Controller
         if (empty($currentItem)) {
             $currentTopLevelItem = $topLevelItems->first();
         } else {
-            $currentTopLevelItem = $structureItem->path( $currentItem->left, $currentItem->right )->first();
+            $currentTopLevelItem = $structureItem->path($currentItem->left, $currentItem->right)->first();
         }
 
         $languages = $structureItem->where('parent_id', $currentTopLevelItem->id)->orderBy('left')->get();
@@ -276,13 +276,16 @@ class StructureController extends Controller
         $childsCounts = $structureItem->select([\DB::raw('COUNT( id ) as childs'), 'parent_id'])->groupBy('parent_id')->pluck('childs', 'parent_id');
 
         $response = [];
+        $parents = [];
+        $parents['#'] = '';
 
         foreach ($items as $item) {
 
-            // @todo: Skip also those items that has more parents not in tree
-            if (empty($item->parent->tree)) {
+            if (!$this->hasAllParentsInTree($item)) {
                 continue;
             }
+
+            $parents[$item->id] = !empty($item->parent_id) && $item->parent_id != $itemId ? $item->parent_id : '#';
 
             $response[] = [
 
@@ -297,8 +300,25 @@ class StructureController extends Controller
 
         }
 
+        foreach ($parents as $elementId => $parentId) {
+            if (!empty($parentId) && $parentId !== '#' && !array_key_exists($parentId, $parents)) {
+                throw new \Exception('Element ID: ' . $elementId . ' has invalid parent: ' . $parentId);
+            }
+        }
+
         return response()->json($response);
 
+    }
+
+    protected function hasAllParentsInTree(StructureItem $structureItem)
+    {
+        $hasAllParents = true;
+        while (!empty($structureItem)) {
+            $hasAllParents &= !empty($structureItem->tree);
+            $structureItem = $structureItem->parent;
+        }
+
+        return $hasAllParents;
     }
 
     public function postMove(StructureItem $structureItem, Request $request)
