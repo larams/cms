@@ -5,6 +5,11 @@
             <th>&nbsp;</th>
         @endif
         <th>{{trans('admin.table_heading.title')}}</th>
+
+        @if (config('larams.admin.show_types_in_list'))
+            <th>{{trans('admin.table_heading.type')}}</th>
+        @endif
+
         @foreach ( $extra_columns as $column => $columnTitle )
             <th>{{$columnTitle}}</th>
         @endforeach
@@ -25,6 +30,9 @@
             <td>
                 <a href="{{url( '/admin/structure/index/' . $item->id )}}" title="{{$item->name}}">{{$item->name}}</a>
             </td>
+            @if (config('larams.admin.show_types_in_list'))
+                    <td><span class="text-muted" style="font-size: 12px;">{{$item->type->name_lang}}</span></td>
+            @endif
             @foreach ( $extra_columns as $column => $columnTitle )
                 <td>
                     @if (strpos( $column, 'data.') !== false)

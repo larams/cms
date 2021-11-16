@@ -18,6 +18,7 @@ return [
             'enable_xlf' => false
         ],
         'rte_hint' => '',
+        'show_types_in_list' => false,
         'allow_folder_moving' => true,
         'log_admin_actions' => false,
         'allow_custom_uri' => false,
