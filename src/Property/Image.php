@@ -3,6 +3,7 @@
 
 namespace Larams\Cms\Property;
 
+use Larams\Cms\Model\StructureItem;
 use Larams\Cms\Property;
 
 class Image extends Property
@@ -14,8 +15,25 @@ class Image extends Property
 
     protected $automatic = false;
 
+    /** @var StructureItem */
+    protected $structureItem;
+
+    public function __construct(StructureItem $structureItem)
+    {
+        $this->structureItem = $structureItem;
+    }
+
     public function getHtml()
     {
+
+        $imageId = $this->item->data->{$this->name}->id ?? null;
+
+        if (!empty($imageId)) {
+            $image = $this->structureItem->find($imageId);
+            if (!empty($image) && !empty($image->data->extension)) {
+                $this->format = $image->data->extension;
+            }
+        }
 
         $configuration = [
             'name' => $this->name,
@@ -41,9 +59,13 @@ class Image extends Property
             $imageId = $formData[$this->name];
             $shouldDelete = !empty($formData[$this->name . '_delete']);
 
-
             if (empty($imageId) || !empty($shouldDelete)) {
                 return $return;
+            }
+
+            $image = $this->structureItem->find( $imageId );
+            if (!empty($image) && !empty($image->data->extension)) {
+                $format = $image->data->extension;
             }
 
             $return = [
@@ -75,6 +97,11 @@ class Image extends Property
 
                 if (empty($imageId) || !empty($shouldDelete)) {
                     return $return;
+                }
+
+                $image = $this->structureItem->find( $imageId );
+                if (!empty($image) && !empty($image->data->extension)) {
+                    $format = $image->data->extension;
                 }
 
                 $return[$versionName]['id'] = $imageId;
