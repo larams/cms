@@ -6,7 +6,7 @@
                 <div style="margin-top: 10px;">
                     @if (!empty( $item->data->{$name} ))
                         <img style="margin-bottom: 10px; max-width: 120px;" id="property_{{$name}}_thumb"
-                             src="{{url('media/'. $item->data->{$name}->id . '_120_120.' . $format )}}"/>
+                             src="{{url( 'media/'. $item->data->{$name}->id . ($format ==='svg' ? '.' : '_120_120.') . $format )}}"/>
                         <div>
                             <label>
                                 <input type="checkbox" name="data[{{$name}}_delete]"
@@ -66,7 +66,8 @@
                         @if (!empty( $item->data->{$name}->{$version} ))
                             <img style="margin-bottom: 10px; max-width: 120px;"
                                  id="property_{{$name}}_{{$version}}_thumb"
-                                 src="{{url('media/'. $item->data->{$name}->{$version}->id . '_120_120.'. $format )}}"/>
+                                 src="{{url( 'media/'. $item->data->{$name}->{$version}->id . ($format ==='svg' ? '.' : '_120_120.') . $format )}}"
+                                 />
                             <div>
                                 <label>
                                     <input type="checkbox" name="data[{{$name}}_{{$version}}_delete]"

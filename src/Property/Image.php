@@ -77,8 +77,8 @@ class Image extends Property
             if (!empty($this->versions)) {
                 foreach ($this->versions as $versionName => $dimensions) {
                     $return[$versionName]['url'] = $imageId . '.' . $format;
-                    $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format;
-                    $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format;
+                    $return[$versionName]['cropped'] = $format === 'svg' ? ($imageId . '.'. $format) : ($imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format);
+                    $return[$versionName]['fitted'] = $format === 'svg' ? ($imageId . '.'. $format) : ($imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format);
                     $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url']);
                     $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped']);
                     $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted']);
@@ -106,8 +106,8 @@ class Image extends Property
 
                 $return[$versionName]['id'] = $imageId;
                 $return[$versionName]['url'] = $imageId . '.' . $format;
-                $return[$versionName]['cropped'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format;
-                $return[$versionName]['fitted'] = $imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format;
+                $return[$versionName]['cropped'] = $format === 'svg' ? ($imageId . '.'. $format) : ($imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_1.' . $format);
+                $return[$versionName]['fitted'] = $format === 'svg' ? ($imageId . '.'. $format) : ($imageId . '_' . $dimensions['width'] . '_' . $dimensions['height'] . '_2.' . $format);
                 $return[$versionName]['absolute_url'] = asset('media/' . $return[$versionName]['url']);
                 $return[$versionName]['absolute_cropped'] = asset('media/' . $return[$versionName]['cropped']);
                 $return[$versionName]['absolute_fitted'] = asset('media/' . $return[$versionName]['fitted']);
