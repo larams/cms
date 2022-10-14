@@ -110,6 +110,8 @@ class StructureItemSeeder extends Seeder
         DB::table('translation_keywords')->insert(array('id' => 86, 'keyword' => 'admin.password_mail.url'));
         DB::table('translation_keywords')->insert(array('id' => 87, 'keyword' => 'admin.password_mail.login'));
         DB::table('translation_keywords')->insert(array('id' => 88, 'keyword' => 'admin.password_mail.password'));
+        DB::table('translation_keywords')->insert(array('id' => 89, 'keyword' => 'admin.field.link'));
+        DB::table('translation_keywords')->insert(array('id' => 90, 'keyword' => 'admin.field.type'));
 
         foreach ([$firstLanguageId, $secondLanguageId] as $languageId) {
 
@@ -192,6 +194,8 @@ class StructureItemSeeder extends Seeder
             DB::table('translation_values')->insert(array('keyword_id' => 86, 'language_id' => $languageId, 'value' => 'Login URL'));
             DB::table('translation_values')->insert(array('keyword_id' => 87, 'language_id' => $languageId, 'value' => 'Username'));
             DB::table('translation_values')->insert(array('keyword_id' => 88, 'language_id' => $languageId, 'value' => 'Password'));
+            DB::table('translation_values')->insert(array('keyword_id' => 89, 'language_id' => $languageId, 'value' => 'Link'));
+            DB::table('translation_values')->insert(array('keyword_id' => 90, 'language_id' => $languageId, 'value' => 'Type'));
         }
     }
 
