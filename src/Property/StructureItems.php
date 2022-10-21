@@ -60,7 +60,7 @@ class StructureItems extends Property
             $topLevelItem = $structureItems->byTypeName($this->typeName);
 
             if (!empty($language)) {
-                $topLevelItem = $topLevelItem->childsOf( $language->id );
+                $topLevelItem = $topLevelItem->where('left', '>=', $language->left)->where('right', '<=', $language->right);
             }
 
             $topLevelItem = $topLevelItem->first();
