@@ -205,6 +205,8 @@ abstract class Repository
 
         if (!empty($paginate)) {
             $items = $items->paginate($paginate);
+        } else if (!empty($params['column'])) {
+            $items = $items->pluck($params['column']);
         } else {
             $items = $items->get();
         }
@@ -213,7 +215,7 @@ abstract class Repository
             $items = $items->keyBy($params['keyBy']);
         }
 
-        if (!empty($params['appends'])) {
+        if (!empty($params['appends']) && empty($params['column'])) {
             $items->each(function ($item) use ($params) {
 
                 foreach ($params['appends'] as $append) {
