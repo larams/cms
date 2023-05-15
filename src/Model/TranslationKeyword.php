@@ -55,6 +55,10 @@ class TranslationKeyword extends Model
 
             $languageId = $this->identifyLanguageFromLocale($locale);
 
+            if (empty($languageId)) {
+                return [];
+            }
+
             $this->translations[$locale] = $this
                 ->leftJoin('translation_values', 'translation_keywords.id', '=', 'translation_values.keyword_id')
                 ->where('translation_values.' . $this->languageColumnName, '=', $languageId)
