@@ -20,17 +20,23 @@ class SeoRedirect
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
      * @return mixed
      */
+
     public function handle($request, Closure $next)
     {
+        $requestUrl = ltrim($request->getRequestUri(), '/');
+        $urls = $this->redirect->all();
 
-//        $uri = trim(str_replace(env('BASE_URL', ''), '', request()->path()), '/');
-//
-//        echo '<pre>'; var_dump( $uri ); echo '</pre>';
-//        die( '<span style="color: #0A0;">'. __FILE__ .'</span>:'. __LINE__.PHP_EOL );
+        foreach ($urls as $url) {
+            $pattern = '#' . str_replace('/', '\\/', $url->from_url) . '#';
+            if (preg_match($pattern, $requestUrl)) {
+                $targetUrl = preg_replace($pattern, $url->to_url, $requestUrl);
+                return redirect($targetUrl, 301);
+            }
+        }
 
         return $next($request);
     }
