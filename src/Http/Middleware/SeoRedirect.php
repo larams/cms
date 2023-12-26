@@ -3,7 +3,7 @@
 namespace Larams\Cms\Http\Middleware;
 
 use Closure;
-use Larams\Cms\Redirect;
+use Larams\Cms\Model\Redirect;
 use Larams\Cms\Model\StructureItem;
 
 class SeoRedirect
