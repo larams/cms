@@ -159,9 +159,12 @@ class MediaController extends Controller
             $outputFileName .= '_' . intval($cropType);
         }
 
-        if (!empty($type) && in_array($type, ['jpg', 'png', 'gif', 'webp'])) {
+        $isSvg = strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false;
+        $isAnimatedGif = (empty($width) && empty($height) && !empty($img) && $img->mime() == 'image/gif');
 
-            if (config('larams.enable_webp')) {
+        if (!empty($type) && in_array($type, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
+
+            if (config('larams.enable_webp') && !$isSvg && !$isAnimatedGif) {
                 if (webp()) {
                     $type = 'webp';
                 } elseif ($type == 'webp') {
@@ -171,9 +174,6 @@ class MediaController extends Controller
 
             $outputFileName .= '.' . $type;
         }
-
-        $isSvg = strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false;
-        $isAnimatedGif = (empty($width) && empty($height) && !empty($img) && $img->mime() == 'image/gif');
 
         $path = public_path($routeFolder . '/' . $outputFileName);
 
