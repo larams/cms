@@ -7,6 +7,8 @@ use Larams\Cms\Model\StructureItem;
 
 class LayoutBuilder
 {
+    /** @var StructureItem  */
+    protected $structureItem;
 
     public function __construct(StructureItem $structureItem)
     {
