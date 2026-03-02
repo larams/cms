@@ -119,9 +119,7 @@ class MediaController extends Controller
                         $constraint->upsize();
                     });
                 } elseif ($cropType == 1) {
-                    $image->cover($width, $height, function ($constraint) {
-                        $constraint->upsize();
-                    });
+                    $image->cover($width, $height, 'center');
                 } elseif ($cropType == 2) {
                     $image->resize($width, $height, function ($constraint) {
                         $constraint->aspectRatio();
@@ -211,7 +209,8 @@ class MediaController extends Controller
         } elseif ($isAnimatedGif || $originalImage) {
             return response(file_get_contents($imagePath), 200, ['Content-Type' => mime_content_type($imagePath)]);
         } else {
-            return $image->response($type);
+            $responseContent = $image->encodeByExtension( $type );
+            return response($responseContent, 200, ['Content-Type' => mime_content_type($imagePath)]);
         }
     }
 
