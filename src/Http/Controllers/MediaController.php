@@ -119,7 +119,7 @@ class MediaController extends Controller
                         $constraint->upsize();
                     });
                 } elseif ($cropType == 1) {
-                    $image->fit($width, $height, function ($constraint) {
+                    $image->cover($width, $height, function ($constraint) {
                         $constraint->upsize();
                     });
                 } elseif ($cropType == 2) {
