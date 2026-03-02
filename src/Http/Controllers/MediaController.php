@@ -2,7 +2,8 @@
 
 namespace Larams\Cms\Http\Controllers;
 
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Larams\Cms\Model\StructureItem;
 
 class MediaController extends Controller
@@ -107,38 +108,37 @@ class MediaController extends Controller
                 $originalImage = false;
             }
 
-            $img = Image::cache(function ($image) use ($imagePath, $width, $height, $cropType) {
-                if (!empty($width) || !empty($height)) {
-                    if (empty($cropType)) {
-                        $image->make($imagePath)->resize($width, $height, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        });
-                    } elseif ($cropType == 1) {
-                        $image->make($imagePath)->fit($width, $height, function ($constraint) {
-                            $constraint->upsize();
-                        });
-                    } elseif ($cropType == 2) {
-                        $image->make($imagePath)->resize($width, $height, function ($constraint) {
-                            $constraint->aspectRatio();
-                        });
-                    }
+            $imageManager = new ImageManager(new Driver());
 
-                } else {
-                    $image->make($imagePath);
+            $image = $imageManager->read($imagePath);
+
+            if (!empty($width) || !empty($height)) {
+                if (empty($cropType)) {
+                    $image->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    });
+                } elseif ($cropType == 1) {
+                    $image->fit($width, $height, function ($constraint) {
+                        $constraint->upsize();
+                    });
+                } elseif ($cropType == 2) {
+                    $image->resize($width, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    });
                 }
+            }
 
-                list($orientation, $flip) = $this->getOrientation($imagePath);
+            list($orientation, $flip) = $this->getOrientation($imagePath);
 
-                if (!empty($flip)) {
-                    $image->flip();
-                }
+            if (!empty($flip)) {
+                $image->flip();
+            }
 
-                if ($orientation > 0) {
-                    $image->rotate($orientation);
-                }
+            if ($orientation > 0) {
+                $image->rotate($orientation);
+            }
 
-            }, null, true);
         } else {
             $content = file_get_contents($imagePath);
             if (strpos($content, '<?xml') === false) {
@@ -160,7 +160,7 @@ class MediaController extends Controller
         }
 
         $isSvg = strpos($fileType, 'svg') !== false || strpos($fileType, 'xml') !== false;
-        $isAnimatedGif = (empty($width) && empty($height) && !empty($img) && $img->mime() == 'image/gif');
+        $isAnimatedGif = (empty($width) && empty($height) && !empty($image) && $fileType == 'image/gif');
 
         if (!empty($type) && in_array($type, ['jpg', 'png', 'gif', 'webp', 'svg'])) {
 
@@ -190,9 +190,9 @@ class MediaController extends Controller
             }
 
             if (!empty($quality)) {
-                $img->save($path, $quality);
+                $image->save($path, $quality);
             } else {
-                $img->save($path);
+                $image->save($path);
             }
 
             $apiKey = config('larams.tinify_api_key');
@@ -209,9 +209,9 @@ class MediaController extends Controller
         if ($isSvg) {
             return response(file_get_contents($imagePath), 200, ['Content-Type' => 'image/svg+xml']);
         } elseif ($isAnimatedGif || $originalImage) {
-            return response(file_get_contents($imagePath), 200, ['Content-Type' => $img->mime()]);
+            return response(file_get_contents($imagePath), 200, ['Content-Type' => mime_content_type($imagePath)]);
         } else {
-            return $img->response($type);
+            return $image->response($type);
         }
     }
 
