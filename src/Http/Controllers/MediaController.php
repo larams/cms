@@ -114,14 +114,14 @@ class MediaController extends Controller
 
             if (!empty($width) || !empty($height)) {
                 if (empty($cropType)) {
-                    $image->resize($width, $height, function ($constraint) {
+                    $image->resize( (int)$width, (int)$height, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     });
                 } elseif ($cropType == 1) {
-                    $image->cover($width, $height, 'center');
+                    $image->cover( (int)$width, (int)$height, 'center');
                 } elseif ($cropType == 2) {
-                    $image->resize($width, $height, function ($constraint) {
+                    $image->resize( (int)$width, (int)$height, function ($constraint) {
                         $constraint->aspectRatio();
                     });
                 }
